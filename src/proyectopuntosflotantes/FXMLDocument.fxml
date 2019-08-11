@@ -1,19 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectopuntosflotantes.FXMLDocumentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectopuntosflotantes.FXMLDocumentController">
    <children>
+      <ImageView fitHeight="600.0" fitWidth="760.0" opacity="0.0">
+         <image>
+            <Image url="@../../../../../Desktop/Twitter/Sin%20título-1.png" />
+         </image>
+      </ImageView>
       <Button fx:id="Boton2" layoutX="35.0" layoutY="186.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="X" />
       <Button fx:id="Boton4" layoutX="35.0" layoutY="306.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="X" />
       <Button fx:id="Boton6" layoutX="35.0" layoutY="411.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="X" />
-      <Button fx:id="PublicarBoton" layoutX="545.0" layoutY="294.0" mnemonicParsing="false" onAction="#PublicarPresionar" prefHeight="25.0" prefWidth="77.0" text="Publicar" />
+      <Button fx:id="PublicarBoton" layoutX="551.0" layoutY="152.0" mnemonicParsing="false" onAction="#PublicarPresionar" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: #55adee;" text="Twittear" textFill="WHITE" />
       <Button fx:id="Boton3" layoutX="35.0" layoutY="245.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="X" />
       <Button fx:id="Boton5" layoutX="35.0" layoutY="360.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="X" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <TextField fx:id="Mensaje" layoutX="259.0" layoutY="294.0" prefHeight="25.0" prefWidth="266.0" />
+      <TextField fx:id="Mensaje" alignment="TOP_LEFT" layoutX="132.0" layoutY="65.0" prefHeight="82.0" prefWidth="496.0" promptText="¿Qué está pensando?" style="-fx-background-color: white; -fx-border-color: grey;" />
+      <Label alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" layoutX="132.0" layoutY="-1.0" prefHeight="63.0" prefWidth="496.0" text="Inicio">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="102.0" fitWidth="120.0" layoutX="11.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/logo.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
