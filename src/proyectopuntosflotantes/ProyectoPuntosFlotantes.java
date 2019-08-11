@@ -10,10 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.conf.ConfigurationBuilder;
 
 /**
  *
@@ -36,6 +32,7 @@ public class ProyectoPuntosFlotantes extends Application {
     /**
      * @param args the command line arguments
      */
+<<<<<<< Updated upstream
     public static void main(String[] args) throws TwitterException {
         
         ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -48,6 +45,9 @@ public class ProyectoPuntosFlotantes extends Application {
         Twitter twitter = tf.getInstance();
         
         twitter.updateStatus("a");
+=======
+    public static void main(String[] args) {
+>>>>>>> Stashed changes
     
         launch(args);
     }
