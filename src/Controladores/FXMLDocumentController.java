@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import twitter4j.TwitterException;
 
 /**
@@ -22,8 +23,6 @@ import twitter4j.TwitterException;
 public class FXMLDocumentController implements Initializable {
     
     @FXML
-    private Button Boton2;
-    @FXML
     private Button Boton4;
     @FXML
     private Button Boton6;
@@ -31,21 +30,43 @@ public class FXMLDocumentController implements Initializable {
     private Button Boton3;
     @FXML
     private Button Boton5;
+ 
+    BotTwitter Bot;   
     @FXML
-    private TextField Mensaje;
-    
-    BotTwitter Bot;
-    
+    private Pane Contenido;
+    @FXML
+    private TextField SeguirTF;
+    @FXML
+    private Button SeguirBoton;
+    @FXML
+    private Pane TwittearPanel;
+    @FXML
+    private Pane SeguirPanel;
+    @FXML
+    private TextField MensajeTF;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Bot = new BotTwitter();
+        
+        
     }    
+    @FXML
+    private void PublicarPresionar(ActionEvent event) throws TwitterException {       
+        Bot.actualizarEstado(MensajeTF.getText()); 
+        MensajeTF.clear();
+        MensajeTF.setPromptText("¿Qué está pansando?");
+               
+                
+                
+    }
 
     @FXML
-    private void PublicarPresionar(ActionEvent event) throws TwitterException {
-        
-        Bot.actualizarEstado(Mensaje.getText());
-        
+    private void SeguirPresionar(ActionEvent event) throws TwitterException {
+       Bot.seguirUsuario(SeguirTF.getText());
+       SeguirTF.clear();
+       SeguirTF.setPromptText("Ingresar ID: @Fulanito");
     }
+
+    
     
 }
