@@ -9,12 +9,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectopuntosflotantes.FXMLDocumentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.FXMLDocumentController">
    <children>
       <Button fx:id="Boton2" layoutX="35.0" layoutY="186.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="X" />
       <Button fx:id="Boton4" layoutX="35.0" layoutY="306.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="X" />
       <Button fx:id="Boton6" layoutX="35.0" layoutY="411.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="X" />
-      <Button fx:id="PublicarBoton" layoutX="551.0" layoutY="152.0" mnemonicParsing="false" onAction="#PublicarPresionar" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: #55adee;" text="Twittear" textFill="WHITE" />
+      <Button layoutX="551.0" layoutY="152.0" mnemonicParsing="false" onAction="#PublicarPresionar" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: #55adee;" text="Twittear" textFill="WHITE" />
       <Button fx:id="Boton3" layoutX="35.0" layoutY="245.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="X" />
       <Button fx:id="Boton5" layoutX="35.0" layoutY="360.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="X" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
@@ -26,7 +26,7 @@
       </Label>
       <ImageView fitHeight="102.0" fitWidth="120.0" layoutX="11.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../image/logo.png" />
+            <Image url="@Imagenes/logo.png" />
          </image></ImageView>
    </children>
 </AnchorPane>

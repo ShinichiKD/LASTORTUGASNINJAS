@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package proyectopuntosflotantes;
+package Controladores;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
