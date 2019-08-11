@@ -10,7 +10,9 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 /**
  *
@@ -18,18 +20,33 @@ import javafx.scene.control.Label;
  */
 public class FXMLDocumentController implements Initializable {
     
-    @FXML
     private Label label;
-    
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
+    private Button Boton2;
+    @FXML
+    private Button Boton4;
+    @FXML
+    private Button Boton6;
+    @FXML
+    private Button PublicarBoton;
+    @FXML
+    private Button Boton3;
+    @FXML
+    private Button Boton5;
+    @FXML
+    private TextField Mensaje;
+    
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+
+    @FXML
+    private void PublicarPresionar(ActionEvent event) {
+        
+    }
+
     
 }
