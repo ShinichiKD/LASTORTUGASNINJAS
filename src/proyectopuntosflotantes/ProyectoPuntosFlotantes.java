@@ -32,22 +32,7 @@ public class ProyectoPuntosFlotantes extends Application {
     /**
      * @param args the command line arguments
      */
-<<<<<<< Updated upstream
-    public static void main(String[] args) throws TwitterException {
-        
-        ConfigurationBuilder cb = new ConfigurationBuilder();
-        cb.setDebugEnabled(true)
-        .setOAuthConsumerKey("hdRHBpZk8bgGkERmuNc78vmli")
-        .setOAuthConsumerSecret("viguyMV46wSk2jroiZjttgtbihTizYcOwosOsPbfnv61gjiBYN")
-        .setOAuthAccessToken("2344321298-oSPBpnAYRp0YBZ6qW6hr1JKXmOO7butDGnCmNRd")
-        .setOAuthAccessTokenSecret("ZAsWCrbotgTBcWQzJC82ixRgFagnWFS9tUJFElNoD35eQ");
-        TwitterFactory tf = new TwitterFactory(cb.build());
-        Twitter twitter = tf.getInstance();
-        
-        twitter.updateStatus("a");
-=======
     public static void main(String[] args) {
->>>>>>> Stashed changes
     
         launch(args);
     }

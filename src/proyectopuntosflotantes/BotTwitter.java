@@ -49,6 +49,12 @@ public class BotTwitter {
     public void actualizarEstado(String texto) throws TwitterException{
         Bot.updateStatus(texto);
     }
+    public void enviarMensajeDirecto(String id,String texto) throws TwitterException{
+        Bot.sendDirectMessage(id,texto);
+    }
+    public void seguirUsuario(String nombreDeUsuario) throws TwitterException{
+        Bot.createFriendship(nombreDeUsuario);
+    }
     
     
 }

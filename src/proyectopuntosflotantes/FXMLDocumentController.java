@@ -12,28 +12,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-<<<<<<< Updated upstream
 import javafx.scene.control.TextField;
-=======
-import twitter4j.Twitter;
-import twitter4j.TwitterFactory;
-import twitter4j.conf.ConfigurationBuilder;
->>>>>>> Stashed changes
-
+import proyectopuntosflotantes.BotTwitter;
 /**
  *
  * @author Emilio
  */
 public class FXMLDocumentController implements Initializable {
     
-<<<<<<< Updated upstream
-=======
-    
+    // Bot
+    BotTwitter Bot;
+            
     @FXML
->>>>>>> Stashed changes
-    private Label label;
-    @FXML
-<<<<<<< Updated upstream
     private Button Boton2;
     @FXML
     private Button Boton4;
@@ -49,23 +39,14 @@ public class FXMLDocumentController implements Initializable {
     private TextField Mensaje;
     
     
-=======
-    private void handleButtonAction(ActionEvent event) {
-    }
->>>>>>> Stashed changes
-    
-    
-    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        Bot = new BotTwitter();
     }    
 
     @FXML
     private void PublicarPresionar(ActionEvent event) {
-        
     }
-
     
 }

@@ -14,6 +14,6 @@
       <Button fx:id="Boton3" layoutX="35.0" layoutY="245.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="X" />
       <Button fx:id="Boton5" layoutX="35.0" layoutY="360.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="X" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <TextField layoutX="259.0" layoutY="294.0" prefHeight="25.0" prefWidth="266.0" />
+      <TextField fx:id="Mensaje" layoutX="259.0" layoutY="294.0" prefHeight="25.0" prefWidth="266.0" />
    </children>
 </AnchorPane>
