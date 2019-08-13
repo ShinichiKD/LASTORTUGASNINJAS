@@ -21,7 +21,7 @@ public class ProyectoPuntosFlotantes extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/Vistas/FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/Vistas/MenuInicio.fxml"));
         
         Scene scene = new Scene(root);
         
