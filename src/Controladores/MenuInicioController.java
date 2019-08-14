@@ -52,11 +52,21 @@ public class MenuInicioController implements Initializable {
         
     }    
     @FXML
-    private void PublicarPresionar() throws TwitterException {       
-        String texto = MensajeTA.getText();
-        MensajeTA.clear();
-        MensajeTA.setPromptText("¿Qué está pansando?");
-        Bot.actualizarEstado(texto); 
+    private void PublicarPresionar() throws TwitterException {     
+        try{
+            
+            String texto = MensajeTA.getText();
+            MensajeTA.clear();
+            MensajeTA.setPromptText("¿Qué está pasando?");
+            Bot.actualizarEstado(texto); 
+            Contador.setText(0+" / "+280);
+            
+        }catch(Exception e){
+            
+            System.out.println(e.getMessage());
+            
+        }
+        
                 
     }
     /**
@@ -92,6 +102,7 @@ public class MenuInicioController implements Initializable {
      */
     @FXML
     private void MenuMensajeDirecto() throws IOException {
+        
         Parent root = FXMLLoader.load(getClass().getResource("/Vistas/MensajeDirecto.fxml"));
         Scene scene= MensajeDirecto.getScene();
         
@@ -106,7 +117,7 @@ public class MenuInicioController implements Initializable {
         timeline.setOnFinished(t -> {
         });
         timeline.play();
-        Contador.setText(0+" / "+280);
+        
         
     }
     /**
