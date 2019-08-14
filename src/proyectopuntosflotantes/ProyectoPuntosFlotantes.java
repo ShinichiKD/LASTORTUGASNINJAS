@@ -33,6 +33,7 @@ public class ProyectoPuntosFlotantes extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        //aa
         launch(args);
     }
     

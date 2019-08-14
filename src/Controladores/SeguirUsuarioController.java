@@ -22,6 +22,7 @@ import twitter4j.TwitterException;
 public class SeguirUsuarioController implements Initializable {
 
     BotTwitter Bot; 
+    
     @FXML
     private TextArea SeguirTA;
     @FXML
@@ -42,9 +43,16 @@ public class SeguirUsuarioController implements Initializable {
     
     @FXML
     private void SeguirPresionar() throws TwitterException {
-       Bot.seguirUsuario(SeguirTA.getText());
-       SeguirTA.clear();
-       SeguirTA.setPromptText("Ingresar ID");
+       try{
+           Bot.seguirUsuario(SeguirTA.getText());
+            SeguirTA.clear();
+            SeguirTA.setPromptText("Ingresar ID");
+            CerrarVentana();
+       }catch(Exception e){
+           System.out.println(e.getMessage());
+       }
+       
+       
     }
     
     /**

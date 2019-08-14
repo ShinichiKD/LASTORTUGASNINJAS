@@ -9,9 +9,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
 
 /**
  * FXML Controller class
@@ -34,6 +36,8 @@ public class MensajeDirectoController implements Initializable {
     private TextArea TextoMensaje;
     @FXML
     private Button BotonEnviar;
+    @FXML
+    private Label Contador;
 
     
     @Override
@@ -73,9 +77,30 @@ public class MensajeDirectoController implements Initializable {
             System.out.println(e.getMessage());
             
         }
-        
+    }
+    /**
+     * Validacion 10000 caracteres
+     * @param event 
+     */
+    @FXML
+    private void ReleasedTextoMensaje() {
+        int letras = TextoMensaje.getText().length();
+        int limite = 10000;
+        if(letras > limite){
+             //cambiar color
+             Contador.textFillProperty().setValue(Paint.valueOf("Red"));
+             BotonEnviar.setDisable(true);
+
+        }else{
+            //cambiar color
+            Contador.textFillProperty().setValue(Paint.valueOf("Black"));
+            BotonEnviar.setDisable(false);
+        }
+        Contador.setText(letras+" / "+limite);
         
         
     }
+    
+    
     
 }
