@@ -3,7 +3,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,37 +13,50 @@
 
 <StackPane fx:id="Escena" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.MenuInicioController">
    <children>
+      <ImageView fitHeight="600.0" fitWidth="760.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Imagenes/MenuInicio.png" />
+         </image>
+      </ImageView>
       <AnchorPane fx:id="AnchoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="760.0">
          <children>
-            <Button fx:id="SeguirUsuario" layoutX="628.0" layoutY="55.0" mnemonicParsing="false" onAction="#MenuSeguirUsuario" prefHeight="41.0" prefWidth="132.0" style="-fx-background-color: #13B0EB;" text="Seguir Usuario" textFill="WHITE">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Button>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <ImageView fitHeight="155.0" fitWidth="164.0" layoutX="11.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@Imagenes/logo.png" />
-               </image>
-            </ImageView>
-            <Label alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" layoutX="166.0" layoutY="7.0" prefHeight="53.0" prefWidth="416.0" text="Inicio">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-            </Label>
-            <TextField fx:id="MensajeTF" alignment="TOP_LEFT" layoutX="166.0" layoutY="68.0" onKeyTyped="#TypedMensajeTF" prefHeight="112.0" prefWidth="416.0" promptText="¿Qué está pasando?" style="-fx-background-color: white; -fx-border-color: grey;">
-               <cursor>
-                  <Cursor fx:constant="TEXT" />
-               </cursor></TextField>
-            <Button layoutX="505.0" layoutY="177.0" mnemonicParsing="false" onAction="#PublicarPresionar" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: #13B0EB;" text="Twittear" textFill="WHITE">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Button>
-            <Button fx:id="MensajeDirecto" layoutX="628.0" layoutY="103.0" mnemonicParsing="false" onAction="#MenuMensajeDirecto" prefHeight="41.0" prefWidth="132.0" style="-fx-background-color: #13B0EB;" text="Mensaje Directo" textFill="WHITE">
+            <Button fx:id="SeguirUsuario" layoutX="573.0" layoutY="56.0" mnemonicParsing="false" onAction="#MenuSeguirUsuario" prefHeight="41.0" prefWidth="189.0" style="-fx-background-color: TRANSPARENT; -fx-border-color: White;" text="Seguir Usuario" textFill="WHITE">
                <font>
                   <Font name="Century Gothic" size="14.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Label alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" layoutX="34.0" layoutY="23.0" prefHeight="53.0" prefWidth="475.0" text="Inicio" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="27.0" />
+               </font>
+            </Label>
+            <Button layoutX="432.0" layoutY="227.0" mnemonicParsing="false" onAction="#PublicarPresionar" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: #1E82A3;" text="Twittear" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="Century Gothic" size="13.0" />
+               </font></Button>
+            <Button fx:id="MensajeDirecto" layoutX="573.0" layoutY="103.0" mnemonicParsing="false" onAction="#MenuMensajeDirecto" prefHeight="41.0" prefWidth="189.0" style="-fx-background-color: TRANSPARENT; -fx-border-color: White;" text="Mensaje Directo" textFill="WHITE">
+               <font>
+                  <Font name="Century Gothic" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <TextArea fx:id="MensajeTF" layoutX="34.0" layoutY="77.0" prefHeight="150.0" prefWidth="475.0" text="¿Qué está pasando?">
+               <font>
+                  <Font name="Century Gothic" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor>
+            </TextArea>
          </children>
       </AnchorPane>
    </children>

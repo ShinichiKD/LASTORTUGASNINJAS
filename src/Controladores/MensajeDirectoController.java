@@ -3,15 +3,13 @@ package Controladores;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
@@ -29,11 +27,11 @@ public class MensajeDirectoController implements Initializable {
     @FXML
     private AnchorPane AnchoPane;
     @FXML
-    private TextField PersonaBuscada;
+    private TextArea PersonaBuscada;
     @FXML
     private Button BotonCerrar;
     @FXML
-    private TextField TextoMensaje;
+    private TextArea TextoMensaje;
     @FXML
     private Button BotonEnviar;
 

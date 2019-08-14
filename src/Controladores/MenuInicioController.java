@@ -7,15 +7,13 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -33,7 +31,7 @@ public class MenuInicioController implements Initializable {
     BotTwitter Bot;  
     
     @FXML
-    private TextField MensajeTF;
+    private TextArea MensajeTF;
     @FXML
     private StackPane Escena;
     @FXML
@@ -106,7 +104,6 @@ public class MenuInicioController implements Initializable {
         timeline.play();
     }
 
-    @FXML
     private void TypedMensajeTF(KeyEvent event) {
         System.out.println(144-MensajeTF.getText().length()); 
     }
