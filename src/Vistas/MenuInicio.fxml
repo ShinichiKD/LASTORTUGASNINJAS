@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -30,8 +31,14 @@
                   <Font name="System Bold" size="21.0" />
                </font>
             </Label>
-            <TextField fx:id="MensajeTF" alignment="TOP_LEFT" layoutX="166.0" layoutY="62.0" prefHeight="112.0" prefWidth="416.0" promptText="¿Qué está pensando?" style="-fx-background-color: white; -fx-border-color: grey;" />
-            <Button layoutX="505.0" layoutY="177.0" mnemonicParsing="false" onAction="#PublicarPresionar" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: #13B0EB;" text="Twittear" textFill="WHITE" />
+            <TextField fx:id="MensajeTF" alignment="TOP_LEFT" layoutX="166.0" layoutY="68.0" onKeyTyped="#TypedMensajeTF" prefHeight="112.0" prefWidth="416.0" promptText="¿Qué está pasando?" style="-fx-background-color: white; -fx-border-color: grey;">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor></TextField>
+            <Button layoutX="505.0" layoutY="177.0" mnemonicParsing="false" onAction="#PublicarPresionar" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: #13B0EB;" text="Twittear" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
             <Button fx:id="MensajeDirecto" layoutX="628.0" layoutY="103.0" mnemonicParsing="false" onAction="#MenuMensajeDirecto" prefHeight="41.0" prefWidth="132.0" style="-fx-background-color: #13B0EB;" text="Mensaje Directo" textFill="WHITE">
                <font>
                   <Font name="Century Gothic" size="14.0" />

@@ -20,22 +20,17 @@
                         <Font name="Century Gothic" size="22.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="PersonaBuscada" layoutX="17.0" layoutY="59.0" prefHeight="35.0" prefWidth="503.0" style="-fx-background-color: White;">
+                  <TextField fx:id="PersonaBuscada" layoutX="17.0" layoutY="59.0" prefHeight="35.0" prefWidth="503.0" promptText="Id del usuario" style="-fx-background-color: White;">
                      <font>
                         <Font name="Century Gothic" size="14.0" />
                      </font>
                   </TextField>
-                  <Label fx:id="Text1" layoutX="24.0" layoutY="62.0" opacity="0.82" prefHeight="28.0" prefWidth="110.0" text="Buscar Persona">
-                     <font>
-                        <Font name="Century Gothic" size="13.0" />
-                     </font>
-                  </Label>
                   <Button fx:id="BotonCerrar" layoutX="1.0" layoutY="1.0" mnemonicParsing="false" onAction="#CerrarVentana" prefHeight="2.0" prefWidth="5.0" style="-fx-background-color: TRANSPARENT; -fx-border-color: White;" text="X" textFill="WHITE">
                      <font>
                         <Font name="Century Gothic" size="9.0" />
                      </font>
                   </Button>
-                  <TextField fx:id="TextoMensaje" alignment="TOP_LEFT" layoutX="21.0" layoutY="151.0" prefHeight="255.0" prefWidth="497.0" style="-fx-background-color: White;">
+                  <TextField fx:id="TextoMensaje" alignment="TOP_LEFT" layoutX="21.0" layoutY="151.0" prefHeight="255.0" prefWidth="497.0" promptText="Mensaje" style="-fx-background-color: White;">
                      <font>
                         <Font name="Century Gothic" size="14.0" />
                      </font>
@@ -45,11 +40,6 @@
                         <Font name="Century Gothic" size="14.0" />
                      </font>
                   </Button>
-                  <Label fx:id="Text2" layoutX="26.0" layoutY="154.0" opacity="0.82" prefHeight="28.0" prefWidth="119.0" text="Escribir Mensaje">
-                     <font>
-                        <Font name="Century Gothic" size="14.0" />
-                     </font>
-                  </Label>
                </children>
             </Pane>
          </children>
