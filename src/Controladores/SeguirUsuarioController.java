@@ -3,7 +3,6 @@ package Controladores;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -36,11 +35,13 @@ public class SeguirUsuarioController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        Bot = new BotTwitter();
     }    
-
+    
+    
+    
     @FXML
-    private void SeguirPresionar(ActionEvent event) throws TwitterException {
+    private void SeguirPresionar() throws TwitterException {
        Bot.seguirUsuario(SeguirTF.getText());
        SeguirTF.clear();
        SeguirTF.setPromptText("Ingresar ID: @Fulanito");
@@ -52,7 +53,7 @@ public class SeguirUsuarioController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    private void CerrarVentana(ActionEvent event) throws IOException {
+    private void CerrarVentana() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/Vistas/MenuInicio.fxml"));
         Scene scene = BotonCerrar.getScene();
         root.translateYProperty().set(scene.getHeight());

@@ -15,6 +15,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
@@ -46,13 +48,13 @@ public class MenuInicioController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Bot = new BotTwitter();
         
-        
     }    
     @FXML
-    private void PublicarPresionar(ActionEvent event) throws TwitterException {       
-        Bot.actualizarEstado(MensajeTF.getText()); 
+    private void PublicarPresionar() throws TwitterException {       
+        String texto = MensajeTF.getText();
         MensajeTF.clear();
         MensajeTF.setPromptText("¿Qué está pansando?");
+        Bot.actualizarEstado(texto); 
                 
     }
     /**
@@ -62,7 +64,7 @@ public class MenuInicioController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    private void MenuSeguirUsuario(ActionEvent event) throws IOException {
+    private void MenuSeguirUsuario() throws IOException {
         
         Parent root = FXMLLoader.load(getClass().getResource("/Vistas/SeguirUsuario.fxml"));
         Scene scene= SeguirUsuario.getScene();
@@ -87,7 +89,7 @@ public class MenuInicioController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    private void MenuMensajeDirecto(ActionEvent event) throws IOException {
+    private void MenuMensajeDirecto() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/Vistas/MensajeDirecto.fxml"));
         Scene scene= MensajeDirecto.getScene();
         
@@ -103,6 +105,12 @@ public class MenuInicioController implements Initializable {
         });
         timeline.play();
     }
+
+    @FXML
+    private void TypedMensajeTF(KeyEvent event) {
+        System.out.println(144-MensajeTF.getText().length()); 
+    }
+
 
     
     
