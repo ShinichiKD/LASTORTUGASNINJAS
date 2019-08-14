@@ -15,9 +15,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 import twitter4j.TwitterException;
 
@@ -37,13 +37,14 @@ public class MenuInicioController implements Initializable {
     private StackPane Escena;
     @FXML
     private AnchorPane AnchoPane;
-    
     @FXML
     private Button SeguirUsuario;
     @FXML
     private Button MensajeDirecto;
     @FXML
     private Label Contador;
+    @FXML
+    private Button TwittearBoton;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -105,13 +106,32 @@ public class MenuInicioController implements Initializable {
         timeline.setOnFinished(t -> {
         });
         timeline.play();
+        Contador.setText(0+" / "+280);
+        
+    }
+    /**
+     * Validacion 280 caracteres
+     * @param event 
+     */
+    @FXML
+    private void ReleasedMensajeTA() {
+        int letras = MensajeTA.getText().length();
+        int limite = 280;
+        if(letras > limite){
+             //cambiar color
+             Contador.textFillProperty().setValue(Paint.valueOf("Red"));
+             TwittearBoton.setDisable(true);
+
+        }else{
+            //cambiar color
+            Contador.textFillProperty().setValue(Paint.valueOf("Black"));
+            TwittearBoton.setDisable(false);
+        }
+        Contador.setText(letras+" / "+limite);
+        
+        
     }
 
-    @FXML
-    private void TypedMensajeTA(KeyEvent event) {
-        
-        Contador.setText(MensajeTA.getText().length()+1+"  /  144");
-    }
 
 
     

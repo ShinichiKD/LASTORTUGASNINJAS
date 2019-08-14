@@ -44,7 +44,7 @@ public class SeguirUsuarioController implements Initializable {
     private void SeguirPresionar() throws TwitterException {
        Bot.seguirUsuario(SeguirTA.getText());
        SeguirTA.clear();
-       SeguirTA.setPromptText("Ingresar ID: @Fulanito");
+       SeguirTA.setPromptText("Ingresar ID");
     }
     
     /**

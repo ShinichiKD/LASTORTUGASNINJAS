@@ -34,7 +34,7 @@
                   <Font name="System Bold" size="27.0" />
                </font>
             </Label>
-            <Button layoutX="432.0" layoutY="227.0" mnemonicParsing="false" onAction="#PublicarPresionar" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: #1E82A3;" text="Twittear" textFill="WHITE">
+            <Button fx:id="TwittearBoton" layoutX="432.0" layoutY="227.0" mnemonicParsing="false" onAction="#PublicarPresionar" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: #1E82A3;" text="Twittear" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -49,7 +49,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <TextArea fx:id="MensajeTF" layoutX="34.0" layoutY="77.0" onKeyTyped="#TypedMensajeTA" prefHeight="150.0" prefWidth="475.0" promptText="¿Qué está pasando?" wrapText="true">
+            <TextArea fx:id="MensajeTA" layoutX="34.0" layoutY="77.0" onKeyReleased="#ReleasedMensajeTA" prefHeight="150.0" prefWidth="475.0" promptText="¿Qué está pasando?" wrapText="true">
                <font>
                   <Font name="Century Gothic" size="12.0" />
                </font>
@@ -57,7 +57,7 @@
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </TextArea>
-            <Label fx:id="Contador" layoutX="432.0" layoutY="197.0" text="0   /  144" />
+            <Label fx:id="Contador" alignment="CENTER" layoutX="414.0" layoutY="197.0" prefHeight="21.0" prefWidth="77.0" text="0  / 280" />
          </children>
       </AnchorPane>
    </children>

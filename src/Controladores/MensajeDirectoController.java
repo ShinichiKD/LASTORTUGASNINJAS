@@ -63,13 +63,18 @@ public class MensajeDirectoController implements Initializable {
         // pasar el texto del mensaje a la funcion de enviar mensaje del bot
         try{
            Bot.enviarMensajeDirecto(PersonaBuscada.getText(), TextoMensaje.getText()); 
+           TextoMensaje.clear();
+           TextoMensaje.setPromptText("Escribir Mensaje");
+           // Mensaje enviado con exito(3)
+            CerrarVentana();
         }
         catch(Exception e){
             // popup de error aqui se despliegan las interfaces de error, (1)mensaje en blanco, (2)destinatario no nos sigue
             System.out.println(e.getMessage());
+            
         }
         
-        CerrarVentana();
+        
         
     }
     
