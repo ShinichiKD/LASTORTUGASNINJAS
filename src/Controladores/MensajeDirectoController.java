@@ -65,7 +65,7 @@ public class MensajeDirectoController implements Initializable {
            Bot.enviarMensajeDirecto(PersonaBuscada.getText(), TextoMensaje.getText()); 
         }
         catch(Exception e){
-            // popup de error
+            // popup de error aqui se despliegan las interfaces de error, (1)mensaje en blanco, (2)destinatario no nos sigue
             System.out.println(e.getMessage());
         }
         

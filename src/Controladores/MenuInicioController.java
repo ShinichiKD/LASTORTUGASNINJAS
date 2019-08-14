@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -31,7 +32,7 @@ public class MenuInicioController implements Initializable {
     BotTwitter Bot;  
     
     @FXML
-    private TextArea MensajeTF;
+    private TextArea MensajeTA;
     @FXML
     private StackPane Escena;
     @FXML
@@ -41,6 +42,8 @@ public class MenuInicioController implements Initializable {
     private Button SeguirUsuario;
     @FXML
     private Button MensajeDirecto;
+    @FXML
+    private Label Contador;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -49,9 +52,9 @@ public class MenuInicioController implements Initializable {
     }    
     @FXML
     private void PublicarPresionar() throws TwitterException {       
-        String texto = MensajeTF.getText();
-        MensajeTF.clear();
-        MensajeTF.setPromptText("¿Qué está pansando?");
+        String texto = MensajeTA.getText();
+        MensajeTA.clear();
+        MensajeTA.setPromptText("¿Qué está pansando?");
         Bot.actualizarEstado(texto); 
                 
     }
@@ -104,8 +107,10 @@ public class MenuInicioController implements Initializable {
         timeline.play();
     }
 
-    private void TypedMensajeTF(KeyEvent event) {
-        System.out.println(144-MensajeTF.getText().length()); 
+    @FXML
+    private void TypedMensajeTA(KeyEvent event) {
+        
+        Contador.setText(MensajeTA.getText().length()+1+"  /  144");
     }
 
 

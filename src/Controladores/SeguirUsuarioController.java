@@ -23,7 +23,7 @@ public class SeguirUsuarioController implements Initializable {
 
     BotTwitter Bot; 
     @FXML
-    private TextArea SeguirTF;
+    private TextArea SeguirTA;
     @FXML
     private Button SeguirBoton;
     @FXML
@@ -42,9 +42,9 @@ public class SeguirUsuarioController implements Initializable {
     
     @FXML
     private void SeguirPresionar() throws TwitterException {
-       Bot.seguirUsuario(SeguirTF.getText());
-       SeguirTF.clear();
-       SeguirTF.setPromptText("Ingresar ID: @Fulanito");
+       Bot.seguirUsuario(SeguirTA.getText());
+       SeguirTA.clear();
+       SeguirTA.setPromptText("Ingresar ID: @Fulanito");
     }
     
     /**

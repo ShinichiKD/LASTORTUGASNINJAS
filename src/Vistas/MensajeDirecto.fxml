@@ -25,13 +25,19 @@
                      <font>
                         <Font name="Century Gothic" size="9.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                   <Button fx:id="BotonEnviar" layoutX="210.0" layoutY="392.0" mnemonicParsing="false" onAction="#EnviarMensaje" style="-fx-background-color: TRANSPARENT; -fx-border-color: White;" text="Enviar" textFill="WHITE">
                      <font>
                         <Font name="Century Gothic" size="14.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
-                  <TextArea fx:id="PersonaBuscada" layoutX="7.0" layoutY="54.0" prefHeight="19.0" prefWidth="462.0" text="Id del Usuario">
+                  <TextArea fx:id="PersonaBuscada" layoutX="7.0" layoutY="54.0" prefHeight="19.0" prefWidth="462.0" promptText="Id del Usuario">
                      <font>
                         <Font name="Century Gothic" size="12.0" />
                      </font>
@@ -39,10 +45,13 @@
                         <Cursor fx:constant="TEXT" />
                      </cursor>
                   </TextArea>
-                  <TextArea fx:id="TextoMensaje" layoutX="10.0" layoutY="129.0" prefHeight="255.0" prefWidth="462.0" text="Escribir Mensaje">
+                  <TextArea fx:id="TextoMensaje" layoutX="10.0" layoutY="129.0" prefHeight="255.0" prefWidth="462.0" promptText="Escribir Mensaje">
                      <font>
-                        <Font name="Century Gothic" size="12.0" />
+                        <Font size="12.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
                   </TextArea>
                </children>
             </Pane>
