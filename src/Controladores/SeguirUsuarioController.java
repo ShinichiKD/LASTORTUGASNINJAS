@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
@@ -21,7 +18,8 @@ import twitter4j.TwitterException;
  */
 public class SeguirUsuarioController implements Initializable {
 
-    BotTwitter Bot; 
+    BotTwitter Bot;
+    Animaciones Animacion;
     
     @FXML
     private TextArea SeguirTA;
@@ -37,6 +35,7 @@ public class SeguirUsuarioController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Bot = new BotTwitter();
+        Animacion = new Animaciones();
     }    
     
     
@@ -62,14 +61,7 @@ public class SeguirUsuarioController implements Initializable {
      */
     @FXML
     private void CerrarVentana() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/Vistas/MenuInicio.fxml"));
-        Scene scene = BotonCerrar.getScene();
-        root.translateYProperty().set(scene.getHeight());
-
-        Escena.getChildren().add(root);
-        
-        Escena.getChildren().remove(AnchoPane);
-        Escena.setVisible(false);
+        Animacion.CerrarVentana(Escena, SeguirBoton, AnchoPane, "/Vistas/MenuInicio.fxml");
     }
     
 }
