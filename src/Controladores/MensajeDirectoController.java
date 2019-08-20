@@ -9,8 +9,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
+import twitter4j.TwitterException;
 
 /**
  * FXML Controller class
@@ -37,6 +39,10 @@ public class MensajeDirectoController implements Initializable {
     private Button BotonEnviar;
     @FXML
     private Label Contador;
+    @FXML
+    private Pane AvisosPanel;
+    @FXML
+    private Label AvisosLabel;
 
     
     @Override
@@ -64,10 +70,11 @@ public class MensajeDirectoController implements Initializable {
            // Mensaje enviado con exito(3)
             CerrarVentana();
         }
-        catch(Exception e){
-            // popup de error aqui se despliegan las interfaces de error, (1)mensaje en blanco, (2)destinatario no nos sigue
-            System.out.println(e.getMessage());
-            
+        catch(TwitterException e){
+            System.out.println(e.getErrorCode());
+            System.out.println(e.getErrorMessage());
+            AvisosPanel.setVisible(true);
+            AvisosLabel.setText(e.getErrorMessage());  
         }
     }
     /**

@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import twitter4j.TwitterException;
@@ -39,11 +40,16 @@ public class MenuInicioController implements Initializable {
     private Label Contador;
     @FXML
     private Button TwittearBoton;
+    @FXML
+    private Pane AvisosPanel;
+    @FXML
+    private Label AvisosLabel;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Bot = new BotTwitter();
         Animacion= new Animaciones();
+        
     }    
     @FXML
     private void PublicarPresionar() throws TwitterException {     
@@ -55,10 +61,17 @@ public class MenuInicioController implements Initializable {
             Bot.actualizarEstado(texto); 
             Contador.setText(0+" / "+280);
             
-        }catch(Exception e){
-            
-            System.out.println(e.getMessage());
-            
+        }catch(TwitterException e){
+            System.out.println(e.getErrorCode());
+            System.out.println(e.getErrorMessage());
+            if (e.getErrorCode()==170) {
+                AvisosLabel.setText("Mensaje en blanco.");
+                AvisosPanel.setVisible(true);
+            }
+            else if (e.getErrorCode()==187) {
+                AvisosLabel.setText("Publicación duplicada.");
+                AvisosPanel.setVisible(true);
+            }
         }
         
                 

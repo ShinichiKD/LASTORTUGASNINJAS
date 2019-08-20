@@ -6,8 +6,10 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import twitter4j.TwitterException;
 
@@ -31,6 +33,10 @@ public class SeguirUsuarioController implements Initializable {
     private AnchorPane AnchoPane;
     @FXML
     private Button BotonCerrar;
+    @FXML
+    private Pane AvisosPanel;
+    @FXML
+    private Label AvisosLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -41,14 +47,20 @@ public class SeguirUsuarioController implements Initializable {
     
     
     @FXML
-    private void SeguirPresionar() throws TwitterException {
+    private void SeguirPresionar() throws TwitterException, IOException {
        try{
            Bot.seguirUsuario(SeguirTA.getText());
             SeguirTA.clear();
             SeguirTA.setPromptText("Ingresar ID");
             CerrarVentana();
-       }catch(Exception e){
-           System.out.println(e.getMessage());
+       }catch(TwitterException e){
+            System.out.println(e.getErrorCode());
+            System.out.println(e.getErrorMessage());
+            if (e.getErrorCode() == 108) {
+                AvisosLabel.setText("Busqueda no encontrada.");
+                AvisosPanel.setVisible(true);
+               
+           }
        }
        
        
