@@ -5,6 +5,10 @@
  */
 package Controladores;
 
+import java.util.ArrayList;
+import twitter4j.Query;
+import twitter4j.QueryResult;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -57,6 +61,28 @@ public class BotTwitter {
     public void seguirUsuario(String nombreDeUsuario) throws TwitterException{
         Bot.createFriendship(nombreDeUsuario);
     }
+    public ArrayList<Status> buscarTweets(String nombre) throws TwitterException{
+        ArrayList<Status> Tweets= new ArrayList<>();
+        
+        Query query = new Query("source:"+nombre);
+        QueryResult result = Bot.search(query);
+        for (Status status : result.getTweets()) {
+            Tweets.add(status);
+        }
+        return Tweets;
+    }
+    
+    public ArrayList<Status> obtenerTweets() throws TwitterException{
+        ArrayList<Status> Tweets= new ArrayList<>();
+        
+        for (Status status : Bot.getHomeTimeline()) {
+            Tweets.add(status);
+        }
+        System.out.println(Tweets);
+        return Tweets;
+    }
+    
+    
     
     
     
