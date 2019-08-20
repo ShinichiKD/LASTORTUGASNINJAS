@@ -37,10 +37,10 @@ public class BotTwitter {
     private Twitter init(){
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
-          .setOAuthConsumerKey("hdRHBpZk8bgGkERmuNc78vmli")
-          .setOAuthConsumerSecret("viguyMV46wSk2jroiZjttgtbihTizYcOwosOsPbfnv61gjiBYN")
-          .setOAuthAccessToken("2344321298-oSPBpnAYRp0YBZ6qW6hr1JKXmOO7butDGnCmNRd")
-          .setOAuthAccessTokenSecret("ZAsWCrbotgTBcWQzJC82ixRgFagnWFS9tUJFElNoD35eQ");
+          .setOAuthConsumerKey("rjBybNH66nPfhNKZUPL2Wd2qc")
+          .setOAuthConsumerSecret("CRIcPF8RHfOXSiVTdht44ShcT4XcCMydM3ihFIVmQhKWVz5rP2")
+          .setOAuthAccessToken("2344321298-xDKjy1GNh9CmzOwNAQFWylObrDlRmdCR3wlDxy0")
+          .setOAuthAccessTokenSecret("hEdJxavmWpIyMJDxOoBFexSRXDbiNzN1GLmvSXkNt2dw4");
         TwitterFactory tf = new TwitterFactory(cb.build());
         return tf.getInstance();
     }

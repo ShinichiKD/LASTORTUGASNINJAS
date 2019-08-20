@@ -73,8 +73,15 @@ public class MensajeDirectoController implements Initializable {
         catch(TwitterException e){
             System.out.println(e.getErrorCode());
             System.out.println(e.getErrorMessage());
-            AvisosPanel.setVisible(true);
-            AvisosLabel.setText(e.getErrorMessage());  
+            if (e.getErrorCode()== 50) {
+                AvisosLabel.setText("Usuario no encontrado.");
+                AvisosPanel.setVisible(true);
+                
+            }else if (e.getErrorCode()==151) {
+                AvisosLabel.setText("Mensaje en blanco.");
+                AvisosPanel.setVisible(true);
+                
+            }
         }
     }
     /**
