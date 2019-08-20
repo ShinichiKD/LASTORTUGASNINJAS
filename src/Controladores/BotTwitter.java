@@ -5,6 +5,10 @@
  */
 package Controladores;
 
+import java.util.ArrayList;
+import twitter4j.Query;
+import twitter4j.QueryResult;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -33,10 +37,10 @@ public class BotTwitter {
     private Twitter init(){
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
-          .setOAuthConsumerKey("hdRHBpZk8bgGkERmuNc78vmli")
-          .setOAuthConsumerSecret("viguyMV46wSk2jroiZjttgtbihTizYcOwosOsPbfnv61gjiBYN")
-          .setOAuthAccessToken("2344321298-oSPBpnAYRp0YBZ6qW6hr1JKXmOO7butDGnCmNRd")
-          .setOAuthAccessTokenSecret("ZAsWCrbotgTBcWQzJC82ixRgFagnWFS9tUJFElNoD35eQ");
+          .setOAuthConsumerKey("rjBybNH66nPfhNKZUPL2Wd2qc")
+          .setOAuthConsumerSecret("CRIcPF8RHfOXSiVTdht44ShcT4XcCMydM3ihFIVmQhKWVz5rP2")
+          .setOAuthAccessToken("2344321298-xDKjy1GNh9CmzOwNAQFWylObrDlRmdCR3wlDxy0")
+          .setOAuthAccessTokenSecret("hEdJxavmWpIyMJDxOoBFexSRXDbiNzN1GLmvSXkNt2dw4");
         TwitterFactory tf = new TwitterFactory(cb.build());
         return tf.getInstance();
     }
@@ -55,6 +59,28 @@ public class BotTwitter {
     public void seguirUsuario(String nombreDeUsuario) throws TwitterException{
         Bot.createFriendship(nombreDeUsuario);
     }
+    public ArrayList<Status> buscarTweets(String nombre) throws TwitterException{
+        ArrayList<Status> Tweets= new ArrayList<>();
+        
+        Query query = new Query("source:"+nombre);
+        QueryResult result = Bot.search(query);
+        for (Status status : result.getTweets()) {
+            Tweets.add(status);
+        }
+        return Tweets;
+    }
+    
+    public ArrayList<Status> obtenerTweets() throws TwitterException{
+        ArrayList<Status> Tweets= new ArrayList<>();
+        
+        for (Status status : Bot.getHomeTimeline()) {
+            Tweets.add(status);
+        }
+        System.out.println(Tweets);
+        return Tweets;
+    }
+    
+    
     
     
     
