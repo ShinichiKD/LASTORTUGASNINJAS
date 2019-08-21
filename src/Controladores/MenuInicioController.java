@@ -55,22 +55,33 @@ public class MenuInicioController implements Initializable {
         try{
             
             String texto = MensajeTA.getText();
+            Contador.setText(0+" / "+280);
             MensajeTA.clear();
             MensajeTA.setPromptText("¿Qué está pasando?");
             Bot.actualizarEstado(texto); 
-            Contador.setText(0+" / "+280);
+            
+            
+            AvisosLabel.setText("Publicación exitosa.");
+            Animacion.MostrarAvisos(AvisosLabel);
             
         }catch(TwitterException e){
             System.out.println(e.getErrorCode());
             System.out.println(e.getErrorMessage());
-            if (e.getErrorCode()==170) {
-                AvisosLabel.setText("Mensaje en blanco.");
-                Animacion.MostrarAvisos(AvisosLabel);
-                
-            }
-            else if (e.getErrorCode()==187) {
-                AvisosLabel.setText("Publicación duplicada.");
-                Animacion.MostrarAvisos(AvisosLabel);
+            switch (e.getErrorCode()) {
+                case 170:
+                    AvisosLabel.setText("Mensaje en blanco.");
+                    Animacion.MostrarAvisos(AvisosLabel);
+                    break;
+                case 187:
+                    AvisosLabel.setText("Publicación duplicada.");
+                    Animacion.MostrarAvisos(AvisosLabel);
+                    break;
+                case 186:
+                    AvisosLabel.setText("Publicación muy larga (muchos emojis).");
+                    Animacion.MostrarAvisos(AvisosLabel);
+                    break;
+                default:
+                    break;
             }
         }
         

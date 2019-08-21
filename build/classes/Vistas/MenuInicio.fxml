@@ -61,7 +61,7 @@
                   <Image url="@Imagenes/logo.png" />
                </image>
             </ImageView>
-            <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="274.0" layoutY="554.0" prefHeight="32.0" prefWidth="179.0" style="-fx-background-color: #05F240;" text="Mensaje de estado" textFill="WHITE">
+            <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="239.0" layoutY="554.0" prefHeight="32.0" prefWidth="277.0" style="-fx-background-color: #05F240;" text="Mensaje de estado" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
