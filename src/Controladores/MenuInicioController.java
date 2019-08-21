@@ -41,18 +41,17 @@ public class MenuInicioController implements Initializable {
     @FXML
     private Button TwittearBoton;
     @FXML
-    private Pane AvisosPanel;
-    @FXML
     private Label AvisosLabel;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Bot = new BotTwitter();
         Animacion= new Animaciones();
+        AvisosLabel.setVisible(false);
         
     }    
     @FXML
-    private void PublicarPresionar() throws TwitterException {     
+    private void PublicarPresionar() throws TwitterException, IOException {     
         try{
             
             String texto = MensajeTA.getText();
@@ -66,15 +65,15 @@ public class MenuInicioController implements Initializable {
             System.out.println(e.getErrorMessage());
             if (e.getErrorCode()==170) {
                 AvisosLabel.setText("Mensaje en blanco.");
-                AvisosPanel.setVisible(true);
+                Animacion.MostrarAvisos(AvisosLabel);
+                
             }
             else if (e.getErrorCode()==187) {
                 AvisosLabel.setText("Publicación duplicada.");
-                AvisosPanel.setVisible(true);
+                Animacion.MostrarAvisos(AvisosLabel);
             }
         }
         
-                
     }
     /**
      * Esta Accion nos permite cambiar de escena y mostrar la interfaz de 

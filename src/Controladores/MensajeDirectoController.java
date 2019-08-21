@@ -40,8 +40,6 @@ public class MensajeDirectoController implements Initializable {
     @FXML
     private Label Contador;
     @FXML
-    private Pane AvisosPanel;
-    @FXML
     private Label AvisosLabel;
 
     
@@ -49,6 +47,7 @@ public class MensajeDirectoController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
        Bot = new BotTwitter();
        Animacion = new Animaciones(); 
+       AvisosLabel.setVisible(false);
     }    
     /**
      * Cierra la ventana actual y vuelve al Inicio
@@ -68,18 +67,19 @@ public class MensajeDirectoController implements Initializable {
            TextoMensaje.clear();
            TextoMensaje.setPromptText("Escribir Mensaje");
            // Mensaje enviado con exito(3)
-            CerrarVentana();
+            AvisosLabel.setText("Mensaje Enviado.");
+            Animacion.MostrarAvisos(AvisosLabel);
         }
         catch(TwitterException e){
             System.out.println(e.getErrorCode());
             System.out.println(e.getErrorMessage());
             if (e.getErrorCode()== 50) {
                 AvisosLabel.setText("Usuario no encontrado.");
-                AvisosPanel.setVisible(true);
+                Animacion.MostrarAvisos(AvisosLabel);
                 
             }else if (e.getErrorCode()==151) {
                 AvisosLabel.setText("Mensaje en blanco.");
-                AvisosPanel.setVisible(true);
+                Animacion.MostrarAvisos(AvisosLabel);
                 
             }
         }

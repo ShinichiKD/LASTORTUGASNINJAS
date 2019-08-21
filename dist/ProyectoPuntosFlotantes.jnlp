@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="ProyectoPuntosFlotantes.jar" size="347553" download="eager" />
+    <jar href="ProyectoPuntosFlotantes.jar" size="345991" download="eager" />
     <jar href="lib\twitter4j-core-4.0.7.jar" size="318006" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="ProyectoPuntosFlotantes" >

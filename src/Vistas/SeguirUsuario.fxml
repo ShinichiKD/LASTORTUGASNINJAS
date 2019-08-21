@@ -9,46 +9,38 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="Escena" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="760.0" style="-fx-background-color: TRANSPARENT;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.SeguirUsuarioController">
+<StackPane fx:id="Escena" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="760.0" style="-fx-background-color: TRANSPARENT;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.SeguirUsuarioController">
    <children>
-      <Pane opacity="0.26" prefHeight="600.0" prefWidth="760.0" style="-fx-background-color: Grey;" />
       <AnchorPane fx:id="AnchoPane" prefHeight="600.0" prefWidth="760.0" style="-fx-background-color: TRANSPARENT;">
          <children>
-            <Pane layoutX="156.0" layoutY="30.0" prefHeight="233.0" prefWidth="274.0" style="-fx-background-color: #13B0EB;">
+            <Button fx:id="BotonCerrar" mnemonicParsing="false" onAction="#CerrarVentana" prefHeight="600.0" prefWidth="760.0" style="-fx-background-color: TRANSPARENT;" />
+            <Pane layoutX="551.0" layoutY="46.0" opacity="0.9" prefHeight="118.0" prefWidth="209.0" style="-fx-background-color: #05F240;">
                <children>
-                  <Button fx:id="SeguirBoton" layoutX="95.0" layoutY="158.0" mnemonicParsing="false" onAction="#SeguirPresionar" prefHeight="38.0" prefWidth="85.0" style="-fx-background-color: TRANSPARENT; -fx-border-color: White;" text="Seguir" textFill="WHITE">
+                  <Button fx:id="SeguirBoton" layoutX="75.0" layoutY="84.0" mnemonicParsing="false" onAction="#SeguirPresionar" prefHeight="26.0" prefWidth="62.0" style="-fx-background-color: #0FF2C9;" text="Seguir" textFill="WHITE">
                      <font>
-                        <Font name="Microsoft YaHei UI Bold" size="18.0" />
+                        <Font name="Microsoft YaHei UI Bold" size="12.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Label alignment="CENTER" contentDisplay="BOTTOM" layoutX="34.0" layoutY="8.0" prefHeight="41.0" prefWidth="194.0" text="ID de Usuario" textFill="WHITE">
+                  <Label alignment="CENTER" contentDisplay="BOTTOM" layoutX="9.0" prefHeight="41.0" prefWidth="194.0" text="ID del Usuario" textFill="WHITE">
                      <font>
-                        <Font name="Microsoft YaHei" size="23.0" />
+                        <Font name="Microsoft YaHei" size="15.0" />
                      </font>
                   </Label>
-                  <Button fx:id="BotonCerrar" layoutX="228.0" layoutY="12.0" mnemonicParsing="false" onAction="#CerrarVentana" prefHeight="32.0" prefWidth="35.0" style="-fx-background-color: TRANSPARENT; -fx-border-color: White;" text="X" textFill="WHITE">
+                  <TextArea fx:id="SeguirTA" layoutX="8.0" layoutY="34.0" prefHeight="45.0" prefWidth="194.0" promptText="Ingresar ID">
                      <font>
-                        <Font size="11.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
-                  <TextArea fx:id="SeguirTA" layoutX="11.0" layoutY="76.0" prefHeight="41.0" prefWidth="253.0" promptText="Ingresar ID">
-                     <font>
-                        <Font name="Microsoft JhengHei UI" size="14.0" />
+                        <Font name="Microsoft JhengHei UI" size="12.0" />
                      </font>
                   </TextArea>
                </children>
             </Pane>
-            <Pane fx:id="AvisosPanel" layoutX="160.0" layoutY="336.0" prefHeight="77.0" prefWidth="266.0" style="-fx-border-color: grey;" visible="false">
-               <children>
-                  <Label fx:id="AvisosLabel" layoutX="3.0" layoutY="30.0" prefHeight="17.0" prefWidth="286.0" />
-               </children>
-            </Pane>
+            <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="274.0" layoutY="554.0" prefHeight="32.0" prefWidth="180.0" style="-fx-background-color: #05F240;" text="Mensaje de estado" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>

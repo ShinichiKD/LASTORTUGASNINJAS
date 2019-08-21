@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import twitter4j.TwitterException;
 
@@ -34,14 +33,13 @@ public class SeguirUsuarioController implements Initializable {
     @FXML
     private Button BotonCerrar;
     @FXML
-    private Pane AvisosPanel;
-    @FXML
     private Label AvisosLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Bot = new BotTwitter();
         Animacion = new Animaciones();
+        AvisosLabel.setVisible(false);
     }    
     
     
@@ -52,17 +50,19 @@ public class SeguirUsuarioController implements Initializable {
            Bot.seguirUsuario(SeguirTA.getText());
             SeguirTA.clear();
             SeguirTA.setPromptText("Ingresar ID");
-            CerrarVentana();
+            //Aviso sergui
+            AvisosLabel.setText("Siguiendo Usuario.");
+            Animacion.MostrarAvisos(AvisosLabel);
+            
        }catch(TwitterException e){
             System.out.println(e.getErrorCode());
             System.out.println(e.getErrorMessage());
             if (e.getErrorCode() == 108) {
                 AvisosLabel.setText("Busqueda no encontrada.");
-                AvisosPanel.setVisible(true);
+                Animacion.MostrarAvisos(AvisosLabel);
                
            }
        }
-       
        
     }
     
@@ -73,7 +73,8 @@ public class SeguirUsuarioController implements Initializable {
      */
     @FXML
     private void CerrarVentana() throws IOException {
-        Animacion.CerrarVentana(Escena, SeguirBoton, AnchoPane, "/Vistas/MenuInicio.fxml");
+        
+        Animacion.CerrarVentana(Escena, BotonCerrar, AnchoPane, "/Vistas/MenuInicio.fxml");
     }
     
 }

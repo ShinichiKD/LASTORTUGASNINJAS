@@ -7,12 +7,10 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<StackPane fx:id="Escena" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.MenuInicioController">
+<StackPane fx:id="Escena" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.MenuInicioController">
    <children>
       <ImageView fitHeight="600.0" fitWidth="760.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -21,36 +19,35 @@
       </ImageView>
       <AnchorPane fx:id="AnchoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="760.0">
          <children>
-            <Button fx:id="SeguirUsuario" layoutX="573.0" layoutY="56.0" mnemonicParsing="false" onAction="#MenuSeguirUsuario" prefHeight="41.0" prefWidth="189.0" style="-fx-background-color: TRANSPARENT; -fx-border-color: White;" text="Seguir Usuario" textFill="WHITE">
+            <Button fx:id="SeguirUsuario" alignment="TOP_LEFT" layoutX="636.0" layoutY="48.0" mnemonicParsing="false" onAction="#MenuSeguirUsuario" prefHeight="32.0" prefWidth="123.0" style="-fx-background-color: TRANSPARENT;" text="Seguir" textFill="WHITE">
                <font>
-                  <Font name="Microsoft YaHei" size="18.0" />
+                  <Font name="Microsoft YaHei" size="15.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-            <Label contentDisplay="BOTTOM" layoutX="34.0" layoutY="23.0" prefHeight="53.0" prefWidth="475.0" text="Inicio" textFill="WHITE">
+            <Label contentDisplay="BOTTOM" layoutX="126.0" layoutY="5.0" prefHeight="53.0" prefWidth="475.0" text="Inicio" textFill="WHITE">
                <font>
                   <Font name="Microsoft YaHei" size="23.0" />
                </font>
             </Label>
-            <Button fx:id="TwittearBoton" layoutX="412.0" layoutY="227.0" mnemonicParsing="false" onAction="#PublicarPresionar" prefHeight="41.0" prefWidth="97.0" style="-fx-background-color: #1E82A3;" text="Twittear" textFill="WHITE">
+            <Button fx:id="TwittearBoton" alignment="CENTER" contentDisplay="CENTER" layoutX="536.0" layoutY="149.0" mnemonicParsing="false" onAction="#PublicarPresionar" prefHeight="30.0" prefWidth="83.0" style="-fx-background-color: #0FF2C9;" text="Twittear" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
                <font>
-                  <Font name="Microsoft YaHei" size="18.0" />
+                  <Font name="Microsoft YaHei" size="15.0" />
                </font></Button>
-            <Button fx:id="MensajeDirecto" layoutX="573.0" layoutY="103.0" mnemonicParsing="false" onAction="#MenuMensajeDirecto" prefHeight="41.0" prefWidth="189.0" style="-fx-background-color: TRANSPARENT; -fx-border-color: White;" text="Mensaje Directo" textFill="WHITE">
+            <Button fx:id="MensajeDirecto" alignment="TOP_LEFT" layoutX="635.0" layoutY="77.0" mnemonicParsing="false" onAction="#MenuMensajeDirecto" prefHeight="32.0" prefWidth="114.0" style="-fx-background-color: TRANSPARENT;" text="Mensajes" textFill="WHITE">
                <font>
-                  <Font name="Microsoft YaHei" size="18.0" />
+                  <Font name="Microsoft YaHei" size="15.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <TextArea fx:id="MensajeTA" layoutX="34.0" layoutY="77.0" onKeyReleased="#ReleasedMensajeTA" prefHeight="150.0" prefWidth="475.0" promptText="¿Qué está pasando?" wrapText="true">
+            <TextArea fx:id="MensajeTA" layoutX="203.0" layoutY="61.0" onKeyReleased="#ReleasedMensajeTA" prefHeight="87.0" prefWidth="417.0" promptText="¿Qué está pasando?" wrapText="true">
                <font>
                   <Font name="Microsoft YaHei UI" size="14.0" />
                </font>
@@ -58,12 +55,17 @@
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </TextArea>
-            <Label fx:id="Contador" alignment="CENTER" layoutX="414.0" layoutY="197.0" prefHeight="21.0" prefWidth="77.0" text="0  / 280" />
-            <Pane fx:id="AvisosPanel" layoutX="135.0" layoutY="114.0" prefHeight="77.0" prefWidth="292.0" style="-fx-border-color: grey;" visible="false">
-               <children>
-                  <Label fx:id="AvisosLabel" layoutX="3.0" layoutY="30.0" prefHeight="17.0" prefWidth="286.0" />
-               </children>
-            </Pane>
+            <Label fx:id="Contador" alignment="CENTER" layoutX="457.0" layoutY="154.0" prefHeight="21.0" prefWidth="77.0" text="0  / 280" />
+            <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="136.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Imagenes/logo.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="274.0" layoutY="554.0" prefHeight="32.0" prefWidth="179.0" style="-fx-background-color: #05F240;" text="Mensaje de estado" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>
