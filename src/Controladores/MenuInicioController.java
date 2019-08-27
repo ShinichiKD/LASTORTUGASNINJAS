@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,6 +15,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -158,17 +161,20 @@ public class MenuInicioController implements Initializable {
     }
     void ActualizarEstados() throws TwitterException, IOException{
         int i=0;
-        VBox content = new VBox();
-    
-    
-        ScrollPane.setContent(content);
+        GridPane grid = new GridPane();
         for(Status e : Bot.obtenerTweets()){
-            Label label = new Label(e.getText());
+
+            Parent root = FXMLLoader.load(getClass().getResource("/Vistas/Publicacion.fxml"));
             
+            ((Label)root.getChildrenUnmodifiable().get(0)).setText(e.getUser().getName() );
+            ((TextArea)root.getChildrenUnmodifiable().get(1)).setText(e.getText());
+            ((ImageView)root.getChildrenUnmodifiable().get(2)).setImage(new Image( e.getUser().get400x400ProfileImageURL() ));
             
-            content.setPrefHeight(content.getPrefHeight() + label.getPrefHeight());
-            content.getChildren().add(label);
-            content.getChildren().add(new Button("Like"));
+            grid.add(root, 0, i);
+            i++;
         }
+        
+        
+        ScrollPane.setContent(grid);
     }
 }
