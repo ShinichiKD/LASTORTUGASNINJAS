@@ -5,13 +5,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -20,9 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import twitter4j.Status;
 import twitter4j.TwitterException;
@@ -174,8 +170,19 @@ public class MenuInicioController implements Initializable {
             
             ((Button)root.getChildrenUnmodifiable().get(4)).setOnAction((ActionEvent events)->{ 
                 try {
-                Bot.darLikeTweet(e.getId());
+                    
+                    if(Bot.darLikeTweet(e.getId())){
+                        AvisosLabel.setText("Te ha gustado esta publicación");
+                        Animacion.MostrarAvisos(AvisosLabel);
+                    }else{
+                        AvisosLabel.setText("Ya no te gusta esta publicación");
+                        Animacion.MostrarAvisos(AvisosLabel);
+                    }
+                
+                
                 } catch (TwitterException ex) {
+                    Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
                     Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
@@ -183,8 +190,16 @@ public class MenuInicioController implements Initializable {
             
             ((Button)root.getChildrenUnmodifiable().get(5)).setOnAction((ActionEvent events)->{ 
                 try {
-                Bot.darRetweet( e.getId());
+                if(Bot.darRetweet(e.getId())){
+                        AvisosLabel.setText("Has retweeteado esta publicación");
+                        Animacion.MostrarAvisos(AvisosLabel);
+                    }else{
+                        AvisosLabel.setText("Ya no retweeteas esta publicación");
+                        Animacion.MostrarAvisos(AvisosLabel);
+                    }
                 } catch (TwitterException ex) {
+                    Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
                     Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });

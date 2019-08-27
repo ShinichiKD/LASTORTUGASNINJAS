@@ -79,11 +79,26 @@ public class BotTwitter {
         }
         return Tweets;
     }
-    public void darLikeTweet(Long id) throws TwitterException{
-        Bot.createFavorite(id);
+    public boolean darLikeTweet(Long id) throws TwitterException{
+        Status st = Bot.showStatus(id);
+        if(!st.isFavorited()){
+            Bot.createFavorite(id);
+            return true;
+        }else{
+            Bot.destroyFavorite(id);
+            return false;
+        }
+        
     }
-    public void darRetweet(Long id) throws TwitterException{
-        Bot.retweetStatus(id);
+    public boolean darRetweet(Long id) throws TwitterException{
+        Status st = Bot.showStatus(id);
+        if(!st.isRetweetedByMe()){
+            Bot.retweetStatus(id);
+            return true;
+        }else{
+            Bot.unRetweetStatus(id);
+            return false;
+        }
     }
     
     
