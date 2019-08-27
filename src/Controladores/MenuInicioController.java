@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -17,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import twitter4j.Status;
 import twitter4j.TwitterException;
@@ -78,6 +80,14 @@ public class MenuInicioController implements Initializable {
             
             AvisosLabel.setText("Publicación exitosa.");
             Animacion.MostrarAvisos(AvisosLabel);
+            try {
+            ActualizarEstados();
+        } catch (TwitterException ex) {
+            Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
             
         }catch(TwitterException e){
             System.out.println(e.getErrorCode());
@@ -148,19 +158,17 @@ public class MenuInicioController implements Initializable {
     }
     void ActualizarEstados() throws TwitterException, IOException{
         int i=0;
-        GridPane grid = new GridPane();
+        VBox content = new VBox();
+    
+    
+        ScrollPane.setContent(content);
         for(Status e : Bot.obtenerTweets()){
-            Parent root = FXMLLoader.load(getClass().getResource("/Vistas/Publicacion.fxml"));
+            Label label = new Label(e.getText());
             
             
-            //grid.getRowConstraints().add(new RowConstraints(30));
-            grid.add(root, 0, i);
-            i++;
+            content.setPrefHeight(content.getPrefHeight() + label.getPrefHeight());
+            content.getChildren().add(label);
+            content.getChildren().add(new Button("Like"));
         }
-        ScrollPane.setContent(grid);
     }
-
-
-    
-    
 }
