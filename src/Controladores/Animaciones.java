@@ -1,7 +1,6 @@
 package Controladores;
 
 import java.io.IOException;
-import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -22,7 +21,6 @@ public class Animaciones {
     
     public void CambiarVentanta(StackPane Escena,Button Boton,AnchorPane AnchoPane,String ruta) throws IOException{
         Parent root = FXMLLoader.load(getClass().getResource(ruta));
-        Scene scene= Boton.getScene();
         
         root.translateXProperty().set(760);
         

@@ -150,7 +150,7 @@ public class MenuInicioController implements Initializable {
 
         }else{
             //cambiar color
-            Contador.textFillProperty().setValue(Paint.valueOf("Black"));
+            Contador.textFillProperty().setValue(Paint.valueOf("White"));
             TwittearBoton.setDisable(false);
         }
         Contador.setText(letras+" / "+limite);
