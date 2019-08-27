@@ -22,17 +22,11 @@ public class SeguirUsuarioController implements Initializable {
     BotTwitter Bot;
     Animaciones Animacion;
     
-    @FXML
     private TextArea SeguirTA;
     @FXML
-    private Button SeguirBoton;
-    @FXML
     private StackPane Escena;
-    @FXML
     private AnchorPane AnchoPane;
-    @FXML
     private Button BotonCerrar;
-    @FXML
     private Label AvisosLabel;
 
     @Override
@@ -44,7 +38,6 @@ public class SeguirUsuarioController implements Initializable {
     
     
     
-    @FXML
     private void SeguirPresionar() throws TwitterException, IOException {
        try{
            Bot.seguirUsuario(SeguirTA.getText());
@@ -71,7 +64,6 @@ public class SeguirUsuarioController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    @FXML
     private void CerrarVentana() throws IOException {
         
         Animacion.CerrarVentana(Escena, BotonCerrar, AnchoPane, "/Vistas/MenuInicio.fxml");

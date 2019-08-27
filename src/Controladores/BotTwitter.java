@@ -74,11 +74,9 @@ public class BotTwitter {
     
     public ArrayList<Status> obtenerTweets() throws TwitterException{
         ArrayList<Status> Tweets= new ArrayList<>();
-        
         for (Status status : Bot.getHomeTimeline()) {
             Tweets.add(status);
         }
-        System.out.println(Tweets);
         return Tweets;
     }
     

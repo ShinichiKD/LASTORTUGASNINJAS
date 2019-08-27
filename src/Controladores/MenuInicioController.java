@@ -3,15 +3,22 @@ package Controladores;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
+import twitter4j.Status;
 import twitter4j.TwitterException;
 
 /**
@@ -42,13 +49,21 @@ public class MenuInicioController implements Initializable {
     private Button TwittearBoton;
     @FXML
     private Label AvisosLabel;
+    @FXML
+    private ScrollPane ScrollPane;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Bot = new BotTwitter();
         Animacion= new Animaciones();
         AvisosLabel.setVisible(false);
-        
+        try {
+            ActualizarEstados();
+        } catch (TwitterException ex) {
+            Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }    
     @FXML
     private void PublicarPresionar() throws TwitterException, IOException {     
@@ -130,9 +145,20 @@ public class MenuInicioController implements Initializable {
         }
         Contador.setText(letras+" / "+limite);
         
-        
     }
-
+    void ActualizarEstados() throws TwitterException, IOException{
+        int i=0;
+        GridPane grid = new GridPane();
+        for(Status e : Bot.obtenerTweets()){
+            Parent root = FXMLLoader.load(getClass().getResource("/Vistas/Publicacion.fxml"));
+            
+            
+            //grid.getRowConstraints().add(new RowConstraints(30));
+            grid.add(root, 0, i);
+            i++;
+        }
+        ScrollPane.setContent(grid);
+    }
 
 
     
