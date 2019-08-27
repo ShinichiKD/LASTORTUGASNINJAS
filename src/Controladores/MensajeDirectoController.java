@@ -1,8 +1,10 @@
 package Controladores;
 
+import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -29,7 +31,7 @@ public class MensajeDirectoController implements Initializable {
     @FXML
     private AnchorPane AnchoPane;
     @FXML
-    private TextArea PersonaBuscada;
+    private JFXTextField PersonaBuscada;
     @FXML
     private Button BotonCerrar;
     @FXML
@@ -98,13 +100,14 @@ public class MensajeDirectoController implements Initializable {
 
         }else{
             //cambiar color
-            Contador.textFillProperty().setValue(Paint.valueOf("Black"));
+            Contador.textFillProperty().setValue(Paint.valueOf("White"));
             BotonEnviar.setDisable(false);
         }
         Contador.setText(letras+" / "+limite);
         
         
     }
+
     
     
     

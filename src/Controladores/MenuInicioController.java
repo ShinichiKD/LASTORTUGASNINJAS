@@ -1,5 +1,6 @@
 package Controladores;
 
+import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -59,6 +60,8 @@ public class MenuInicioController implements Initializable {
         Bot = new BotTwitter();
         Animacion= new Animaciones();
         AvisosLabel.setVisible(false);
+        
+        
         try {
             ActualizarEstados();
         } catch (TwitterException ex) {
@@ -164,13 +167,15 @@ public class MenuInicioController implements Initializable {
             Parent root = FXMLLoader.load(getClass().getResource("/Vistas/Publicacion.fxml"));
             
             ((Label)root.getChildrenUnmodifiable().get(0)).setText(e.getUser().getName() );
-            ((TextArea)root.getChildrenUnmodifiable().get(1)).setText(e.getText());
-            ((ImageView)root.getChildrenUnmodifiable().get(2)).setImage(new Image( e.getUser().get400x400ProfileImageURL() ));
-            ((Label)root.getChildrenUnmodifiable().get(3)).setText(e.getCreatedAt().toString() );
             
+            ((TextArea)root.getChildrenUnmodifiable().get(1)).setText(e.getText());
+            
+            ((ImageView)root.getChildrenUnmodifiable().get(2)).setImage(new Image( e.getUser().get400x400ProfileImageURL() ));
+            
+            ((Label)root.getChildrenUnmodifiable().get(3)).setText(e.getCreatedAt().toString() );
+            System.out.println(e.getCreatedAt().toString());
             ((Button)root.getChildrenUnmodifiable().get(4)).setOnAction((ActionEvent events)->{ 
                 try {
-                    
                     if(Bot.darLikeTweet(e.getId())){
                         AvisosLabel.setText("Te ha gustado esta publicación");
                         Animacion.MostrarAvisos(AvisosLabel);
@@ -190,7 +195,7 @@ public class MenuInicioController implements Initializable {
             
             ((Button)root.getChildrenUnmodifiable().get(5)).setOnAction((ActionEvent events)->{ 
                 try {
-                if(Bot.darRetweet(e.getId())){
+                    if(Bot.darRetweet(e.getId())){
                         AvisosLabel.setText("Has retweeteado esta publicación");
                         Animacion.MostrarAvisos(AvisosLabel);
                     }else{
@@ -211,5 +216,10 @@ public class MenuInicioController implements Initializable {
         
         
         ScrollPane.setContent(grid);
+    }
+
+    @FXML
+    private void Salir(ActionEvent event) {
+        System.exit(0);
     }
 }

@@ -1,46 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="Escena" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.MenuInicioController">
+<StackPane fx:id="Escena" prefWidth="1020.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.MenuInicioController">
    <children>
-      <ImageView fitHeight="600.0" fitWidth="760.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="600.0" fitWidth="1020.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Imagenes/MenuInicio.png" />
          </image>
       </ImageView>
-      <AnchorPane fx:id="AnchoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="760.0">
+      <AnchorPane fx:id="AnchoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1020.0">
          <children>
-            <Button fx:id="SeguirUsuario" alignment="TOP_LEFT" layoutX="645.0" layoutY="48.0" mnemonicParsing="false" onAction="#MenuSeguirUsuario" prefHeight="32.0" prefWidth="114.0" style="-fx-background-color: TRANSPARENT;" text="Seguir" textFill="WHITE">
+            <Label contentDisplay="BOTTOM" layoutX="248.0" layoutY="-1.0" prefHeight="53.0" prefWidth="525.0" text="Inicio" textFill="#545454">
                <font>
-                  <Font name="Microsoft YaHei" size="15.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-            <Label contentDisplay="BOTTOM" layoutX="118.0" layoutY="-3.0" prefHeight="53.0" prefWidth="475.0" text="Inicio" textFill="WHITE">
-               <font>
-                  <Font name="Microsoft YaHei" size="23.0" />
+                  <Font name="Microsoft YaHei Light" size="22.0" />
                </font>
             </Label>
-            <Button fx:id="TwittearBoton" alignment="CENTER" contentDisplay="CENTER" layoutX="536.0" layoutY="149.0" mnemonicParsing="false" onAction="#PublicarPresionar" prefHeight="30.0" prefWidth="83.0" style="-fx-background-color: #0FF2C9;" text="Twittear" textFill="WHITE">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <font>
-                  <Font name="Microsoft YaHei" size="15.0" />
-               </font></Button>
-            <Button fx:id="MensajeDirecto" alignment="TOP_LEFT" layoutX="646.0" layoutY="77.0" mnemonicParsing="false" onAction="#MenuMensajeDirecto" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: TRANSPARENT;" text="Mensajes" textFill="WHITE">
+            <Button fx:id="MensajeDirecto" alignment="CENTER" layoutX="16.0" layoutY="120.0" mnemonicParsing="false" onAction="#MenuMensajeDirecto" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: TRANSPARENT;" text="Mensajes" textFill="#545454">
                <font>
                   <Font name="Microsoft YaHei" size="15.0" />
                </font>
@@ -48,26 +36,54 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <TextArea fx:id="MensajeTA" layoutX="203.0" layoutY="61.0" onKeyReleased="#ReleasedMensajeTA" prefHeight="87.0" prefWidth="417.0" promptText="¿Qué está pasando?" wrapText="true">
-               <font>
-                  <Font name="Microsoft YaHei UI" size="14.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="TEXT" />
-               </cursor>
-            </TextArea>
-            <Label fx:id="Contador" alignment="CENTER" layoutX="457.0" layoutY="154.0" prefHeight="21.0" prefWidth="77.0" text="0  / 280" textFill="WHITE" />
-            <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="136.0" layoutY="58.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
+            <Label fx:id="Contador" alignment="CENTER" layoutX="589.0" layoutY="147.0" prefHeight="21.0" prefWidth="77.0" text="0  / 280" />
+            <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="265.0" layoutY="51.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Imagenes/logo.png" />
                </image>
             </ImageView>
-            <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="239.0" layoutY="554.0" prefHeight="32.0" prefWidth="277.0" style="-fx-background-color: #05F240;" text="Mensaje de estado" textFill="WHITE">
+            <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="390.0" layoutY="567.0" prefHeight="32.0" prefWidth="277.0" style="-fx-background-color: #00d29a;" text="Mensaje de estado" textFill="WHITE">
                <font>
-                  <Font size="14.0" />
+                  <Font name="Microsoft YaHei Light" size="13.0" />
                </font>
             </Label>
-            <ScrollPane fx:id="ScrollPane" layoutX="128.0" layoutY="185.0" opacity="0.9" prefHeight="435.0" prefWidth="504.0" style="-fx-background-color: TRANSPARENT;" />
+            <ScrollPane fx:id="ScrollPane" layoutX="248.0" layoutY="181.0" opacity="0.8" prefHeight="385.0" prefWidth="525.0" style="-fx-background: white;" />
+            <JFXTextArea fx:id="MensajeTA" focusColor="#00d29a" labelFloat="true" layoutX="335.0" layoutY="53.0" onKeyReleased="#ReleasedMensajeTA" prefHeight="87.0" prefWidth="417.0" promptText="¿Que esta pasando?" unFocusColor="#07ed7600" wrapText="true">
+               <font>
+                  <Font name="Microsoft JhengHei UI" size="14.0" />
+               </font>
+            </JFXTextArea>
+            <JFXButton fx:id="TwittearBoton" layoutX="674.0" layoutY="144.0" onAction="#PublicarPresionar" prefHeight="21.0" prefWidth="70.0" ripplerFill="#00d29a" style="-fx-background-color: #69f1cd;" text="Twittear" textFill="WHITE">
+               <font>
+                  <Font name="Microsoft YaHei UI" size="13.0" />
+               </font>
+            </JFXButton>
+            <Pane layoutX="248.0" layoutY="175.0" prefHeight="6.0" prefWidth="525.0" style="-fx-background-color: #00d29a;" />
+            <JFXButton fx:id="SeguirUsuario" layoutX="12.0" layoutY="152.0" onAction="#MenuSeguirUsuario" prefHeight="21.0" prefWidth="103.0" ripplerFill="#00d29a" text="Seguir" textFill="#545454">
+               <font>
+                  <Font name="Microsoft YaHei" size="15.0" />
+               </font>
+            </JFXButton>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="16.0" layoutY="41.0" prefHeight="30.0" prefWidth="103.0" text="Menu" textFill="#545454">
+               <font>
+                  <Font name="Microsoft YaHei" size="20.0" />
+               </font>
+            </Label>
+            <JFXButton layoutX="7.0" layoutY="86.0" prefHeight="32.0" prefWidth="112.0" ripplerFill="#20ff67" text="Explorar" textFill="#545454">
+               <font>
+                  <Font name="Microsoft YaHei UI" size="14.0" />
+               </font>
+            </JFXButton>
+            <JFXButton layoutX="987.0" layoutY="3.0" onAction="#Salir" prefHeight="21.0" prefWidth="29.0" ripplerFill="#e42323" style="-fx-background-color: White;" text="X" textFill="#545454">
+               <font>
+                  <Font name="Microsoft YaHei Light" size="14.0" />
+               </font>
+            </JFXButton>
+            <JFXTextField focusColor="WHITE" labelFloat="true" layoutX="791.0" layoutY="44.0" prefHeight="40.0" prefWidth="219.0" promptText="Buscar En Twitter">
+               <font>
+                  <Font name="Microsoft YaHei Light" size="18.0" />
+               </font>
+            </JFXTextField>
          </children>
       </AnchorPane>
    </children>

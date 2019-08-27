@@ -22,7 +22,7 @@ public class Animaciones {
     public void CambiarVentanta(StackPane Escena,Button Boton,AnchorPane AnchoPane,String ruta) throws IOException{
         Parent root = FXMLLoader.load(getClass().getResource(ruta));
         
-        root.translateXProperty().set(760);
+        root.translateXProperty().set(1020);
         
         Escena.getChildren().add(root);
         
@@ -74,7 +74,7 @@ public class Animaciones {
         Parent root = FXMLLoader.load(getClass().getResource(ruta));
         
         Timeline timeline = new Timeline();
-        KeyValue kv = new KeyValue(Escena.translateXProperty(), 800);
+        KeyValue kv = new KeyValue(Escena.translateXProperty(), 1100);
         KeyFrame kf = new KeyFrame(Duration.seconds(0.5), kv);
         timeline.getKeyFrames().add(kf);
         timeline.setOnFinished(t -> {
