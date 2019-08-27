@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -169,6 +170,25 @@ public class MenuInicioController implements Initializable {
             ((Label)root.getChildrenUnmodifiable().get(0)).setText(e.getUser().getName() );
             ((TextArea)root.getChildrenUnmodifiable().get(1)).setText(e.getText());
             ((ImageView)root.getChildrenUnmodifiable().get(2)).setImage(new Image( e.getUser().get400x400ProfileImageURL() ));
+            ((Label)root.getChildrenUnmodifiable().get(3)).setText(e.getCreatedAt().toString() );
+            
+            ((Button)root.getChildrenUnmodifiable().get(4)).setOnAction((ActionEvent events)->{ 
+                try {
+                Bot.darLikeTweet(e.getId());
+                } catch (TwitterException ex) {
+                    Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+            
+            
+            ((Button)root.getChildrenUnmodifiable().get(5)).setOnAction((ActionEvent events)->{ 
+                try {
+                Bot.darRetweet( e.getId());
+                } catch (TwitterException ex) {
+                    Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+            
             
             grid.add(root, 0, i);
             i++;

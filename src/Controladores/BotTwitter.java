@@ -79,6 +79,12 @@ public class BotTwitter {
         }
         return Tweets;
     }
+    public void darLikeTweet(Long id) throws TwitterException{
+        Bot.createFavorite(id);
+    }
+    public void darRetweet(Long id) throws TwitterException{
+        Bot.retweetStatus(id);
+    }
     
     
     
