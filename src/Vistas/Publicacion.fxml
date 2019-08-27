@@ -5,14 +5,21 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="295.0" prefWidth="545.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.PublicacionController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.9" prefHeight="264.0" prefWidth="500.0" style="-fx-border-color: White;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.PublicacionController">
    <children>
-      <Label fx:id="labelPublicacion" layoutX="16.0" layoutY="14.0" text="Nombre Usuario" />
-      <TextArea editable="false" layoutX="14.0" layoutY="53.0" prefHeight="135.0" prefWidth="516.0" wrapText="true" />
-      <ImageView fitHeight="43.0" fitWidth="71.0" layoutX="446.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="labelPublicacion" layoutX="66.0" layoutY="19.0" text="Nombre Usuario">
+         <font>
+            <Font name="Microsoft JhengHei UI Bold" size="14.0" />
+         </font></Label>
+      <TextArea editable="false" layoutX="66.0" layoutY="53.0" prefHeight="135.0" prefWidth="393.0" promptText="Publicacion" style="-fx-background-color: TRANSPARENT;" wrapText="true">
+         <font>
+            <Font name="Microsoft YaHei UI" size="14.0" />
+         </font></TextArea>
+      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="7.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" />
       <Label layoutX="16.0" layoutY="206.0" text="Fecha" />
-      <Button layoutX="471.0" layoutY="216.0" mnemonicParsing="false" text="Like" />
-      <Button layoutX="387.0" layoutY="216.0" mnemonicParsing="false" text="Retweet" />
+      <Button layoutX="422.0" layoutY="202.0" mnemonicParsing="false" text="Like" />
+      <Button layoutX="342.0" layoutY="204.0" mnemonicParsing="false" text="Retweet" />
    </children>
 </AnchorPane>

@@ -20,7 +20,7 @@
       </ImageView>
       <AnchorPane fx:id="AnchoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="760.0">
          <children>
-            <Button fx:id="SeguirUsuario" alignment="TOP_LEFT" layoutX="636.0" layoutY="48.0" mnemonicParsing="false" onAction="#MenuSeguirUsuario" prefHeight="32.0" prefWidth="123.0" style="-fx-background-color: TRANSPARENT;" text="Seguir" textFill="WHITE">
+            <Button fx:id="SeguirUsuario" alignment="TOP_LEFT" layoutX="645.0" layoutY="48.0" mnemonicParsing="false" onAction="#MenuSeguirUsuario" prefHeight="32.0" prefWidth="114.0" style="-fx-background-color: TRANSPARENT;" text="Seguir" textFill="WHITE">
                <font>
                   <Font name="Microsoft YaHei" size="15.0" />
                </font>
@@ -28,7 +28,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Label contentDisplay="BOTTOM" layoutX="126.0" layoutY="5.0" prefHeight="53.0" prefWidth="475.0" text="Inicio" textFill="WHITE">
+            <Label contentDisplay="BOTTOM" layoutX="118.0" layoutY="-3.0" prefHeight="53.0" prefWidth="475.0" text="Inicio" textFill="WHITE">
                <font>
                   <Font name="Microsoft YaHei" size="23.0" />
                </font>
@@ -40,7 +40,7 @@
                <font>
                   <Font name="Microsoft YaHei" size="15.0" />
                </font></Button>
-            <Button fx:id="MensajeDirecto" alignment="TOP_LEFT" layoutX="635.0" layoutY="77.0" mnemonicParsing="false" onAction="#MenuMensajeDirecto" prefHeight="32.0" prefWidth="114.0" style="-fx-background-color: TRANSPARENT;" text="Mensajes" textFill="WHITE">
+            <Button fx:id="MensajeDirecto" alignment="TOP_LEFT" layoutX="646.0" layoutY="77.0" mnemonicParsing="false" onAction="#MenuMensajeDirecto" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: TRANSPARENT;" text="Mensajes" textFill="WHITE">
                <font>
                   <Font name="Microsoft YaHei" size="15.0" />
                </font>
@@ -56,8 +56,8 @@
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </TextArea>
-            <Label fx:id="Contador" alignment="CENTER" layoutX="457.0" layoutY="154.0" prefHeight="21.0" prefWidth="77.0" text="0  / 280" />
-            <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="136.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
+            <Label fx:id="Contador" alignment="CENTER" layoutX="457.0" layoutY="154.0" prefHeight="21.0" prefWidth="77.0" text="0  / 280" textFill="WHITE" />
+            <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="136.0" layoutY="58.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Imagenes/logo.png" />
                </image>
@@ -67,11 +67,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <ScrollPane fx:id="ScrollPane" layoutX="130.0" layoutY="185.0" prefHeight="356.0" prefWidth="502.0">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-              </content>
-            </ScrollPane>
+            <ScrollPane fx:id="ScrollPane" layoutX="128.0" layoutY="185.0" opacity="0.9" prefHeight="435.0" prefWidth="504.0" style="-fx-background-color: TRANSPARENT;" />
          </children>
       </AnchorPane>
    </children>
