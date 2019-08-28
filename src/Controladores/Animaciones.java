@@ -6,7 +6,6 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -25,7 +24,6 @@ public class Animaciones {
         root.translateXProperty().set(1020);
         
         Escena.getChildren().add(root);
-        
         
         Timeline timeline = new Timeline();
         KeyValue kv = new KeyValue(root.translateXProperty(), 0);
@@ -74,13 +72,14 @@ public class Animaciones {
         Parent root = FXMLLoader.load(getClass().getResource(ruta));
         
         Timeline timeline = new Timeline();
-        KeyValue kv = new KeyValue(Escena.translateXProperty(), 1100);
+        KeyValue kv = new KeyValue(Escena.translateXProperty(), 1);
         KeyFrame kf = new KeyFrame(Duration.seconds(0.5), kv);
         timeline.getKeyFrames().add(kf);
         timeline.setOnFinished(t -> {
             Escena.getChildren().add(root);
         });
         timeline.play();
+        
     }
 
 }

@@ -23,11 +23,32 @@
       </ImageView>
       <AnchorPane fx:id="AnchoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1020.0">
          <children>
-            <Label contentDisplay="BOTTOM" layoutX="248.0" layoutY="-1.0" prefHeight="53.0" prefWidth="525.0" text="Inicio" textFill="#545454">
+            <Pane layoutX="248.0" layoutY="36.0" prefHeight="139.0" prefWidth="525.0" style="-fx-background-color: White;">
+               <children>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="11.0" layoutY="12.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Imagenes/logo.png" />
+                     </image>
+                  </ImageView>
+                  <JFXTextArea fx:id="MensajeTA" focusColor="#00d29a" labelFloat="true" layoutX="87.0" layoutY="19.0" onKeyReleased="#ReleasedMensajeTA" prefHeight="87.0" prefWidth="417.0" promptText="¿Que esta pasando?" unFocusColor="#00d29a00" wrapText="true">
+                     <font>
+                        <Font name="Microsoft JhengHei UI" size="14.0" />
+                     </font>
+                  </JFXTextArea>
+                  <JFXButton fx:id="TwittearBoton" layoutX="432.0" layoutY="109.0" onAction="#PublicarPresionar" prefHeight="21.0" prefWidth="70.0" ripplerFill="#00d29a" style="-fx-background-color: #69f1cd;" text="Twittear" textFill="WHITE">
+                     <font>
+                        <Font name="Microsoft YaHei UI" size="13.0" />
+                     </font>
+                  </JFXButton>
+                  <Label fx:id="Contador" alignment="CENTER" layoutX="349.0" layoutY="112.0" prefHeight="21.0" prefWidth="77.0" text="0  / 280" />
+               </children>
+            </Pane>
+            <Label alignment="CENTER" contentDisplay="BOTTOM" layoutX="248.0" prefHeight="40.0" prefWidth="525.0" text="Inicio" textFill="#545454">
                <font>
                   <Font name="Microsoft YaHei Light" size="22.0" />
                </font>
             </Label>
+            <Pane layoutX="246.0" layoutY="561.0" prefHeight="40.0" prefWidth="528.0" style="-fx-background-color: #00d29a;" />
             <Button fx:id="MensajeDirecto" alignment="CENTER" layoutX="16.0" layoutY="120.0" mnemonicParsing="false" onAction="#MenuMensajeDirecto" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: TRANSPARENT;" text="Mensajes" textFill="#545454">
                <font>
                   <Font name="Microsoft YaHei" size="15.0" />
@@ -36,28 +57,12 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Label fx:id="Contador" alignment="CENTER" layoutX="589.0" layoutY="147.0" prefHeight="21.0" prefWidth="77.0" text="0  / 280" />
-            <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="265.0" layoutY="51.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@Imagenes/logo.png" />
-               </image>
-            </ImageView>
-            <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="390.0" layoutY="567.0" prefHeight="32.0" prefWidth="277.0" style="-fx-background-color: #00d29a;" text="Mensaje de estado" textFill="WHITE">
+            <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="248.0" layoutY="559.0" prefHeight="40.0" prefWidth="525.0" style="-fx-background-color: #00d29a;" text="Mensaje de estado" textFill="WHITE">
                <font>
                   <Font name="Microsoft YaHei Light" size="13.0" />
                </font>
             </Label>
-            <ScrollPane fx:id="ScrollPane" layoutX="248.0" layoutY="181.0" opacity="0.8" prefHeight="385.0" prefWidth="525.0" style="-fx-background: white;" />
-            <JFXTextArea fx:id="MensajeTA" focusColor="#00d29a" labelFloat="true" layoutX="335.0" layoutY="53.0" onKeyReleased="#ReleasedMensajeTA" prefHeight="87.0" prefWidth="417.0" promptText="¿Que esta pasando?" unFocusColor="#07ed7600" wrapText="true">
-               <font>
-                  <Font name="Microsoft JhengHei UI" size="14.0" />
-               </font>
-            </JFXTextArea>
-            <JFXButton fx:id="TwittearBoton" layoutX="674.0" layoutY="144.0" onAction="#PublicarPresionar" prefHeight="21.0" prefWidth="70.0" ripplerFill="#00d29a" style="-fx-background-color: #69f1cd;" text="Twittear" textFill="WHITE">
-               <font>
-                  <Font name="Microsoft YaHei UI" size="13.0" />
-               </font>
-            </JFXButton>
+            <ScrollPane fx:id="ScrollPane" layoutX="248.0" layoutY="181.0" opacity="0.8" prefHeight="379.0" prefWidth="525.0" style="-fx-background: white;" />
             <Pane layoutX="248.0" layoutY="175.0" prefHeight="6.0" prefWidth="525.0" style="-fx-background-color: #00d29a;" />
             <JFXButton fx:id="SeguirUsuario" layoutX="12.0" layoutY="152.0" onAction="#MenuSeguirUsuario" prefHeight="21.0" prefWidth="103.0" ripplerFill="#00d29a" text="Seguir" textFill="#545454">
                <font>

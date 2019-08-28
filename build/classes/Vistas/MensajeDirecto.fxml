@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -22,7 +22,7 @@
       </ImageView>
       <AnchorPane fx:id="AnchoPane" prefHeight="600.0" prefWidth="1020.0" style="-fx-background-color: TRANSPARENT;">
          <children>
-            <Button fx:id="BotonCerrar" layoutX="-1.0" layoutY="-5.0" mnemonicParsing="false" onAction="#CerrarVentana" prefHeight="600.0" prefWidth="1020.0" style="-fx-background-color: TRANSPARENT;" textFill="WHITE">
+            <Button fx:id="BotonCerrar" layoutX="-1.0" layoutY="-5.0" mnemonicParsing="false" prefHeight="600.0" prefWidth="1020.0" style="-fx-background-color: TRANSPARENT;" textFill="WHITE">
                <font>
                   <Font size="11.0" />
                </font>
@@ -33,22 +33,18 @@
             <Pane layoutX="248.0" layoutY="39.0" opacity="0.9" prefHeight="403.0" prefWidth="524.0" style="-fx-background-color: #00d29a;">
                <children>
                   <Label fx:id="Contador" alignment="CENTER" layoutX="342.0" layoutY="355.0" prefHeight="21.0" prefWidth="92.0" text="0  /  10000" textFill="WHITE" />
-                  <Label layoutX="12.0" layoutY="32.0" prefHeight="36.0" prefWidth="108.0" text="Buscar Persona" textFill="WHITE">
-                     <font>
-                        <Font name="Microsoft YaHei" size="13.0" />
-                     </font>
-                  </Label>
-                  <JFXTextField fx:id="PersonaBuscada" alignment="CENTER" focusColor="WHITE" labelFloat="true" layoutX="124.0" layoutY="34.0" prefHeight="36.0" prefWidth="238.0" promptText="Identificador del Usuario" unFocusColor="WHITE">
-                     <font>
-                        <Font name="Microsoft YaHei Light" size="14.0" />
-                     </font>
-                  </JFXTextField>
-                  <JFXTextArea fx:id="TextoMensaje" focusColor="WHITE" labelFloat="true" layoutX="31.0" layoutY="98.0" onKeyReleased="#ReleasedTextoMensaje" prefHeight="242.0" prefWidth="462.0" promptText="Escribir Mensaje" style="-fx-background-color: White;" unFocusColor="WHITE" wrapText="true">
+                  <JFXTextArea fx:id="TextoMensaje" focusColor="WHITE" labelFloat="true" layoutX="31.0" layoutY="105.0" onKeyReleased="#ReleasedTextoMensaje" prefHeight="242.0" prefWidth="462.0" promptText="Escribir Mensaje" style="-fx-background-color: White;" unFocusColor="WHITE" wrapText="true">
                      <font>
                         <Font name="Microsoft YaHei Light" size="13.0" />
                      </font>
                   </JFXTextArea>
                   <JFXButton fx:id="BotonEnviar" layoutX="436.0" layoutY="353.0" onAction="#EnviarMensaje" ripplerFill="#00d29a" style="-fx-background-color: White;" text="Enviar" />
+                  <JFXComboBox fx:id="ListaUsuarios" focusColor="WHITE" labelFloat="true" layoutX="160.0" layoutY="47.0" onAction="#SeleccionarUsuario" prefHeight="36.0" prefWidth="205.0" promptText="Seleccionar Usuario" unFocusColor="WHITE" />
+                  <Label alignment="CENTER" layoutX="31.0" layoutY="14.0" prefHeight="21.0" prefWidth="462.0" text="Buscar Persona" textFill="WHITE">
+                     <font>
+                        <Font name="Microsoft YaHei Light" size="17.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
             <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="420.0" layoutY="563.0" prefHeight="32.0" prefWidth="180.0" style="-fx-background-color: #00d29a;" text="Mensaje de estado" textFill="WHITE">

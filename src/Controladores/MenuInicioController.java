@@ -1,6 +1,5 @@
 package Controladores;
 
-import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -57,9 +56,13 @@ public class MenuInicioController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         Bot = new BotTwitter();
         Animacion= new Animaciones();
         AvisosLabel.setVisible(false);
+        
+
+        
         
         
         try {
@@ -153,7 +156,7 @@ public class MenuInicioController implements Initializable {
 
         }else{
             //cambiar color
-            Contador.textFillProperty().setValue(Paint.valueOf("White"));
+            Contador.textFillProperty().setValue(Paint.valueOf("Black"));
             TwittearBoton.setDisable(false);
         }
         Contador.setText(letras+" / "+limite);

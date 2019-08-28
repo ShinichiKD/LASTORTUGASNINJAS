@@ -1,9 +1,14 @@
 package Controladores;
 
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -42,6 +47,11 @@ public class MensajeDirectoController implements Initializable {
     private Label Contador;
     @FXML
     private Label AvisosLabel;
+    
+    ObservableList<String> Usuarios;
+    
+    @FXML
+    private JFXComboBox<String> ListaUsuarios;
 
     
     @Override
@@ -49,6 +59,19 @@ public class MensajeDirectoController implements Initializable {
        Bot = new BotTwitter();
        Animacion = new Animaciones(); 
        AvisosLabel.setVisible(false);
+       Usuarios=FXCollections.observableArrayList();
+       
+        try {
+            Usuarios=Bot.ListFriends("AlmostHumanBot");
+            System.out.println("usuario encontrado");
+        } catch (TwitterException ex) {
+            Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+            //Insertar anuncio cuando no tenga amigos
+            System.out.println("no se encontro");
+        }
+       
+        ListaUsuarios.setItems(Usuarios);
+       
     }    
     /**
      * Cierra la ventana actual y vuelve al Inicio
@@ -64,7 +87,7 @@ public class MensajeDirectoController implements Initializable {
     private void EnviarMensaje() throws IOException {
         // pasar el texto del mensaje a la funcion de enviar mensaje del bot
         try{
-           Bot.enviarMensajeDirecto(PersonaBuscada.getText(), TextoMensaje.getText()); 
+           Bot.enviarMensajeDirecto(ListaUsuarios.getValue(), TextoMensaje.getText()); 
            TextoMensaje.clear();
            TextoMensaje.setPromptText("Escribir Mensaje");
            // Mensaje enviado con exito(3)
@@ -104,6 +127,12 @@ public class MensajeDirectoController implements Initializable {
             BotonEnviar.setDisable(false);
         }
         Contador.setText(letras+" / "+limite);
+        
+        
+    }
+
+    @FXML
+    private void SeleccionarUsuario(ActionEvent event) {
         
         
     }

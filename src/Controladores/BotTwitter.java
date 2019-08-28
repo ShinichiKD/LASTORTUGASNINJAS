@@ -6,12 +6,16 @@
 package Controladores;
 
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import twitter4j.IDs;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
@@ -101,6 +105,22 @@ public class BotTwitter {
         }
     }
     
+    public ObservableList ListFriends(String nombreUsuario) throws TwitterException{
+        
+        ObservableList<String> List = FXCollections.observableArrayList();
+        
+        long lCursor = -1;
+        IDs friendsIDs = Bot.getFriendsIDs(nombreUsuario, lCursor);
+        do
+        {
+          for (long i : friendsIDs.getIDs())
+           {
+               List.add(Bot.showUser(i).getScreenName());
+           }
+        }while(friendsIDs.hasNext());
+     
+        return List;
+    }
     
     
     
