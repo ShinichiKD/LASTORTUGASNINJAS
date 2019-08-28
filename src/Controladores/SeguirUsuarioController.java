@@ -2,6 +2,7 @@ package Controladores;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,7 +11,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import twitter4j.ResponseList;
 import twitter4j.TwitterException;
+import twitter4j.User;
 
 /**
  * FXML Controller class
@@ -47,12 +50,14 @@ public class SeguirUsuarioController implements Initializable {
     @FXML
     private void SeguirPresionar() throws TwitterException, IOException {
        try{
-           Bot.seguirUsuario(SeguirTA.getText());
+            ResponseList <User> ListaUsuarios ;
+            Bot.seguirUsuario(SeguirTA.getText());
             SeguirTA.clear();
             SeguirTA.setPromptText("Ingresar ID");
             //Aviso sergui
             AvisosLabel.setText("Siguiendo Usuario.");
             Animacion.MostrarAvisos(AvisosLabel);
+            Bot.BuscarUsuario(SeguirTA.getText());
             
        }catch(TwitterException e){
             System.out.println(e.getErrorCode());

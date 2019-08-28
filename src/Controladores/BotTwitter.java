@@ -6,11 +6,13 @@
 package Controladores;
 
 import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import twitter4j.IDs;
 import twitter4j.Query;
 import twitter4j.QueryResult;
+import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -121,7 +123,18 @@ public class BotTwitter {
      
         return List;
     }
-    
+    public void BuscarUsuario(String NombreUsuario) throws TwitterException{
+        ResponseList<User> users;
+         users = Bot.searchUsers(NombreUsuario, 1);
+         for(User user:users){
+             if(user.getStatus()!=null){
+                 System.out.println(user);
+             }
+             
+         }
+        
+                
+     }
     
     
     

@@ -63,14 +63,23 @@ public class MensajeDirectoController implements Initializable {
        
         try {
             Usuarios=Bot.ListFriends("AlmostHumanBot");
-            System.out.println("usuario encontrado");
+            if (Usuarios.isEmpty()) {
+                AvisosLabel.setText("No puedes enviar mensajes si no sigues a alguien.");
+                Animacion.MostrarAvisos(AvisosLabel);
+                
+            }else{
+                ListaUsuarios.setItems(Usuarios);
+            }
+            
         } catch (TwitterException ex) {
             Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
             //Insertar anuncio cuando no tenga amigos
             System.out.println("no se encontro");
+        } catch (IOException ex) {
+            Logger.getLogger(MensajeDirectoController.class.getName()).log(Level.SEVERE, null, ex);
         }
        
-        ListaUsuarios.setItems(Usuarios);
+        
        
     }    
     /**
@@ -87,12 +96,18 @@ public class MensajeDirectoController implements Initializable {
     private void EnviarMensaje() throws IOException {
         // pasar el texto del mensaje a la funcion de enviar mensaje del bot
         try{
-           Bot.enviarMensajeDirecto(ListaUsuarios.getValue(), TextoMensaje.getText()); 
-           TextoMensaje.clear();
-           TextoMensaje.setPromptText("Escribir Mensaje");
-           // Mensaje enviado con exito(3)
-            AvisosLabel.setText("Mensaje Enviado.");
-            Animacion.MostrarAvisos(AvisosLabel);
+            if (ListaUsuarios.getItems().isEmpty()) {
+                AvisosLabel.setText("Usuario no encontrado:No se pudo enviar mensaje.");
+                Animacion.MostrarAvisos(AvisosLabel);
+            }else{
+                Bot.enviarMensajeDirecto(ListaUsuarios.getValue(), TextoMensaje.getText()); 
+                TextoMensaje.clear();
+                TextoMensaje.setPromptText("Escribir Mensaje");
+                // Mensaje enviado con exito(3)
+                AvisosLabel.setText("Mensaje Enviado.");
+                Animacion.MostrarAvisos(AvisosLabel);
+            }
+          
         }
         catch(TwitterException e){
             System.out.println(e.getErrorCode());
