@@ -176,7 +176,7 @@ public class MenuInicioController implements Initializable {
             ((ImageView)root.getChildrenUnmodifiable().get(2)).setImage(new Image( e.getUser().get400x400ProfileImageURL() ));
             
             ((Label)root.getChildrenUnmodifiable().get(3)).setText(e.getCreatedAt().toString() );
-            System.out.println(e.getCreatedAt().toString());
+            
             ((Button)root.getChildrenUnmodifiable().get(4)).setOnAction((ActionEvent events)->{ 
                 try {
                     if(Bot.darLikeTweet(e.getId())){

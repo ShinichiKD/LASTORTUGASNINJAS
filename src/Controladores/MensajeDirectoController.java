@@ -1,16 +1,9 @@
 package Controladores;
 
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -84,14 +77,21 @@ public class MensajeDirectoController implements Initializable {
         catch(TwitterException e){
             System.out.println(e.getErrorCode());
             System.out.println(e.getErrorMessage());
-            if (e.getErrorCode()== 50) {
-                AvisosLabel.setText("Usuario no encontrado: No se pudo enviar mensaje.");
-                Animacion.MostrarAvisos(AvisosLabel);
-                
-            }else if (e.getErrorCode()==151) {
-                AvisosLabel.setText("Mensaje en blanco: No se puede enviar.");
-                Animacion.MostrarAvisos(AvisosLabel);
-                
+            switch (e.getErrorCode()) {
+                case 50:
+                    AvisosLabel.setText("Usuario no encontrado: No se pudo enviar mensaje.");
+                    Animacion.MostrarAvisos(AvisosLabel);
+                    break;
+                case 151:
+                    AvisosLabel.setText("Mensaje en blanco: No se puede enviar.");
+                    Animacion.MostrarAvisos(AvisosLabel);
+                    break;
+                case 349:
+                    AvisosLabel.setText("No puedes enviar mensajes a este usuario.");
+                    Animacion.MostrarAvisos(AvisosLabel);
+                    break;
+                default:
+                    break;
             }
         }
     }

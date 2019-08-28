@@ -51,7 +51,7 @@
                   </JFXTextField>
                </children>
             </Pane>
-            <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="231.0" layoutY="558.0" prefHeight="43.0" prefWidth="568.0" style="-fx-background-color: #00d29a;" text="Mensaje de estado" textFill="WHITE">
+            <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="248.0" layoutY="558.0" prefHeight="43.0" prefWidth="524.0" style="-fx-background-color: Orange;" text="Mensaje de estado">
                <font>
                   <Font size="14.0" />
                </font>

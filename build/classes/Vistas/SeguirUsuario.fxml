@@ -29,7 +29,7 @@
                   <JFXButton fx:id="SeguirBoton" layoutX="220.0" layoutY="99.0" onAction="#SeguirPresionar" ripplerFill="#44e8c1" style="-fx-background-color: White;" text="Seguir" />
                </children>
             </Pane>
-            <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="208.0" layoutY="567.0" prefHeight="34.0" prefWidth="600.0" style="-fx-background-color: #00d29a;" text="Mensaje de estado" textFill="WHITE">
+            <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="247.0" layoutY="567.0" prefHeight="34.0" prefWidth="525.0" style="-fx-background-color: Orange;" text="Mensaje de estado">
                <font>
                   <Font size="14.0" />
                </font>

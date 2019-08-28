@@ -47,7 +47,7 @@
                </font>
             </Label>
             <Pane layoutX="246.0" layoutY="561.0" prefHeight="40.0" prefWidth="528.0" style="-fx-background-color: #00d29a;" />
-            <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="248.0" layoutY="559.0" prefHeight="40.0" prefWidth="525.0" style="-fx-background-color: #00d29a;" text="Mensaje de estado" textFill="WHITE">
+            <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="247.0" layoutY="561.0" prefHeight="40.0" prefWidth="525.0" style="-fx-background-color: Orange;" text="Mensaje de estado">
                <font>
                   <Font name="Microsoft YaHei Light" size="13.0" />
                </font>

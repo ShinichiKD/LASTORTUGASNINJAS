@@ -6,7 +6,6 @@
 package Controladores;
 
 import java.util.ArrayList;
-import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import twitter4j.IDs;
