@@ -1,14 +1,13 @@
 package Controladores;
 
+import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import twitter4j.ResponseList;
@@ -26,17 +25,16 @@ public class SeguirUsuarioController implements Initializable {
     Animaciones Animacion;
     
     @FXML
-    private TextArea SeguirTA;
-    @FXML
     private StackPane Escena;
     @FXML
     private AnchorPane AnchoPane;
-    @FXML
     private Button BotonCerrar;
     @FXML
     private Label AvisosLabel;
     @FXML
     private Button SeguirBoton;
+    @FXML
+    private JFXTextField SeguirTF;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -51,19 +49,19 @@ public class SeguirUsuarioController implements Initializable {
     private void SeguirPresionar() throws TwitterException, IOException {
        try{
             ResponseList <User> ListaUsuarios ;
-            Bot.seguirUsuario(SeguirTA.getText());
-            SeguirTA.clear();
-            SeguirTA.setPromptText("Ingresar ID");
+            Bot.seguirUsuario(SeguirTF.getText());
+            SeguirTF.clear();
+            SeguirTF.setPromptText("Ingresar ID");
             //Aviso sergui
-            AvisosLabel.setText("Siguiendo Usuario.");
+            AvisosLabel.setText("Siguiendo al Usuario Correctamente.");
             Animacion.MostrarAvisos(AvisosLabel);
-            Bot.BuscarUsuario(SeguirTA.getText());
+            Bot.BuscarUsuario(SeguirTF.getText());
             
        }catch(TwitterException e){
             System.out.println(e.getErrorCode());
             System.out.println(e.getErrorMessage());
             if (e.getErrorCode() == 108) {
-                AvisosLabel.setText("Busqueda no encontrada.");
+                AvisosLabel.setText("Busqueda no encontrada: No se puedo seguir.");
                 Animacion.MostrarAvisos(AvisosLabel);
                
            }

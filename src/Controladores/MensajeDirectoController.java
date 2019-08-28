@@ -1,6 +1,7 @@
 package Controladores;
 
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
@@ -36,8 +37,6 @@ public class MensajeDirectoController implements Initializable {
     @FXML
     private AnchorPane AnchoPane;
     @FXML
-    private JFXTextField PersonaBuscada;
-    @FXML
     private Button BotonCerrar;
     @FXML
     private TextArea TextoMensaje;
@@ -47,11 +46,9 @@ public class MensajeDirectoController implements Initializable {
     private Label Contador;
     @FXML
     private Label AvisosLabel;
-    
-    ObservableList<String> Usuarios;
-    
     @FXML
-    private JFXComboBox<String> ListaUsuarios;
+    private JFXTextField PersonaBuscada;
+    
 
     
     @Override
@@ -59,27 +56,7 @@ public class MensajeDirectoController implements Initializable {
        Bot = new BotTwitter();
        Animacion = new Animaciones(); 
        AvisosLabel.setVisible(false);
-       Usuarios=FXCollections.observableArrayList();
-       
-        try {
-            Usuarios=Bot.ListFriends("AlmostHumanBot");
-            if (Usuarios.isEmpty()) {
-                AvisosLabel.setText("No puedes enviar mensajes si no sigues a alguien.");
-                Animacion.MostrarAvisos(AvisosLabel);
-                
-            }else{
-                ListaUsuarios.setItems(Usuarios);
-            }
-            
-        } catch (TwitterException ex) {
-            Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
-            //Insertar anuncio cuando no tenga amigos
-            System.out.println("no se encontro");
-        } catch (IOException ex) {
-            Logger.getLogger(MensajeDirectoController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       
-        
+      
        
     }    
     /**
@@ -96,28 +73,23 @@ public class MensajeDirectoController implements Initializable {
     private void EnviarMensaje() throws IOException {
         // pasar el texto del mensaje a la funcion de enviar mensaje del bot
         try{
-            if (ListaUsuarios.getItems().isEmpty()) {
-                AvisosLabel.setText("Usuario no encontrado:No se pudo enviar mensaje.");
-                Animacion.MostrarAvisos(AvisosLabel);
-            }else{
-                Bot.enviarMensajeDirecto(ListaUsuarios.getValue(), TextoMensaje.getText()); 
+                Bot.enviarMensajeDirecto(PersonaBuscada.getText(), TextoMensaje.getText()); 
                 TextoMensaje.clear();
                 TextoMensaje.setPromptText("Escribir Mensaje");
                 // Mensaje enviado con exito(3)
-                AvisosLabel.setText("Mensaje Enviado.");
+                AvisosLabel.setText("Mensaje Enviado Correctamente.");
                 Animacion.MostrarAvisos(AvisosLabel);
-            }
-          
+            
         }
         catch(TwitterException e){
             System.out.println(e.getErrorCode());
             System.out.println(e.getErrorMessage());
             if (e.getErrorCode()== 50) {
-                AvisosLabel.setText("Usuario no encontrado.");
+                AvisosLabel.setText("Usuario no encontrado: No se pudo enviar mensaje.");
                 Animacion.MostrarAvisos(AvisosLabel);
                 
             }else if (e.getErrorCode()==151) {
-                AvisosLabel.setText("Mensaje en blanco.");
+                AvisosLabel.setText("Mensaje en blanco: No se puede enviar.");
                 Animacion.MostrarAvisos(AvisosLabel);
                 
             }
@@ -132,9 +104,9 @@ public class MensajeDirectoController implements Initializable {
         int letras = TextoMensaje.getText().length();
         int limite = 10000;
         if(letras > limite){
-             //cambiar color
-             Contador.textFillProperty().setValue(Paint.valueOf("Red"));
-             BotonEnviar.setDisable(true);
+            //cambiar color
+            Contador.textFillProperty().setValue(Paint.valueOf("Red"));
+            BotonEnviar.setDisable(true);
 
         }else{
             //cambiar color
@@ -146,11 +118,6 @@ public class MensajeDirectoController implements Initializable {
         
     }
 
-    @FXML
-    private void SeleccionarUsuario(ActionEvent event) {
-        
-        
-    }
 
     
     

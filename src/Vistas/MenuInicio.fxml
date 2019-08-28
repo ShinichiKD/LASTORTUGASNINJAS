@@ -3,8 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
@@ -49,14 +47,6 @@
                </font>
             </Label>
             <Pane layoutX="246.0" layoutY="561.0" prefHeight="40.0" prefWidth="528.0" style="-fx-background-color: #00d29a;" />
-            <Button fx:id="MensajeDirecto" alignment="CENTER" layoutX="16.0" layoutY="120.0" mnemonicParsing="false" onAction="#MenuMensajeDirecto" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: TRANSPARENT;" text="Mensajes" textFill="#545454">
-               <font>
-                  <Font name="Microsoft YaHei" size="15.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
             <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="248.0" layoutY="559.0" prefHeight="40.0" prefWidth="525.0" style="-fx-background-color: #00d29a;" text="Mensaje de estado" textFill="WHITE">
                <font>
                   <Font name="Microsoft YaHei Light" size="13.0" />
@@ -64,19 +54,9 @@
             </Label>
             <ScrollPane fx:id="ScrollPane" layoutX="248.0" layoutY="181.0" opacity="0.8" prefHeight="379.0" prefWidth="525.0" style="-fx-background: white;" />
             <Pane layoutX="248.0" layoutY="175.0" prefHeight="6.0" prefWidth="525.0" style="-fx-background-color: #00d29a;" />
-            <JFXButton fx:id="SeguirUsuario" layoutX="12.0" layoutY="152.0" onAction="#MenuSeguirUsuario" prefHeight="21.0" prefWidth="103.0" ripplerFill="#00d29a" text="Seguir" textFill="#545454">
+            <JFXButton fx:id="SeguirUsuario" layoutY="126.0" onAction="#MenuSeguirUsuario" prefHeight="30.0" prefWidth="118.0" ripplerFill="#00d29a" style="-fx-background-color: white;" text="Seguir" textFill="#545454">
                <font>
                   <Font name="Microsoft YaHei" size="15.0" />
-               </font>
-            </JFXButton>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="16.0" layoutY="41.0" prefHeight="30.0" prefWidth="103.0" text="Menu" textFill="#545454">
-               <font>
-                  <Font name="Microsoft YaHei" size="20.0" />
-               </font>
-            </Label>
-            <JFXButton layoutX="7.0" layoutY="86.0" prefHeight="32.0" prefWidth="112.0" ripplerFill="#20ff67" text="Explorar" textFill="#545454">
-               <font>
-                  <Font name="Microsoft YaHei UI" size="14.0" />
                </font>
             </JFXButton>
             <JFXButton layoutX="987.0" layoutY="3.0" onAction="#Salir" prefHeight="21.0" prefWidth="29.0" ripplerFill="#e42323" style="-fx-background-color: White;" text="X" textFill="#545454">
@@ -89,6 +69,11 @@
                   <Font name="Microsoft YaHei Light" size="18.0" />
                </font>
             </JFXTextField>
+            <JFXButton fx:id="MensajeDirecto" layoutY="91.0" onAction="#MenuMensajeDirecto" prefHeight="30.0" prefWidth="118.0" style="-fx-background-color: white;" text="Mensajes" textFill="#545454">
+               <font>
+                  <Font name="Microsoft YaHei" size="15.0" />
+               </font>
+            </JFXButton>
          </children>
       </AnchorPane>
    </children>

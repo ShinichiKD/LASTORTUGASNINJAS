@@ -100,15 +100,15 @@ public class MenuInicioController implements Initializable {
             System.out.println(e.getErrorMessage());
             switch (e.getErrorCode()) {
                 case 170:
-                    AvisosLabel.setText("Mensaje en blanco.");
+                    AvisosLabel.setText("No se ha podido publicar: Mensaje en blanco.");
                     Animacion.MostrarAvisos(AvisosLabel);
                     break;
                 case 187:
-                    AvisosLabel.setText("Publicación duplicada.");
+                    AvisosLabel.setText("No se ha podido publicar: Publicación duplicada.");
                     Animacion.MostrarAvisos(AvisosLabel);
                     break;
                 case 186:
-                    AvisosLabel.setText("Publicación muy larga (muchos emojis).");
+                    AvisosLabel.setText("No se ha podido publicar: Publicación muy larga ");
                     Animacion.MostrarAvisos(AvisosLabel);
                     break;
                 default:

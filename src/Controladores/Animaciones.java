@@ -64,6 +64,7 @@ public class Animaciones {
             Aviso.setVisible(false);
         });
         timeline.play();
+        
     }
 
     
