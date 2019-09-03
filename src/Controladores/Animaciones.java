@@ -6,9 +6,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
@@ -18,7 +16,7 @@ import javafx.util.Duration;
  */
 public class Animaciones {
     
-    public void CambiarVentanta(StackPane Escena,Button Boton,AnchorPane AnchoPane,String ruta) throws IOException{
+    public void CambiarVentanta(StackPane Escena,String ruta) throws IOException{
         Parent root = FXMLLoader.load(getClass().getResource(ruta));
         
         root.translateXProperty().set(1020);
@@ -68,7 +66,7 @@ public class Animaciones {
     }
 
     
-    public void CerrarVentana(StackPane Escena,Button Boton,AnchorPane AnchoPane,String ruta) throws IOException{
+    public void CerrarVentana(StackPane Escena,String ruta) throws IOException{
        
         Parent root = FXMLLoader.load(getClass().getResource(ruta));
         

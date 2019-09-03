@@ -59,7 +59,7 @@ public class MensajeDirectoController implements Initializable {
      */
     @FXML
     private void CerrarVentana() throws IOException {
-        Animacion.CerrarVentana(Escena, BotonCerrar, AnchoPane, "/Vistas/MenuInicio.fxml");
+        Animacion.CerrarVentana(Escena, "/Vistas/MenuInicio.fxml");
     }
 
     @FXML

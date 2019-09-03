@@ -3,6 +3,7 @@ package Controladores;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +21,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -37,7 +37,7 @@ import twitter4j.User;
  *
  * @author Rodrigo
  */
-public class MenuInicioController implements Initializable {
+public  class MenuInicioController implements Initializable {
     
  
     BotTwitter Bot;  
@@ -50,8 +50,6 @@ public class MenuInicioController implements Initializable {
     private StackPane Escena;
     @FXML
     private AnchorPane AnchoPane;
-    @FXML
-    private Button SeguirUsuario;
     @FXML
     private Button MensajeDirecto;
     @FXML
@@ -68,6 +66,11 @@ public class MenuInicioController implements Initializable {
     private ListView<String> BuscarListView = new ListView<String>();
     
     ObservableList<String> items =FXCollections.observableArrayList();
+    
+    static String PersonaBuscada="null";
+    
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -137,22 +140,18 @@ public class MenuInicioController implements Initializable {
      * @param event
      * @throws IOException 
      */
-    @FXML
-    private void MenuSeguirUsuario() throws IOException {
-        
-        Animacion.CambiarVentanta(Escena, TwittearBoton, AnchoPane, "/Vistas/SeguirUsuario.fxml");
-        
-    }
+
     /**
      * Esta Accion nos permite cambiar de escena y mostrar la interfaz de 
      * Mensaje Directo
      * @param event
      * @throws IOException 
      */
+    
     @FXML
     private void MenuMensajeDirecto() throws IOException {
         
-        Animacion.CambiarVentanta(Escena, TwittearBoton, AnchoPane, "/Vistas/MensajeDirecto.fxml");
+        Animacion.CambiarVentanta(Escena,"/Vistas/MensajeDirecto.fxml");
         
     }
     /**
@@ -245,21 +244,13 @@ public class MenuInicioController implements Initializable {
         ResponseList <User> ListaUsuarios ;
         BuscarListView.getItems().clear();
         BuscarListView.setVisible(true);
-        
+
         if (!BuscarTF.getText().isEmpty()) {
-            ListaUsuarios=Bot.BuscarEnTwitter(BuscarTF.getText());
-            int i = 0;
-            for(User user:ListaUsuarios){
-                if (i<=8) {
-                    items.add(user.getScreenName());
-                    
-                }
-                
-                i++;
-            }
+            ArrayList<String> Aux=Bot.BuscarEnTwitter(BuscarTF.getText());
+            items.addAll(Aux);
             BuscarListView.setItems(items);
         } 
-            
+
          else{
             BuscarListView.setVisible(false);
         }
@@ -269,7 +260,10 @@ public class MenuInicioController implements Initializable {
     private void SeleccionarItem(MouseEvent event) {
         if (BuscarListView.getSelectionModel().getSelectedItem()!=null) {
             System.out.println("usuario seleccionado");
+            
             BuscarTF.setText(BuscarListView.getSelectionModel().getSelectedItem());
+            PersonaBuscada=BuscarTF.getText();
+            
             BuscarListView.setVisible(false);
         }else{
             
@@ -277,7 +271,11 @@ public class MenuInicioController implements Initializable {
     }
 
     @FXML
-    private void BuscarB(ActionEvent event) {
+    private void BuscarPersona(ActionEvent event) throws IOException {
+        
+        
+        Animacion.CambiarVentanta(Escena, "/Vistas/PersonaBuscada.fxml");
+        
     }
 
 

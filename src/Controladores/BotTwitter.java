@@ -26,7 +26,6 @@ import twitter4j.conf.ConfigurationBuilder;
 public class BotTwitter {
     
     private Twitter Bot;
-
     public BotTwitter() {
         //inicializar
         Bot = init();
@@ -64,7 +63,11 @@ public class BotTwitter {
         Bot.sendDirectMessage(id,texto);
     }
     public void seguirUsuario(String nombreDeUsuario) throws TwitterException{
+        //Bot.destroyFriendship(nombreDeUsuario);
         Bot.createFriendship(nombreDeUsuario);
+        
+        
+        
     }
     public ArrayList<Status> buscarTweets(String nombre) throws TwitterException{
         ArrayList<Status> Tweets= new ArrayList<>();
@@ -122,20 +125,52 @@ public class BotTwitter {
      
         return List;
     }
-    public ResponseList<User> BuscarEnTwitter(String NombreUsuario) throws TwitterException{
-        ResponseList<User> users;
-        users = Bot.searchUsers(NombreUsuario, 0);
-//         for(User user:users){
-//             if(user.getStatus()!=null){
-//                 System.out.println(user.getScreenName());
-//             }
-//             
-//         }
-//         System.out.println(" ");
-        return users;
+    public ArrayList<String> BuscarEnTwitter(String NombreUsuario) throws TwitterException{
+        ResponseList<User> users = null;
+
+        ArrayList<String> AUX = new ArrayList();
+
+        for (int i = 0; i < 1; i++) {
+            users = Bot.searchUsers(NombreUsuario, i);
+
+            for (User aux:users) {
+                if (aux.getScreenName()!=null) {
+                    AUX.add(aux.getScreenName()) ;
+                    //System.out.println(aux.getScreenName());
+                }
+            }
+        }
+
+        return AUX;
         
-                
      }
+    
+    public User BuscarUsuario(String Nombre) throws TwitterException{
+        
+        
+        
+        User usuario = Bot.users().showUser(Nombre);
+        
+        System.out.println(usuario.getScreenName());
+        
+
+        
+        return usuario;
+        
+    }
+    
+    public  ArrayList<Status> TweetBuscado(String Nombre) throws TwitterException{
+        
+        ArrayList<Status> Tweets= new ArrayList<>();
+        
+        for (Status status : Bot.getUserTimeline(Nombre)) {
+            
+            Tweets.add(status);
+            
+        }
+        
+        return Tweets;
+    }
     
     
     
