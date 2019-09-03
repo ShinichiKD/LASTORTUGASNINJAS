@@ -122,15 +122,17 @@ public class BotTwitter {
      
         return List;
     }
-    public void BuscarUsuario(String NombreUsuario) throws TwitterException{
+    public ResponseList<User> BuscarEnTwitter(String NombreUsuario) throws TwitterException{
         ResponseList<User> users;
-         users = Bot.searchUsers(NombreUsuario, 1);
-         for(User user:users){
-             if(user.getStatus()!=null){
-                 System.out.println(user);
-             }
-             
-         }
+        users = Bot.searchUsers(NombreUsuario, 0);
+//         for(User user:users){
+//             if(user.getStatus()!=null){
+//                 System.out.println(user.getScreenName());
+//             }
+//             
+//         }
+//         System.out.println(" ");
+        return users;
         
                 
      }
