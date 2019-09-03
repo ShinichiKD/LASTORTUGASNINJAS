@@ -1,10 +1,13 @@
 package Controladores;
 
+import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,16 +15,22 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
+import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.TwitterException;
+import twitter4j.User;
 
 /**
  * FXML Controller class
@@ -53,14 +62,19 @@ public class MenuInicioController implements Initializable {
     private Label AvisosLabel;
     @FXML
     private ScrollPane ScrollPane;
+    @FXML
+    private JFXTextField BuscarTF;
+    @FXML
+    private ListView<String> BuscarListView = new ListView<String>();
     
+    ObservableList<String> items =FXCollections.observableArrayList();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
         Bot = new BotTwitter();
         Animacion= new Animaciones();
         AvisosLabel.setVisible(false);
-        
+        BuscarListView.setVisible(false);
 
         
         
@@ -225,4 +239,51 @@ public class MenuInicioController implements Initializable {
     private void Salir(ActionEvent event) {
         System.exit(0);
     }
+
+    @FXML
+    private void BuscarAC(KeyEvent event) throws TwitterException {
+        ResponseList <User> ListaUsuarios ;
+        BuscarListView.getItems().clear();
+        BuscarListView.setVisible(true);
+        
+        if (!BuscarTF.getText().isEmpty()) {
+            ListaUsuarios=Bot.BuscarEnTwitter(BuscarTF.getText());
+            int i = 0;
+            for(User user:ListaUsuarios){
+                if (i<=8) {
+                    items.add(user.getScreenName());
+                    
+                }
+                
+                i++;
+            }
+            BuscarListView.setItems(items);
+        } 
+            
+         else{
+            BuscarListView.setVisible(false);
+        }
+    }
+
+    @FXML
+    private void SeleccionarItem(MouseEvent event) {
+        if (BuscarListView.getSelectionModel().getSelectedItem()!=null) {
+            System.out.println("usuario seleccionado");
+            BuscarTF.setText(BuscarListView.getSelectionModel().getSelectedItem());
+            BuscarListView.setVisible(false);
+        }else{
+            
+        }
+    }
+
+    @FXML
+    private void BuscarB(ActionEvent event) {
+    }
+
+
+
+    
+
+    
+   
 }
