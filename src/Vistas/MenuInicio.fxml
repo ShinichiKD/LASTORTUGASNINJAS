@@ -12,66 +12,68 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="Escena" prefWidth="1020.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.MenuInicioController">
+<StackPane fx:id="Escena" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1360.0" style="-fx-background-color: #00d29a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.MenuInicioController">
    <children>
-      <ImageView fitHeight="600.0" fitWidth="1020.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Imagenes/MenuInicio.png" />
-         </image>
-      </ImageView>
-      <AnchorPane fx:id="AnchoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1020.0">
+      <AnchorPane fx:id="AnchoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1360.0">
          <children>
-            <Pane layoutX="248.0" layoutY="36.0" prefHeight="139.0" prefWidth="525.0" style="-fx-background-color: White;">
+            <ImageView fitHeight="663.0" fitWidth="760.0" layoutX="4.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Imagenes/MenuInicio.png" />
+               </image>
+            </ImageView>
+            <Pane layoutX="335.0" layoutY="70.0" prefHeight="180.0" prefWidth="700.0" style="-fx-background-color: TRANSPARENT; -fx-border-color: #545454;">
                <children>
-                  <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="11.0" layoutY="12.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="11.0" layoutY="19.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Imagenes/logo.png" />
                      </image>
                   </ImageView>
-                  <JFXTextArea fx:id="MensajeTA" focusColor="#00d29a" labelFloat="true" layoutX="87.0" layoutY="19.0" onKeyReleased="#ReleasedMensajeTA" prefHeight="87.0" prefWidth="417.0" promptText="¿Que esta pasando?" unFocusColor="#00d29a00" wrapText="true">
+                  <JFXTextArea fx:id="MensajeTA" focusColor="WHITE" labelFloat="true" layoutX="78.0" layoutY="27.0" onKeyReleased="#ReleasedMensajeTA" prefHeight="105.0" prefWidth="604.0" promptText="¿Que esta pasando?" unFocusColor="#ffffff00" wrapText="true">
                      <font>
-                        <Font name="Microsoft JhengHei UI" size="14.0" />
+                        <Font name="Microsoft YaHei Light" size="18.0" />
                      </font>
                   </JFXTextArea>
-                  <JFXButton fx:id="TwittearBoton" layoutX="432.0" layoutY="109.0" onAction="#PublicarPresionar" prefHeight="21.0" prefWidth="70.0" ripplerFill="#00d29a" style="-fx-background-color: #69f1cd;" text="Twittear" textFill="WHITE">
+                  <JFXButton fx:id="TwittearBoton" layoutX="589.0" layoutY="139.0" onAction="#PublicarPresionar" prefHeight="21.0" prefWidth="91.0" ripplerFill="#00d29a" style="-fx-background-color: #69f1cd;" text="Twittear" textFill="WHITE">
                      <font>
-                        <Font name="Microsoft YaHei UI" size="13.0" />
+                        <Font name="Microsoft YaHei UI" size="16.0" />
                      </font>
                   </JFXButton>
-                  <Label fx:id="Contador" alignment="CENTER" layoutX="349.0" layoutY="112.0" prefHeight="21.0" prefWidth="77.0" text="0  / 280" />
+                  <Label fx:id="Contador" alignment="CENTER" layoutX="502.0" layoutY="145.0" prefHeight="21.0" prefWidth="77.0" text="0  / 280" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
                </children>
             </Pane>
-            <Label alignment="CENTER" contentDisplay="BOTTOM" layoutX="248.0" prefHeight="40.0" prefWidth="525.0" text="Inicio" textFill="#545454">
+            <Label alignment="CENTER" contentDisplay="BOTTOM" layoutX="335.0" layoutY="7.0" prefHeight="60.0" prefWidth="700.0" text="Inicio" textFill="WHITE">
                <font>
-                  <Font name="Microsoft YaHei Light" size="22.0" />
+                  <Font name="Microsoft YaHei Light" size="35.0" />
                </font>
             </Label>
-            <Pane layoutX="246.0" layoutY="561.0" prefHeight="40.0" prefWidth="528.0" style="-fx-background-color: #00d29a;" />
-            <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="247.0" layoutY="561.0" prefHeight="40.0" prefWidth="525.0" style="-fx-background-color: Orange;" text="Mensaje de estado">
+            <Pane layoutX="187.0" layoutY="672.0" prefHeight="40.0" prefWidth="528.0" style="-fx-background-color: #00d29a;" />
+            <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="335.0" layoutY="720.0" prefHeight="40.0" prefWidth="700.0" style="-fx-background-color: Orange;" text="Mensaje de estado">
                <font>
-                  <Font name="Microsoft YaHei Light" size="13.0" />
+                  <Font name="Microsoft YaHei Light" size="16.0" />
                </font>
             </Label>
-            <ScrollPane fx:id="ScrollPane" layoutX="248.0" layoutY="181.0" opacity="0.8" prefHeight="379.0" prefWidth="525.0" style="-fx-background: white;" />
-            <Pane layoutX="248.0" layoutY="175.0" prefHeight="6.0" prefWidth="525.0" style="-fx-background-color: #00d29a;" />
-            <JFXButton fx:id="SeguirUsuario" layoutY="126.0" onAction="#MenuSeguirUsuario" prefHeight="30.0" prefWidth="118.0" ripplerFill="#00d29a" style="-fx-background-color: white;" text="Seguir" textFill="#545454">
+            <ScrollPane fx:id="ScrollPane" layoutX="335.0" layoutY="265.0" opacity="0.8" prefHeight="452.0" prefWidth="700.0" style="-fx-background: white;" />
+            <JFXButton fx:id="SeguirUsuario" layoutY="166.0" onAction="#MenuSeguirUsuario" prefHeight="50.0" prefWidth="160.0" ripplerFill="#00d29a" style="-fx-background-color: white;" text="Seguir" textFill="#545454">
                <font>
-                  <Font name="Microsoft YaHei" size="15.0" />
+                  <Font name="Microsoft YaHei Light" size="21.0" />
                </font>
             </JFXButton>
-            <JFXButton layoutX="987.0" layoutY="3.0" onAction="#Salir" prefHeight="21.0" prefWidth="29.0" ripplerFill="#e42323" style="-fx-background-color: White;" text="X" textFill="#545454">
+            <JFXButton layoutX="1325.0" layoutY="6.0" onAction="#Salir" prefHeight="21.0" prefWidth="29.0" ripplerFill="#e42323" style="-fx-background-color: White;" text="X" textFill="#545454">
                <font>
                   <Font name="Microsoft YaHei Light" size="14.0" />
                </font>
             </JFXButton>
-            <JFXTextField focusColor="WHITE" labelFloat="true" layoutX="791.0" layoutY="44.0" prefHeight="40.0" prefWidth="219.0" promptText="Buscar En Twitter">
+            <JFXTextField focusColor="WHITE" labelFloat="true" layoutX="1053.0" layoutY="90.0" prefHeight="44.0" prefWidth="295.0" promptText="Buscar en Twitter">
                <font>
-                  <Font name="Microsoft YaHei Light" size="18.0" />
+                  <Font name="Microsoft YaHei Light" size="21.0" />
                </font>
             </JFXTextField>
-            <JFXButton fx:id="MensajeDirecto" layoutY="91.0" onAction="#MenuMensajeDirecto" prefHeight="30.0" prefWidth="118.0" style="-fx-background-color: white;" text="Mensajes" textFill="#545454">
+            <JFXButton fx:id="MensajeDirecto" layoutY="91.0" onAction="#MenuMensajeDirecto" prefHeight="50.0" prefWidth="160.0" ripplerFill="#00d29a" style="-fx-background-color: white;" text="Mensajes" textFill="#545454">
                <font>
-                  <Font name="Microsoft YaHei" size="15.0" />
+                  <Font name="Microsoft YaHei Light" size="21.0" />
                </font>
             </JFXButton>
          </children>

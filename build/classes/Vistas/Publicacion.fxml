@@ -10,28 +10,28 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="236.0" prefWidth="505.0" style="-fx-background-color: TRANSPARENT;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.PublicacionController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="236.0" prefWidth="665.0" style="-fx-background-color: TRANSPARENT;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.PublicacionController">
    <children>
       <Label fx:id="labelPublicacion" layoutX="66.0" layoutY="19.0" text="Nombre Usuario">
          <font>
-            <Font name="Microsoft JhengHei UI Bold" size="14.0" />
+            <Font name="Microsoft YaHei Light" size="19.0" />
          </font></Label>
-      <JFXTextArea editable="false" focusColor="#405aa800" layoutX="66.0" layoutY="53.0" prefHeight="135.0" prefWidth="393.0" promptText="Publicacion" unFocusColor="#4d4d4d00" wrapText="true">
+      <JFXTextArea editable="false" focusColor="#405aa800" layoutX="66.0" layoutY="53.0" prefHeight="135.0" prefWidth="402.0" promptText="Publicacion" unFocusColor="#4d4d4d00" wrapText="true">
          <font>
-            <Font name="Microsoft YaHei Light" size="14.0" />
+            <Font name="Microsoft YaHei Light" size="18.0" />
          </font>
       </JFXTextArea>
       <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="7.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" />
-      <Label layoutX="272.0" layoutY="38.0" text="Tue Aug 27 01:38:05 CLST 2019" textFill="#5e5e5e">
+      <Label layoutX="257.0" layoutY="36.0" text="Tue Aug 27 01:38:05 CLST 2019" textFill="#5e5e5e">
          <font>
-            <Font name="Microsoft YaHei" size="12.0" />
+            <Font name="Microsoft YaHei Light" size="15.0" />
          </font></Label>
       <JFXButton contentDisplay="CENTER" layoutX="68.0" layoutY="190.0" prefHeight="25.0" prefWidth="25.0" ripplerFill="#ff0404" text="Like" textFill="TRANSPARENT">
          <font>
             <Font size="1.0" />
          </font>
          <graphic>
-            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="29.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Imagenes/like.png" />
                </image>
@@ -49,7 +49,7 @@
             <Font size="1.0" />
          </font>
          <graphic>
-            <ImageView fitHeight="25.0" fitWidth="25.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="29.0" fitWidth="34.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Imagenes/retuit.png" />
                </image>
@@ -63,6 +63,11 @@
             <Image url="@Imagenes/circulo.png" />
          </image>
       </ImageView>
-      <Pane layoutX="11.0" layoutY="227.0" prefHeight="9.0" prefWidth="487.0" style="-fx-background-color: #00d29a;" />
+      <Pane layoutX="11.0" layoutY="233.0" prefHeight="1.0" prefWidth="660.0" style="-fx-background-color: #545454;" />
+      <ImageView fitHeight="150.0" fitWidth="160.0" layoutX="478.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Imagenes/MenuInicio.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
