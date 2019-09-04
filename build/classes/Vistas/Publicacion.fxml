@@ -22,7 +22,7 @@
          </font>
       </JFXTextArea>
       <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="7.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" />
-      <Label layoutX="257.0" layoutY="36.0" text="Tue Aug 27 01:38:05 CLST 2019" textFill="#5e5e5e">
+      <Label layoutX="247.0" layoutY="35.0" text="Tue Aug 27 01:38:05 CLST 2019" textFill="#5e5e5e">
          <font>
             <Font name="Microsoft YaHei Light" size="15.0" />
          </font></Label>
@@ -58,7 +58,7 @@
                </cursor>
             </ImageView>
          </graphic></JFXButton>
-      <ImageView fitHeight="190.0" fitWidth="183.0" layoutX="468.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="143.0" fitWidth="170.0" layoutX="481.0" layoutY="49.0" nodeOrientation="INHERIT" opacity="0.9" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Imagenes/MenuInicio.png" />
          </image>
