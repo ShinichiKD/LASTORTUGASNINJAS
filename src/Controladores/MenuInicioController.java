@@ -1,7 +1,9 @@
 package Controladores;
 
 import com.jfoenix.controls.JFXTextField;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -21,12 +23,12 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.TwitterException;
@@ -67,7 +69,7 @@ public  class MenuInicioController implements Initializable {
     
     ObservableList<String> items =FXCollections.observableArrayList();
     
-    static String PersonaBuscada="null";
+    public static User PersonaBuscada;
     
     
     
@@ -80,16 +82,22 @@ public  class MenuInicioController implements Initializable {
         BuscarListView.setVisible(false);
 
         
-        
-        
         try {
-            ActualizarEstados();
+            if(proyectopuntosflotantes.ProyectoPuntosFlotantes.CARGADO_INICIO){
+                ActualizarEstados();
+            }
+            proyectopuntosflotantes.ProyectoPuntosFlotantes.CARGADO_INICIO=false;
+            ScrollPane.setContent(proyectopuntosflotantes.ProyectoPuntosFlotantes.GRID);
+            
         } catch (TwitterException ex) {
-            Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+            
         } catch (IOException ex) {
-            Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
-    }    
+        
+    } 
+    
     @FXML
     private void PublicarPresionar() throws TwitterException, IOException {     
         try{
@@ -98,16 +106,17 @@ public  class MenuInicioController implements Initializable {
             Contador.setText(0+" / "+280);
             MensajeTA.clear();
             MensajeTA.setPromptText("¿Qué está pasando?");
+            
             Bot.actualizarEstado(texto); 
+            
             
             
             AvisosLabel.setText("Publicación exitosa.");
             Animacion.MostrarAvisos(AvisosLabel);
             try {
             ActualizarEstados();
-        } catch (TwitterException ex) {
-            Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+            
+        } catch (TwitterException | IOException ex) {
             Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
         }
             
@@ -178,9 +187,14 @@ public  class MenuInicioController implements Initializable {
     void ActualizarEstados() throws TwitterException, IOException{
         int i=0;
         GridPane grid = new GridPane();
+        if(Bot.obtenerTweets()==null){
+            return;
+        }
         for(Status e : Bot.obtenerTweets()){
 
             Parent root = FXMLLoader.load(getClass().getResource("/Vistas/Publicacion.fxml"));
+            
+            
             
             ((Label)root.getChildrenUnmodifiable().get(0)).setText(e.getUser().getName() );
             
@@ -201,10 +215,8 @@ public  class MenuInicioController implements Initializable {
                     }
                 
                 
-                } catch (TwitterException ex) {
-                    Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (TwitterException | IOException ex) {
+                    System.out.println(ex.getMessage());
                 }
             });
             
@@ -218,13 +230,16 @@ public  class MenuInicioController implements Initializable {
                         AvisosLabel.setText("Ya no retweeteas esta publicación");
                         Animacion.MostrarAvisos(AvisosLabel);
                     }
-                } catch (TwitterException ex) {
-                    Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (TwitterException | IOException ex) {
+                    System.out.println(ex.getMessage());
                 }
             });
             
+            try{
+                ((ImageView)root.getChildrenUnmodifiable().get(6)).setImage(new Image( e.getMediaEntities()[0].getMediaURL() ));
+            }catch(Exception ex){}
+            
+           
             
             grid.add(root, 0, i);
             i++;
@@ -232,6 +247,7 @@ public  class MenuInicioController implements Initializable {
         
         
         ScrollPane.setContent(grid);
+        proyectopuntosflotantes.ProyectoPuntosFlotantes.GRID = grid;
     }
 
     @FXML
@@ -240,7 +256,7 @@ public  class MenuInicioController implements Initializable {
     }
 
     @FXML
-    private void BuscarAC(KeyEvent event) throws TwitterException {
+    private void BuscarAC() throws TwitterException {
         ResponseList <User> ListaUsuarios ;
         BuscarListView.getItems().clear();
         BuscarListView.setVisible(true);
@@ -257,25 +273,35 @@ public  class MenuInicioController implements Initializable {
     }
 
     @FXML
-    private void SeleccionarItem(MouseEvent event) {
+    private void SeleccionarItem() {
         if (BuscarListView.getSelectionModel().getSelectedItem()!=null) {
             System.out.println("usuario seleccionado");
             
             BuscarTF.setText(BuscarListView.getSelectionModel().getSelectedItem());
-            PersonaBuscada=BuscarTF.getText();
             
             BuscarListView.setVisible(false);
-        }else{
-            
         }
+        
     }
 
     @FXML
-    private void BuscarPersona(ActionEvent event) throws IOException {
+    private void BuscarPersona() throws IOException, TwitterException {
+        try{
+            PersonaBuscada= Bot.BuscarUsuario(BuscarTF.getText());
+            Animacion.CambiarVentanta(Escena, "/Vistas/PersonaBuscada.fxml"); 
+        }catch(Exception e){
+            AvisosLabel.setText("Usuario no encontrado");
+            Animacion.MostrarAvisos(AvisosLabel);
+        }
         
         
-        Animacion.CambiarVentanta(Escena, "/Vistas/PersonaBuscada.fxml");
-        
+    }
+
+    @FXML
+    private void SubirArchivo() throws TwitterException {
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(new Stage());
+        Bot.agregarArchivo(selectedFile);
     }
 
 

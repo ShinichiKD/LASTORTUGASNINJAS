@@ -58,16 +58,16 @@
                </cursor>
             </ImageView>
          </graphic></JFXButton>
+      <ImageView fitHeight="190.0" fitWidth="183.0" layoutX="468.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Imagenes/MenuInicio.png" />
+         </image>
+      </ImageView>
       <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="7.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Imagenes/circulo.png" />
          </image>
       </ImageView>
       <Pane layoutX="11.0" layoutY="233.0" prefHeight="1.0" prefWidth="660.0" style="-fx-background-color: #545454;" />
-      <ImageView fitHeight="150.0" fitWidth="160.0" layoutX="478.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Imagenes/MenuInicio.png" />
-         </image>
-      </ImageView>
    </children>
 </AnchorPane>

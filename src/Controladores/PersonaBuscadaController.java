@@ -65,11 +65,7 @@ public class PersonaBuscadaController implements Initializable {
         Animacion = new Animaciones();
         LabelAviso.setVisible(false);
         
-        try {
-            Usuario = Bot.BuscarUsuario(MenuInicioController.PersonaBuscada);
-        } catch (TwitterException ex) {
-            Logger.getLogger(PersonaBuscadaController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Usuario = MenuInicioController.PersonaBuscada;
         
         Nombre.setText(Usuario.getName());
         Identificador.setText("@"+Usuario.getScreenName());
@@ -77,17 +73,15 @@ public class PersonaBuscadaController implements Initializable {
         
         try {
             ActualizarEstados();
-        } catch (TwitterException ex) {
-            Logger.getLogger(PersonaBuscadaController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(PersonaBuscadaController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TwitterException | IOException ex) {
+            System.out.println(ex.getMessage());
         }
         
         
     }    
 
     @FXML
-    private void SeguirUsuario(ActionEvent event) throws TwitterException, IOException {
+    private void SeguirUsuario() throws TwitterException, IOException {
         Bot.seguirUsuario(Usuario.getScreenName());
         LabelAviso.setText("Siguiendo al Usuario Correctamente.");
         Animacion.MostrarAvisos(LabelAviso);
@@ -95,7 +89,7 @@ public class PersonaBuscadaController implements Initializable {
     }
 
     @FXML
-    private void CerrarVentana(ActionEvent event) throws IOException {
+    private void CerrarVentana() throws IOException {
         Animacion.CerrarVentana(Escena, "/Vistas/MenuInicio.fxml");
         
     }
@@ -125,10 +119,8 @@ public class PersonaBuscadaController implements Initializable {
                     }
                 
                 
-                } catch (TwitterException ex) {
-                    Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (TwitterException | IOException ex) {
+                    System.out.println(ex.getMessage());
                 }
             });
             
@@ -142,13 +134,13 @@ public class PersonaBuscadaController implements Initializable {
                         LabelAviso.setText("Ya no retweeteas esta publicación");
                         Animacion.MostrarAvisos(LabelAviso);
                     }
-                } catch (TwitterException ex) {
-                    Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (TwitterException | IOException ex) {
+                    System.out.println(ex.getMessage());
                 }
             });
-            
+            try{
+                ((ImageView)root.getChildrenUnmodifiable().get(6)).setImage(new Image( e.getMediaEntities()[0].getMediaURL() ));
+            }catch(Exception ex){}
             
             grid.add(root, 0, i);
             i++;

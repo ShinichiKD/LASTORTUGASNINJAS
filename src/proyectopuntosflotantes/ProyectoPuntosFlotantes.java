@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -22,6 +23,8 @@ public class ProyectoPuntosFlotantes extends Application {
     
     private double xOffset = 0; 
     private double yOffset = 0;
+    public static boolean CARGADO_INICIO = true;
+    public static GridPane GRID;
     
     @Override
     public void start(Stage stage) throws Exception {
