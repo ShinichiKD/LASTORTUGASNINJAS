@@ -18,7 +18,7 @@
    <children>
       <AnchorPane fx:id="AnchoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1360.0">
          <children>
-            <ImageView fitHeight="663.0" fitWidth="760.0" layoutX="4.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="589.0" fitWidth="561.0" layoutX="-6.0" layoutY="91.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Imagenes/MenuInicio.png" />
                </image>

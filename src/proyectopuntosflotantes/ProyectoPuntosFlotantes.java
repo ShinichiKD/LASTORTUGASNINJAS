@@ -23,8 +23,6 @@ public class ProyectoPuntosFlotantes extends Application {
     
     private double xOffset = 0; 
     private double yOffset = 0;
-    public static boolean CARGADO_INICIO = true;
-    public static GridPane GRID;
     
     @Override
     public void start(Stage stage) throws Exception {

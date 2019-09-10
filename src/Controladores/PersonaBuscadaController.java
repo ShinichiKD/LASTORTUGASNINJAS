@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,6 +25,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 import twitter4j.User;
@@ -101,6 +103,8 @@ public class PersonaBuscadaController implements Initializable {
 
             GridPane gridAux = new GridPane();
             
+            gridAux.setPadding(new Insets(10, 10, 10, 10)); 
+            
             Label NombreUsuario = new Label(e.getUser().getName());
             NombreUsuario.setPrefHeight(27);
             NombreUsuario.setStyle("-fx-font: Microsoft YaHei Light;");
@@ -121,10 +125,12 @@ public class PersonaBuscadaController implements Initializable {
             
             Button BotonLike = new Button();
             BotonLike.setText("Me gusta");
-            BotonLike.setStyle("-fx-background-color: TRANSPARENT;");
+            BotonLike.textFillProperty().set(Paint.valueOf("white"));
+            BotonLike.setStyle("-fx-background-color: #5A01FF;");
             Button BotonRetweet = new Button();
             BotonRetweet.setText("Retuitear");
-            BotonRetweet.setStyle("-fx-background-color: TRANSPARENT;");
+            BotonRetweet.textFillProperty().set(Paint.valueOf("white"));
+            BotonRetweet.setStyle("-fx-background-color: #5A01FF;");
             
             ImageView FotoPublicacion = new ImageView(new Image("/Vistas/Imagenes/MenuInicio.png"));
             FotoPublicacion.setFitHeight(150);

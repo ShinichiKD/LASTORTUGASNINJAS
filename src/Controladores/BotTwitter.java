@@ -67,6 +67,7 @@ public class BotTwitter {
             statusUpdate.setMediaIds(IdToLong());
         }
         Bot.updateStatus(statusUpdate);
+        medias = new ArrayList<>();
         
         
     }
@@ -154,6 +155,7 @@ public class BotTwitter {
      
         return List;
     }
+    
     public ArrayList<String> BuscarEnTwitter(String NombreUsuario) throws TwitterException{
         ResponseList<User> users = null;
 
@@ -189,13 +191,11 @@ public class BotTwitter {
     public  ArrayList<Status> TweetBuscado(String Nombre) throws TwitterException{
         
         ArrayList<Status> Tweets= new ArrayList<>();
-        
         for (Status status : Bot.getUserTimeline(Nombre)) {
             
             Tweets.add(status);
             
         }
-        
         return Tweets;
     }
     

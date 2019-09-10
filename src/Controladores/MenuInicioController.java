@@ -1,9 +1,9 @@
 package Controladores;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -13,10 +13,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -25,9 +24,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
@@ -86,17 +84,20 @@ public  class MenuInicioController implements Initializable {
 
         
         try {
-            if(proyectopuntosflotantes.ProyectoPuntosFlotantes.CARGADO_INICIO){
-                ActualizarEstados();
-            }
-            proyectopuntosflotantes.ProyectoPuntosFlotantes.CARGADO_INICIO=false;
-            ScrollPane.setContent(proyectopuntosflotantes.ProyectoPuntosFlotantes.GRID);
+            ActualizarEstados();
             
         } catch (TwitterException ex) {
-            System.out.println(ex.getMessage());
-            
+            if(ex.getErrorCode() == 88){
+                AvisosLabel.setText("Error con limites de la API : Cierre el programa y espere");
+                try {
+                    Animacion.MostrarAvisos(AvisosLabel);
+                } catch (IOException ex1) {
+                    System.out.println(ex1.getCause());
+                }
+            }
+            System.out.println();
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println(ex.getCause());
         }
         
     } 
@@ -197,6 +198,8 @@ public  class MenuInicioController implements Initializable {
 
             GridPane gridAux = new GridPane();
             
+            gridAux.setPadding(new Insets(10, 10, 10, 10)); 
+            
             Label NombreUsuario = new Label(e.getUser().getName());
             NombreUsuario.setPrefHeight(27);
             NombreUsuario.setStyle("-fx-font: Microsoft YaHei Light;");
@@ -215,12 +218,16 @@ public  class MenuInicioController implements Initializable {
             Tweet.setPrefHeight(135);
             Tweet.setPrefWidth(430);
             
-            Button BotonLike = new Button();
+            
+            JFXButton BotonLike = new JFXButton();
+            
             BotonLike.setText("Me gusta");
-            BotonLike.setStyle("-fx-background-color: TRANSPARENT;");
-            Button BotonRetweet = new Button();
+            BotonLike.textFillProperty().set(Paint.valueOf("white"));
+            BotonLike.setStyle("-fx-background-color: #5A01FF;");
+            JFXButton BotonRetweet = new JFXButton();
             BotonRetweet.setText("Retuitear");
-            BotonRetweet.setStyle("-fx-background-color: TRANSPARENT;");
+            BotonRetweet.textFillProperty().set(Paint.valueOf("white"));
+            BotonRetweet.setStyle("-fx-background-color: #5A01FF;");
             
             ImageView FotoPublicacion = new ImageView(new Image("/Vistas/Imagenes/MenuInicio.png"));
             FotoPublicacion.setFitHeight(150);
@@ -231,7 +238,6 @@ public  class MenuInicioController implements Initializable {
             }catch (Exception ex) {
                 
             }
-            
             
             gridAux.add(FotoPerfil,0,0);
             gridAux.add(NombreUsuario, 1, 0);
@@ -279,7 +285,6 @@ public  class MenuInicioController implements Initializable {
         
         
         ScrollPane.setContent(grid);
-        proyectopuntosflotantes.ProyectoPuntosFlotantes.GRID = grid;
     }
 
     @FXML
