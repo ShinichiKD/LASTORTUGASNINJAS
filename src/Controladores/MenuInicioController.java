@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,7 +25,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
@@ -192,19 +195,53 @@ public  class MenuInicioController implements Initializable {
         }
         for(Status e : Bot.obtenerTweets()){
 
-            Parent root = FXMLLoader.load(getClass().getResource("/Vistas/Publicacion.fxml"));
+            GridPane gridAux = new GridPane();
+            
+            Label NombreUsuario = new Label(e.getUser().getName());
+            NombreUsuario.setPrefHeight(27);
+            NombreUsuario.setStyle("-fx-font: Microsoft YaHei Light;");
+            NombreUsuario.setStyle("-fx-font-size: 19px;");
             
             
+            ImageView FotoPerfil = new ImageView(new Image(e.getUser().get400x400ProfileImageURL()));
+            FotoPerfil.setFitHeight(50);
+            FotoPerfil.setFitWidth(50);
             
-            ((Label)root.getChildrenUnmodifiable().get(0)).setText(e.getUser().getName() );
+            TextArea Tweet = new TextArea(e.getText());
+            Tweet.editableProperty().set(false);
+            Tweet.wrapTextProperty().set(true);
+            Tweet.setStyle("-fx-font: Microsoft YaHei Light;");
+            Tweet.setStyle("-fx-font-size: 18px;");
+            Tweet.setPrefHeight(135);
+            Tweet.setPrefWidth(430);
             
-            ((TextArea)root.getChildrenUnmodifiable().get(1)).setText(e.getText());
+            Button BotonLike = new Button();
+            BotonLike.setText("Me gusta");
+            BotonLike.setStyle("-fx-background-color: TRANSPARENT;");
+            Button BotonRetweet = new Button();
+            BotonRetweet.setText("Retuitear");
+            BotonRetweet.setStyle("-fx-background-color: TRANSPARENT;");
             
-            ((ImageView)root.getChildrenUnmodifiable().get(2)).setImage(new Image( e.getUser().get400x400ProfileImageURL() ));
+            ImageView FotoPublicacion = new ImageView(new Image("/Vistas/Imagenes/MenuInicio.png"));
+            FotoPublicacion.setFitHeight(150);
+            FotoPublicacion.setFitWidth(150);
+            try {
+                FotoPublicacion.setImage(new Image(e.getMediaEntities()[0].getMediaURL()));
+                
+            }catch (Exception ex) {
+                
+            }
             
-            ((Label)root.getChildrenUnmodifiable().get(3)).setText(e.getCreatedAt().toString() );
             
-            ((Button)root.getChildrenUnmodifiable().get(4)).setOnAction((ActionEvent events)->{ 
+            gridAux.add(FotoPerfil,0,0);
+            gridAux.add(NombreUsuario, 1, 0);
+            gridAux.add(Tweet, 1, 1);
+            gridAux.add(BotonLike, 0, 2);
+            gridAux.add(BotonRetweet, 1, 2);
+            gridAux.add(FotoPublicacion, 2, 1);
+            
+            
+            BotonLike.setOnAction((ActionEvent events)->{ 
                 try {
                     if(Bot.darLikeTweet(e.getId())){
                         AvisosLabel.setText("Te ha gustado esta publicación");
@@ -219,9 +256,7 @@ public  class MenuInicioController implements Initializable {
                     System.out.println(ex.getMessage());
                 }
             });
-            
-            
-            ((Button)root.getChildrenUnmodifiable().get(5)).setOnAction((ActionEvent events)->{ 
+            BotonRetweet.setOnAction((ActionEvent events)->{ 
                 try {
                     if(Bot.darRetweet(e.getId())){
                         AvisosLabel.setText("Has retweeteado esta publicación");
@@ -235,13 +270,10 @@ public  class MenuInicioController implements Initializable {
                 }
             });
             
-            try{
-                ((ImageView)root.getChildrenUnmodifiable().get(6)).setImage(new Image( e.getMediaEntities()[0].getMediaURL() ));
-            }catch(Exception ex){}
+//            ((Label)root.getChildrenUnmodifiable().get(3)).setText(e.getCreatedAt().toString() );
+
             
-           
-            
-            grid.add(root, 0, i);
+            grid.add(gridAux, 0, i);
             i++;
         }
         

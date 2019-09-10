@@ -96,19 +96,56 @@ public class PersonaBuscadaController implements Initializable {
     void ActualizarEstados() throws TwitterException, IOException{
         int i=0;
         GridPane grid = new GridPane();
+        
         for(Status e : Bot.TweetBuscado(Usuario.getScreenName())){
 
-            Parent root = FXMLLoader.load(getClass().getResource("/Vistas/Publicacion.fxml"));
+            GridPane gridAux = new GridPane();
             
-            ((Label)root.getChildrenUnmodifiable().get(0)).setText(e.getUser().getName() );
+            Label NombreUsuario = new Label(e.getUser().getName());
+            NombreUsuario.setPrefHeight(27);
+            NombreUsuario.setStyle("-fx-font: Microsoft YaHei Light;");
+            NombreUsuario.setStyle("-fx-font-size: 19px;");
             
-            ((TextArea)root.getChildrenUnmodifiable().get(1)).setText(e.getText());
             
-            ((ImageView)root.getChildrenUnmodifiable().get(2)).setImage(new Image( e.getUser().get400x400ProfileImageURL() ));
+            ImageView FotoPerfil = new ImageView(new Image(e.getUser().get400x400ProfileImageURL()));
+            FotoPerfil.setFitHeight(50);
+            FotoPerfil.setFitWidth(50);
             
-            ((Label)root.getChildrenUnmodifiable().get(3)).setText(e.getCreatedAt().toString() );
+            TextArea Tweet = new TextArea(e.getText());
+            Tweet.editableProperty().set(false);
+            Tweet.wrapTextProperty().set(true);
+            Tweet.setStyle("-fx-font: Microsoft YaHei Light;");
+            Tweet.setStyle("-fx-font-size: 18px;");
+            Tweet.setPrefHeight(135);
+            Tweet.setPrefWidth(430);
             
-            ((Button)root.getChildrenUnmodifiable().get(4)).setOnAction((ActionEvent events)->{ 
+            Button BotonLike = new Button();
+            BotonLike.setText("Me gusta");
+            BotonLike.setStyle("-fx-background-color: TRANSPARENT;");
+            Button BotonRetweet = new Button();
+            BotonRetweet.setText("Retuitear");
+            BotonRetweet.setStyle("-fx-background-color: TRANSPARENT;");
+            
+            ImageView FotoPublicacion = new ImageView(new Image("/Vistas/Imagenes/MenuInicio.png"));
+            FotoPublicacion.setFitHeight(150);
+            FotoPublicacion.setFitWidth(150);
+            try {
+                FotoPublicacion.setImage(new Image(e.getMediaEntities()[0].getMediaURL()));
+                
+            }catch (Exception ex) {
+                
+            }
+            
+            
+            gridAux.add(FotoPerfil,0,0);
+            gridAux.add(NombreUsuario, 1, 0);
+            gridAux.add(Tweet, 1, 1);
+            gridAux.add(BotonLike, 0, 2);
+            gridAux.add(BotonRetweet, 1, 2);
+            gridAux.add(FotoPublicacion, 2, 1);
+            
+            
+            BotonLike.setOnAction((ActionEvent events)->{ 
                 try {
                     if(Bot.darLikeTweet(e.getId())){
                         LabelAviso.setText("Te ha gustado esta publicación");
@@ -123,9 +160,7 @@ public class PersonaBuscadaController implements Initializable {
                     System.out.println(ex.getMessage());
                 }
             });
-            
-            
-            ((Button)root.getChildrenUnmodifiable().get(5)).setOnAction((ActionEvent events)->{ 
+            BotonRetweet.setOnAction((ActionEvent events)->{ 
                 try {
                     if(Bot.darRetweet(e.getId())){
                         LabelAviso.setText("Has retweeteado esta publicación");
@@ -138,11 +173,11 @@ public class PersonaBuscadaController implements Initializable {
                     System.out.println(ex.getMessage());
                 }
             });
-            try{
-                ((ImageView)root.getChildrenUnmodifiable().get(6)).setImage(new Image( e.getMediaEntities()[0].getMediaURL() ));
-            }catch(Exception ex){}
             
-            grid.add(root, 0, i);
+//            ((Label)root.getChildrenUnmodifiable().get(3)).setText(e.getCreatedAt().toString() );
+
+            
+            grid.add(gridAux, 0, i);
             i++;
         }
         

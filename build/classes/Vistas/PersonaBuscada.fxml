@@ -33,7 +33,7 @@
                         <Font name="Microsoft YaHei Light" size="18.0" />
                      </font>
                   </Label>
-                  <JFXButton ellipsisString="Seguir" layoutX="570.0" layoutY="56.0" onAction="#SeguirUsuario" prefHeight="40.0" prefWidth="105.0" ripplerFill="#00d29a" style="-fx-background-color: #00d29a;" text="Seguir Usuario">
+                  <JFXButton ellipsisString="Seguir" layoutX="570.0" layoutY="56.0" onAction="#SeguirUsuario" prefHeight="40.0" prefWidth="105.0" ripplerFill="#00d29a" style="-fx-background-color: #00d29a;" text="Seguir Usuario" textFill="WHITE">
                      <font>
                         <Font name="Microsoft YaHei Light" size="13.0" />
                      </font>
