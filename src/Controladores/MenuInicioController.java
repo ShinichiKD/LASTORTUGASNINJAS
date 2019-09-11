@@ -15,7 +15,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -24,7 +23,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
@@ -335,10 +333,22 @@ public  class MenuInicioController implements Initializable {
     }
 
     @FXML
-    private void SubirArchivo() throws TwitterException {
-        FileChooser fileChooser = new FileChooser();
-        File selectedFile = fileChooser.showOpenDialog(new Stage());
-        Bot.agregarArchivo(selectedFile);
+    private void SubirArchivo() throws TwitterException, IOException {
+        try{
+            FileChooser fileChooser = new FileChooser();
+            FileChooser.ExtensionFilter fileExtensions = 
+                new FileChooser.ExtensionFilter(
+                  "Imagenes", "*.jpg", "*.PNG", "*.GIF");
+            fileChooser.getExtensionFilters().add(fileExtensions);
+            File selectedFile = fileChooser.showOpenDialog(new Stage());
+            Bot.agregarArchivo(selectedFile);
+            AvisosLabel.setText("Archivo subido correctamente");
+            Animacion.MostrarAvisos(AvisosLabel);
+        }catch(Exception e){
+            AvisosLabel.setText("Archivo subido no subido, formato incorrecto");
+            Animacion.MostrarAvisos(AvisosLabel);
+        }
+        
     }
 
 
