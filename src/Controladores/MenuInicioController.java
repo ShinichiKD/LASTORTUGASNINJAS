@@ -1,6 +1,7 @@
 package Controladores;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import java.io.File;
 import java.io.IOException;
@@ -79,7 +80,6 @@ public  class MenuInicioController implements Initializable {
         Animacion= new Animaciones();
         AvisosLabel.setVisible(false);
         BuscarListView.setVisible(false);
-
         
         try {
             ActualizarEstados();
@@ -209,31 +209,34 @@ public  class MenuInicioController implements Initializable {
             FotoPerfil.setFitWidth(50);
             
             TextArea Tweet = new TextArea(e.getText());
-            Tweet.editableProperty().set(false);
-            Tweet.wrapTextProperty().set(true);
             Tweet.setStyle("-fx-font: Microsoft YaHei Light;");
             Tweet.setStyle("-fx-font-size: 18px;");
+            Tweet.editableProperty().set(false);
+            Tweet.wrapTextProperty().set(true);
+            
+            
+            
             Tweet.setPrefHeight(135);
-            Tweet.setPrefWidth(430);
+            Tweet.setPrefWidth(730);
+            
+            
             JFXButton BotonLike = new JFXButton();
             JFXButton BotonRetweet = new JFXButton();
-            BotonLike.setText("Me gusta");
-            BotonLike.textFillProperty().set(Paint.valueOf("white"));
             
-            
-            BotonRetweet.setText("Retuitear");
-            BotonRetweet.textFillProperty().set(Paint.valueOf("white"));
+            BotonLike.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/corazon.png")));
+           
+            BotonRetweet.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/retuit.png")));
                 
             if (e.isRetweeted()) {
-                BotonRetweet.setStyle("-fx-background-color: #FF1A09;");
+                BotonRetweet.setStyle("-fx-background-color: #23E868;");
             }else{
-                BotonRetweet.setStyle("-fx-background-color: #5A01FF;");
+                BotonRetweet.setStyle("-fx-background-color: #9e9e9e;");
             }
             
             if (e.isFavorited()) {
-                BotonLike.setStyle("-fx-background-color: #FF1A09;");
+                BotonLike.setStyle("-fx-background-color: #ad0352;");
             }else{
-                BotonLike.setStyle("-fx-background-color: #5A01FF;");
+                BotonLike.setStyle("-fx-background-color: #9e9e9e;");
             }
             
             
@@ -258,33 +261,24 @@ public  class MenuInicioController implements Initializable {
             BotonLike.setOnAction((ActionEvent events)->{ 
                 try {
                     if(Bot.darLikeTweet(e.getId())){
-                        AvisosLabel.setText("Te ha gustado esta publicación");
-                        Animacion.MostrarAvisos(AvisosLabel);
-                        BotonLike.setStyle("-fx-background-color: #FF1A09;");
+                        BotonLike.setStyle("-fx-background-color: #ad0352;");
                     }else{
-                        AvisosLabel.setText("Ya no te gusta esta publicación");
-                        Animacion.MostrarAvisos(AvisosLabel);
-                        BotonLike.setStyle("-fx-background-color: #5A01FF;");
+                        BotonLike.setStyle("-fx-background-color: #9e9e9e;");
                     }
                 
-                
-                } catch (TwitterException | IOException ex) {
+                } catch (TwitterException ex) {
                     System.out.println(ex.getMessage());
                 }
             });
             BotonRetweet.setOnAction((ActionEvent events)->{ 
                 try {
                     if(Bot.darRetweet(e.getId())){
-                        AvisosLabel.setText("Has retweeteado esta publicación");
-                        Animacion.MostrarAvisos(AvisosLabel);
-                        BotonRetweet.setStyle("-fx-background-color: #FF1A09;");
-                    }else{
-                        AvisosLabel.setText("Ya no retweeteas esta publicación");
-                        Animacion.MostrarAvisos(AvisosLabel);
-                        BotonRetweet.setStyle("-fx-background-color: #5A01FF;");
                         
+                        BotonRetweet.setStyle("-fx-background-color: #23E868;");
+                    }else{
+                        BotonRetweet.setStyle("-fx-background-color: #9e9e9e;");
                     }
-                } catch (TwitterException | IOException ex) {
+                } catch (TwitterException ex) {
                     System.out.println(ex.getMessage());
                 }
             });
