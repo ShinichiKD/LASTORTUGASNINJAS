@@ -193,7 +193,7 @@ public  class MenuInicioController implements Initializable {
             return;
         }
         for(Status e : Bot.obtenerTweets()){
-
+            
             GridPane gridAux = new GridPane();
             
             gridAux.setPadding(new Insets(10, 10, 10, 10)); 
@@ -215,17 +215,27 @@ public  class MenuInicioController implements Initializable {
             Tweet.setStyle("-fx-font-size: 18px;");
             Tweet.setPrefHeight(135);
             Tweet.setPrefWidth(430);
-            
-            
             JFXButton BotonLike = new JFXButton();
-            
+            JFXButton BotonRetweet = new JFXButton();
             BotonLike.setText("Me gusta");
             BotonLike.textFillProperty().set(Paint.valueOf("white"));
-            BotonLike.setStyle("-fx-background-color: #5A01FF;");
-            JFXButton BotonRetweet = new JFXButton();
+            
+            
             BotonRetweet.setText("Retuitear");
             BotonRetweet.textFillProperty().set(Paint.valueOf("white"));
-            BotonRetweet.setStyle("-fx-background-color: #5A01FF;");
+                
+            if (e.isRetweeted()) {
+                BotonRetweet.setStyle("-fx-background-color: #FF1A09;");
+            }else{
+                BotonRetweet.setStyle("-fx-background-color: #5A01FF;");
+            }
+            
+            if (e.isFavorited()) {
+                BotonLike.setStyle("-fx-background-color: #FF1A09;");
+            }else{
+                BotonLike.setStyle("-fx-background-color: #5A01FF;");
+            }
+            
             
             ImageView FotoPublicacion = new ImageView(new Image("/Vistas/Imagenes/MenuInicio.png"));
             FotoPublicacion.setFitHeight(150);
@@ -250,9 +260,11 @@ public  class MenuInicioController implements Initializable {
                     if(Bot.darLikeTweet(e.getId())){
                         AvisosLabel.setText("Te ha gustado esta publicación");
                         Animacion.MostrarAvisos(AvisosLabel);
+                        BotonLike.setStyle("-fx-background-color: #FF1A09;");
                     }else{
                         AvisosLabel.setText("Ya no te gusta esta publicación");
                         Animacion.MostrarAvisos(AvisosLabel);
+                        BotonLike.setStyle("-fx-background-color: #5A01FF;");
                     }
                 
                 
@@ -265,9 +277,12 @@ public  class MenuInicioController implements Initializable {
                     if(Bot.darRetweet(e.getId())){
                         AvisosLabel.setText("Has retweeteado esta publicación");
                         Animacion.MostrarAvisos(AvisosLabel);
+                        BotonRetweet.setStyle("-fx-background-color: #FF1A09;");
                     }else{
                         AvisosLabel.setText("Ya no retweeteas esta publicación");
                         Animacion.MostrarAvisos(AvisosLabel);
+                        BotonRetweet.setStyle("-fx-background-color: #5A01FF;");
+                        
                     }
                 } catch (TwitterException | IOException ex) {
                     System.out.println(ex.getMessage());

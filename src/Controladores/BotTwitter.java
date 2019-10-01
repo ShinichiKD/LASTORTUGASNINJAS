@@ -7,8 +7,11 @@ package Controladores;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import twitter4j.DirectMessage;
+import twitter4j.DirectMessageList;
 import twitter4j.IDs;
 import twitter4j.Query;
 import twitter4j.QueryResult;
@@ -83,6 +86,16 @@ public class BotTwitter {
     }
     
     public void enviarMensajeDirecto(String id,String texto) throws TwitterException{
+//        List<DirectMessage> mensajes = Bot.getDirectMessages(0);
+//        int i=0;
+//        while(i< mensajes.size()){
+//            
+//            System.out.println(mensajes.get(i).getText());
+//            i++;        
+//        }
+       
+        
+        
         Bot.sendDirectMessage(id,texto);
     }
     public void seguirUsuario(String nombreDeUsuario) throws TwitterException{

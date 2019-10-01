@@ -66,6 +66,7 @@ public class MensajeDirectoController implements Initializable {
     private void EnviarMensaje() throws IOException {
         // pasar el texto del mensaje a la funcion de enviar mensaje del bot
         try{
+                
                 Bot.enviarMensajeDirecto(PersonaBuscada.getText(), TextoMensaje.getText()); 
                 TextoMensaje.clear();
                 TextoMensaje.setPromptText("Escribir Mensaje");
