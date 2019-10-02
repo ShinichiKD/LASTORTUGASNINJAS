@@ -14,18 +14,18 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="Escena" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1360.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.MenuInicioController">
+<StackPane fx:id="Escena" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1360.0" style="-fx-background-color: #002552;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controladores.MenuInicioController">
    <children>
-      <AnchorPane fx:id="AnchoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1360.0">
+      <AnchorPane fx:id="AnchoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.91" prefHeight="760.0" prefWidth="1360.0">
          <children>
             <Pane layoutX="335.0" layoutY="70.0" prefHeight="180.0" prefWidth="801.0" style="-fx-background-color: TRANSPARENT;">
                <children>
-                  <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="11.0" layoutY="19.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="14.0" layoutY="14.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Imagenes/logo.png" />
                      </image>
                   </ImageView>
-                  <JFXTextArea fx:id="MensajeTA" focusColor="#545454" labelFloat="true" layoutX="78.0" layoutY="27.0" onKeyReleased="#ReleasedMensajeTA" prefHeight="105.0" prefWidth="705.0" promptText="¿Que esta pasando?" unFocusColor="#ffffff00" wrapText="true">
+                  <JFXTextArea fx:id="MensajeTA" focusColor="WHITE" labelFloat="true" layoutX="84.0" layoutY="19.0" onKeyReleased="#ReleasedMensajeTA" prefHeight="105.0" prefWidth="705.0" promptText="¿Que esta pasando?" style="-fx-background-color: white;" unFocusColor="#ffffff00" wrapText="true">
                      <font>
                         <Font name="Microsoft YaHei Light" size="18.0" />
                      </font>
@@ -38,46 +38,46 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <Label fx:id="Contador" alignment="CENTER" layoutX="502.0" layoutY="145.0" prefHeight="21.0" prefWidth="77.0" text="0  / 280">
+                  <Label fx:id="Contador" alignment="CENTER" layoutX="569.0" layoutY="145.0" prefHeight="21.0" prefWidth="77.0" text="0  / 280" textFill="WHITE">
                      <font>
                         <Font size="15.0" />
-                     </font></Label>
+                     </font>
+                  </Label>
                </children>
             </Pane>
-            <Label alignment="CENTER" contentDisplay="BOTTOM" layoutX="335.0" layoutY="7.0" prefHeight="60.0" prefWidth="956.0" text="Inicio" textFill="#545454">
+            <Label alignment="CENTER" contentDisplay="BOTTOM" layoutX="335.0" layoutY="7.0" prefHeight="60.0" prefWidth="956.0" text="Inicio" textFill="WHITE">
                <font>
                   <Font name="Microsoft YaHei Light" size="35.0" />
                </font>
             </Label>
-            <Pane layoutX="295.0" layoutY="264.0" opacity="0.8" prefHeight="498.0" prefWidth="46.0" style="-fx-background-color: #e4e4e4;" />
-            <ScrollPane fx:id="ScrollPane" layoutX="341.0" layoutY="265.0" opacity="0.8" prefHeight="496.0" prefWidth="1020.0" style="-fx-background: #e4e4e4;" />
+            <ScrollPane fx:id="ScrollPane" layoutX="296.0" layoutY="272.0" opacity="0.8" prefHeight="489.0" prefWidth="1064.0" style="-fx-background: #002552;" />
             <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="483.0" layoutY="720.0" prefHeight="40.0" prefWidth="700.0" style="-fx-background-color: Orange;" text="Mensaje de estado">
                <font>
                   <Font name="Microsoft YaHei Light" size="16.0" />
                </font>
             </Label>
-            <JFXButton layoutX="1325.0" layoutY="6.0" onAction="#Salir" prefHeight="21.0" prefWidth="29.0" ripplerFill="#e42323" style="-fx-background-color: White;" text="X" textFill="#545454">
+            <JFXButton layoutX="1325.0" layoutY="6.0" onAction="#Salir" prefHeight="21.0" prefWidth="29.0" ripplerFill="BLACK" style="-fx-background-color: White;" text="X" textFill="#545454">
                <font>
                   <Font name="Microsoft YaHei Light" size="14.0" />
                </font>
             </JFXButton>
-            <Pane layoutY="-1.0" prefHeight="761.0" prefWidth="295.0" style="-fx-background-color: #161616;">
+            <Pane layoutX="-5.0" prefHeight="761.0" prefWidth="300.0" style="-fx-background-color: #161616;">
                <children>
-                  <JFXButton layoutX="134.0" layoutY="236.0" onAction="#BuscarPersona" prefHeight="44.0" prefWidth="51.0" ripplerFill="#00d29a" style="-fx-background-color: White;" text="Buscar" textFill="#651f1f">
+                  <JFXButton layoutX="131.0" layoutY="113.0" onAction="#BuscarPersona" prefHeight="44.0" prefWidth="137.0" ripplerFill="#00d29a" style="-fx-background-color: White;" text="Buscar" textFill="#545454">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                      <font>
-                        <Font name="Microsoft YaHei Light" size="10.0" />
+                        <Font name="Microsoft YaHei Light" size="21.0" />
                      </font>
                   </JFXButton>
-                  <ListView fx:id="BuscarListView" layoutX="19.0" layoutY="318.0" onMouseClicked="#SeleccionarItem" opacity="0.8" prefHeight="220.0" prefWidth="249.0" style="-fx-background-color: white;" />
-                  <JFXTextField fx:id="BuscarTF" focusColor="WHITE" labelFloat="true" layoutX="20.0" layoutY="167.0" onKeyReleased="#BuscarAC" prefHeight="44.0" prefWidth="249.0" promptText="Buscar en Twitter">
+                  <ListView fx:id="BuscarListView" layoutX="19.0" layoutY="113.0" onMouseClicked="#SeleccionarItem" opacity="0.8" prefHeight="220.0" prefWidth="249.0" style="-fx-background-color: white;" />
+                  <JFXTextField fx:id="BuscarTF" focusColor="WHITE" labelFloat="true" layoutX="19.0" layoutY="52.0" onKeyReleased="#BuscarAC" prefHeight="44.0" prefWidth="249.0" promptText="Buscar en Twitter">
                      <font>
                         <Font name="Microsoft YaHei Light" size="21.0" />
                      </font>
                   </JFXTextField>
-                  <JFXButton fx:id="MensajeDirecto" layoutX="43.0" layoutY="38.0" onAction="#MenuMensajeDirecto" prefHeight="50.0" prefWidth="209.0" ripplerFill="#00d29a" style="-fx-background-color: white;" text="Mensaje Directo" textFill="#545454">
+                  <JFXButton fx:id="MensajeDirecto" layoutX="14.0" layoutY="697.0" onAction="#MenuMensajeDirecto" prefHeight="50.0" prefWidth="209.0" ripplerFill="#00d29a" style="-fx-background-color: white;" text="Mensaje Directo" textFill="#545454">
                      <font>
                         <Font name="Microsoft YaHei Light" size="21.0" />
                      </font>
