@@ -1,7 +1,6 @@
 package Controladores;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +14,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -24,14 +22,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import twitter4j.ResponseList;
-import twitter4j.Status;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
@@ -62,17 +58,35 @@ public  class MenuInicioController implements Initializable {
     @FXML
     private Label AvisosLabel;
     @FXML
-    private ScrollPane ScrollPane;
-    @FXML
     private JFXTextField BuscarTF;
     @FXML
     private ListView<String> BuscarListView = new ListView<String>();
     
     ObservableList<String> items =FXCollections.observableArrayList();
     
-    public static User PersonaBuscada;
+    public User PersonaBuscada;
+    
     @FXML
-    private Pane mensajes;
+    private JFXButton botonInicio;
+    @FXML
+    private Pane MenuInicio;
+    @FXML
+    private ScrollPane TimeLineInicio;
+    @FXML
+    
+    private Pane MenuBuscar;
+    @FXML
+    private ImageView ImagenPerfil;
+    @FXML
+    private Label Nombre;
+    @FXML
+    private Label Identificador;
+    @FXML
+    private ScrollPane TimeLinePersona;
+    @FXML
+    private JFXButton botonBuscar;
+    @FXML
+    private Pane informacion;
     
     
     
@@ -83,6 +97,13 @@ public  class MenuInicioController implements Initializable {
         Animacion= new Animaciones();
         AvisosLabel.setVisible(false);
         BuscarListView.setVisible(false);
+        
+        botonInicio.setStyle("-fx-background-color: #9d6da5;");
+        botonInicio.textFillProperty().setValue(Paint.valueOf("white"));
+        botonInicio.ripplerFillProperty().setValue(Paint.valueOf("white"));
+        
+        informacion.setVisible(false);
+       
         
         try {
             ActualizarEstados();
@@ -148,26 +169,7 @@ public  class MenuInicioController implements Initializable {
         }
         
     }
-    /**
-     * Esta Accion nos permite cambiar de escena y mostrar la interfaz de 
-     * Seguir Usuario
-     * @param event
-     * @throws IOException 
-     */
 
-    /**
-     * Esta Accion nos permite cambiar de escena y mostrar la interfaz de 
-     * Mensaje Directo
-     * @param event
-     * @throws IOException 
-     */
-    
-    @FXML
-    private void MenuMensajeDirecto() throws IOException {
-        
-        mensajes.setVisible(true);
-        
-    }
     /**
      * Validacion 280 caracteres
      * @param event 
@@ -190,111 +192,9 @@ public  class MenuInicioController implements Initializable {
         
     }
     void ActualizarEstados() throws TwitterException, IOException{
-        int i=0;
-        GridPane grid = new GridPane();
-        if(Bot.obtenerTweets()==null){
-            return;
-        }
-        for(Status e : Bot.obtenerTweets()){
-            
-            GridPane gridAux = new GridPane();
-            
-            gridAux.setPadding(new Insets(10, 10, 10, 10)); 
-            
-            Label NombreUsuario = new Label(e.getUser().getName());
-            NombreUsuario.setPrefHeight(27);
-            NombreUsuario.setStyle("-fx-font: Microsoft YaHei Light;");
-            NombreUsuario.setStyle("-fx-font-size: 19px;");
-            
-            
-            ImageView FotoPerfil = new ImageView(new Image(e.getUser().get400x400ProfileImageURL()));
-            FotoPerfil.setFitHeight(50);
-            FotoPerfil.setFitWidth(50);
-            
-            TextArea Tweet = new TextArea(e.getText());
-            Tweet.setStyle("-fx-font: Microsoft YaHei Light;");
-            Tweet.setStyle("-fx-font-size: 18px;");
-            Tweet.editableProperty().set(false);
-            Tweet.wrapTextProperty().set(true);
-            
-            
-            
-            Tweet.setPrefHeight(135);
-            Tweet.setPrefWidth(730);
-            
-            
-            JFXButton BotonLike = new JFXButton();
-            JFXButton BotonRetweet = new JFXButton();
-            
-            BotonLike.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/corazon.png")));
-           
-            BotonRetweet.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/retuit.png")));
-                
-            if (e.isRetweeted()) {
-                BotonRetweet.setStyle("-fx-background-color: #23E868;");
-            }else{
-                BotonRetweet.setStyle("-fx-background-color: #9e9e9e;");
-            }
-            
-            if (e.isFavorited()) {
-                BotonLike.setStyle("-fx-background-color: #ad0352;");
-            }else{
-                BotonLike.setStyle("-fx-background-color: #9e9e9e;");
-            }
-            
-            
-            ImageView FotoPublicacion = new ImageView(new Image("/Vistas/Imagenes/MenuInicio.png"));
-            FotoPublicacion.setFitHeight(150);
-            FotoPublicacion.setFitWidth(150);
-            try {
-                FotoPublicacion.setImage(new Image(e.getMediaEntities()[0].getMediaURL()));
-                
-            }catch (Exception ex) {
-                
-            }
-            
-            gridAux.add(FotoPerfil,0,0);
-            gridAux.add(NombreUsuario, 1, 0);
-            gridAux.add(Tweet, 1, 1);
-            gridAux.add(BotonLike, 0, 2);
-            gridAux.add(BotonRetweet, 1, 2);
-            gridAux.add(FotoPublicacion, 2, 1);
-            
-            
-            BotonLike.setOnAction((ActionEvent events)->{ 
-                try {
-                    if(Bot.darLikeTweet(e.getId())){
-                        BotonLike.setStyle("-fx-background-color: #ad0352;");
-                    }else{
-                        BotonLike.setStyle("-fx-background-color: #9e9e9e;");
-                    }
-                
-                } catch (TwitterException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            });
-            BotonRetweet.setOnAction((ActionEvent events)->{ 
-                try {
-                    if(Bot.darRetweet(e.getId())){
-                        
-                        BotonRetweet.setStyle("-fx-background-color: #23E868;");
-                    }else{
-                        BotonRetweet.setStyle("-fx-background-color: #9e9e9e;");
-                    }
-                } catch (TwitterException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            });
-            
-//            ((Label)root.getChildrenUnmodifiable().get(3)).setText(e.getCreatedAt().toString() );
-
-            
-            grid.add(gridAux, 0, i);
-            i++;
-        }
         
+        Bot.timeLine(TimeLineInicio);
         
-        ScrollPane.setContent(grid);
     }
 
     @FXML
@@ -304,6 +204,42 @@ public  class MenuInicioController implements Initializable {
 
     @FXML
     private void BuscarAC() throws TwitterException {
+//        ResponseList<User> ListaUsuarios;
+//        BuscarListView.getItems().clear();
+//        BuscarListView.setVisible(true);
+//
+//        if (!BuscarTF.getText().isEmpty()) {
+//            ArrayList<String> Aux = Bot.BuscarEnTwitter(BuscarTF.getText());
+//            items.addAll(Aux);
+//            BuscarListView.setItems(items);
+//        } else {
+//            BuscarListView.setVisible(false);
+//        }
+    }
+
+    @FXML
+    private void SeleccionarItem() throws TwitterException {
+        if (BuscarListView.getSelectionModel().getSelectedItem()!=null) {
+            System.out.println("usuario seleccionado");
+            
+            informacion.setVisible(true);
+            
+            BuscarTF.setText(BuscarListView.getSelectionModel().getSelectedItem());
+            PersonaBuscada= Bot.BuscarUsuario(BuscarTF.getText());
+            
+            Nombre.setText(PersonaBuscada.getName());
+            Identificador.setText("@"+PersonaBuscada.getScreenName());
+            ImagenPerfil.setImage(new Image(PersonaBuscada.get400x400ProfileImageURL()));
+            Bot.timeLineBuscado(PersonaBuscada, TimeLinePersona);
+            
+            BuscarListView.setVisible(false);
+        }
+        
+    }
+
+    @FXML
+    private void BuscarPersona() throws IOException, TwitterException {
+        try{
         ResponseList <User> ListaUsuarios ;
         BuscarListView.getItems().clear();
         BuscarListView.setVisible(true);
@@ -317,25 +253,7 @@ public  class MenuInicioController implements Initializable {
          else{
             BuscarListView.setVisible(false);
         }
-    }
-
-    @FXML
-    private void SeleccionarItem() {
-        if (BuscarListView.getSelectionModel().getSelectedItem()!=null) {
-            System.out.println("usuario seleccionado");
             
-            BuscarTF.setText(BuscarListView.getSelectionModel().getSelectedItem());
-            
-            BuscarListView.setVisible(false);
-        }
-        
-    }
-
-    @FXML
-    private void BuscarPersona() throws IOException, TwitterException {
-        try{
-            PersonaBuscada= Bot.BuscarUsuario(BuscarTF.getText());
-            Animacion.CambiarVentanta(Escena, "/Vistas/PersonaBuscada.fxml"); 
         }catch(Exception e){
             AvisosLabel.setText("Usuario no encontrado");
             Animacion.MostrarAvisos(AvisosLabel);
@@ -363,9 +281,53 @@ public  class MenuInicioController implements Initializable {
         
     }
 
+
     @FXML
-    private void volver(ActionEvent event) {
-        mensajes.setVisible(false);
+    private void volverInicio(ActionEvent event) {
+        
+        if (MenuBuscar.isVisible()) {
+            MenuInicio.setVisible(true);
+            botonInicio.setStyle("-fx-background-color: #9d6da5;");
+            botonInicio.textFillProperty().setValue(Paint.valueOf("white"));
+            botonInicio.ripplerFillProperty().setValue(Paint.valueOf("white"));
+            
+            botonBuscar.setStyle("-fx-background-color: #ededed;");
+            botonBuscar.textFillProperty().setValue(Paint.valueOf("#545454"));
+            botonBuscar.ripplerFillProperty().setValue(Paint.valueOf("#9d6da5"));
+            
+            MenuBuscar.setVisible(false);
+        }
+        
+    }
+
+    @FXML
+    private void MenuMensajeDirecto(ActionEvent event) {
+    }
+
+    @FXML
+    private void SeguirUsuario(ActionEvent event) throws TwitterException, IOException {
+        Bot.seguirUsuario(PersonaBuscada.getScreenName());
+        AvisosLabel.setText("Siguiendo al Usuario Correctamente.");
+        Animacion.MostrarAvisos(AvisosLabel);
+    }
+
+    @FXML
+    private void menuBuscar(ActionEvent event) {
+        
+        if(MenuInicio.isVisible()) {
+            MenuBuscar.setVisible(true);
+            botonBuscar.setStyle("-fx-background-color: #9d6da5;");
+            botonBuscar.textFillProperty().setValue(Paint.valueOf("white"));
+            botonBuscar.ripplerFillProperty().setValue(Paint.valueOf("white"));
+            
+            botonInicio.setStyle("-fx-background-color: #ededed;");
+            botonInicio.textFillProperty().setValue(Paint.valueOf("#545454"));
+            botonInicio.ripplerFillProperty().setValue(Paint.valueOf("#9d6da5"));
+            
+            
+            MenuInicio.setVisible(false);
+        }
+        
     }
    
 }

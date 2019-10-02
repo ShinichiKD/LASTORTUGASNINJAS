@@ -57,7 +57,7 @@
             </Label>
             <JFXButton layoutX="309.0" layoutY="9.0" onAction="#CerrarVentana" prefHeight="50.0" prefWidth="50.0" ripplerFill="#327dff" style="-fx-background-color: White;" text="&lt;" textFill="#545454">
                <font>
-                  <Font name="Microsoft YaHei Light" size="14.0" />
+                  <Font name="Microsoft YaHei Light" size="22.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />

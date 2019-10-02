@@ -1,17 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controladores;
 
+import com.jfoenix.controls.JFXButton;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import twitter4j.DirectMessage;
-import twitter4j.DirectMessageList;
+import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import twitter4j.IDs;
 import twitter4j.Query;
 import twitter4j.QueryResult;
@@ -217,6 +218,219 @@ public class BotTwitter {
         this.medias.add(mediaAux.getMediaId());
     }
     
+    public void timeLineBuscado(User usuario,ScrollPane timeLine) throws TwitterException{
+        int i=0;
+        GridPane grid = new GridPane();
+        
+        for(Status e : TweetBuscado(usuario.getScreenName())){
+
+                
+            GridPane gridAux = new GridPane();
+            gridAux.setStyle("-fx-background-color: #e4e4e4;");
+            gridAux.setPadding(new Insets(10, 10, 10, 10)); 
+            
+            Label NombreUsuario = new Label(e.getUser().getName());
+            NombreUsuario.setPrefHeight(27);
+            NombreUsuario.setStyle("-fx-font: Microsoft YaHei Light;");
+            NombreUsuario.setStyle("-fx-font-size: 19px;");
+            
+            
+            ImageView FotoPerfil = new ImageView(new Image(e.getUser().get400x400ProfileImageURL()));
+            FotoPerfil.setFitHeight(50);
+            FotoPerfil.setFitWidth(50);
+            
+            TextArea Tweet = new TextArea(e.getText());
+            Tweet.setStyle("-fx-font: Microsoft YaHei Light;");
+            Tweet.setStyle("-fx-font-size: 18px;");
+            Tweet.editableProperty().set(false);
+            Tweet.wrapTextProperty().set(true);
+            
+            
+            
+            Tweet.setPrefHeight(135);
+            Tweet.setPrefWidth(730);
+            
+            
+            JFXButton BotonLike = new JFXButton();
+            JFXButton BotonRetweet = new JFXButton();
+            
+            BotonLike.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/corazon.png")));
+           
+            BotonRetweet.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/retuit.png")));
+                
+            if (e.isRetweeted()) {
+                BotonRetweet.setStyle("-fx-background-color: #23E868;");
+            }else{
+                BotonRetweet.setStyle("-fx-background-color: #9e9e9e;");
+            }
+            
+            if (e.isFavorited()) {
+                BotonLike.setStyle("-fx-background-color: #ad0352;");
+            }else{
+                BotonLike.setStyle("-fx-background-color: #9e9e9e;");
+            }
+            
+            
+            ImageView FotoPublicacion = new ImageView(new Image("/Vistas/Imagenes/MenuInicio.png"));
+            FotoPublicacion.setFitHeight(150);
+            FotoPublicacion.setFitWidth(150);
+            try {
+                FotoPublicacion.setImage(new Image(e.getMediaEntities()[0].getMediaURL()));
+                
+            }catch (Exception ex) {
+                
+            }
+            Label Fecha = new Label(e.getCreatedAt().getDate()+"/"+(e.getCreatedAt().getMonth()+1)+"/"+(e.getCreatedAt().getYear()-100));
+            Fecha.setStyle("-fx-font: Microsoft YaHei Light;");
+            Fecha.setStyle("-fx-font-size: 15px;");
+            gridAux.add(FotoPerfil,0,0);
+            gridAux.add(NombreUsuario, 1, 0);
+            gridAux.add(Tweet, 1, 1);
+            gridAux.add(BotonLike, 0, 2);
+            gridAux.add(BotonRetweet, 1, 2);
+            gridAux.add(FotoPublicacion, 2, 1);
+            gridAux.add(Fecha,2,0);
+            
+            BotonLike.setOnAction((ActionEvent events)->{ 
+                try {
+                    if(darLikeTweet(e.getId())){
+                        BotonLike.setStyle("-fx-background-color: #ad0352;");
+                    }else{
+                        BotonLike.setStyle("-fx-background-color: #9e9e9e;");
+                    }
+                
+                } catch (TwitterException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            });
+            BotonRetweet.setOnAction((ActionEvent events)->{ 
+                try {
+                    if(darRetweet(e.getId())){
+                        
+                        BotonRetweet.setStyle("-fx-background-color: #23E868;");
+                    }else{
+                        BotonRetweet.setStyle("-fx-background-color: #9e9e9e;");
+                    }
+                } catch (TwitterException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            });
+            
+           
+
+            
+            grid.add(gridAux, 0, i);
+            i++;
+        }
+        
+        
+        timeLine.setContent(grid);
+        
+        
+    }
+    public void timeLine(ScrollPane timeLine) throws TwitterException{
+        int i=0;
+        GridPane grid = new GridPane();
+        
+        for(Status e : obtenerTweets()){
+
+            GridPane gridAux = new GridPane();
+            gridAux.setStyle("-fx-background-color: #e4e4e4;");
+            gridAux.setPadding(new Insets(10, 10, 10, 10)); 
+            
+            Label NombreUsuario = new Label(e.getUser().getName());
+            NombreUsuario.setPrefHeight(27);
+            NombreUsuario.setStyle("-fx-font: Microsoft YaHei Light;");
+            NombreUsuario.setStyle("-fx-font-size: 19px;");
+            
+            
+            ImageView FotoPerfil = new ImageView(new Image(e.getUser().get400x400ProfileImageURL()));
+            FotoPerfil.setFitHeight(50);
+            FotoPerfil.setFitWidth(50);
+            
+            TextArea Tweet = new TextArea(e.getText());
+            Tweet.setStyle("-fx-font: Microsoft YaHei Light;");
+            Tweet.setStyle("-fx-font-size: 18px;");
+            Tweet.editableProperty().set(false);
+            Tweet.wrapTextProperty().set(true);
+            
+            
+            
+            Tweet.setPrefHeight(135);
+            Tweet.setPrefWidth(730);
+            
+            
+            JFXButton BotonLike = new JFXButton();
+            JFXButton BotonRetweet = new JFXButton();
+            
+            BotonLike.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/corazon.png")));
+           
+            BotonRetweet.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/retuit.png")));
+                
+            if (e.isRetweeted()) {
+                BotonRetweet.setStyle("-fx-background-color: #23E868;");
+            }else{
+                BotonRetweet.setStyle("-fx-background-color: #9e9e9e;");
+            }
+            
+            if (e.isFavorited()) {
+                BotonLike.setStyle("-fx-background-color: #ad0352;");
+            }else{
+                BotonLike.setStyle("-fx-background-color: #9e9e9e;");
+            }
+            
+            
+            ImageView FotoPublicacion = new ImageView(new Image("/Vistas/Imagenes/MenuInicio.png"));
+            FotoPublicacion.setFitHeight(150);
+            FotoPublicacion.setFitWidth(150);
+            try {
+                FotoPublicacion.setImage(new Image(e.getMediaEntities()[0].getMediaURL()));
+                
+            }catch (Exception ex) {
+                
+            }
+            Label Fecha = new Label(e.getCreatedAt().getDate()+"/"+(e.getCreatedAt().getMonth()+1)+"/"+(e.getCreatedAt().getYear()-100));
+            Fecha.setStyle("-fx-font: Microsoft YaHei Light;");
+            Fecha.setStyle("-fx-font-size: 15px;");
+            gridAux.add(FotoPerfil,0,0);
+            gridAux.add(NombreUsuario, 1, 0);
+            gridAux.add(Tweet, 1, 1);
+            gridAux.add(BotonLike, 0, 2);
+            gridAux.add(BotonRetweet, 1, 2);
+            gridAux.add(FotoPublicacion, 2, 1);
+            gridAux.add(Fecha,2,0);
+            
+            
+            BotonLike.setOnAction((ActionEvent events)->{ 
+                try {
+                    if(darLikeTweet(e.getId())){
+                        BotonLike.setStyle("-fx-background-color: #ad0352;");
+                    }else{
+                        BotonLike.setStyle("-fx-background-color: #9e9e9e;");
+                    }
+                
+                } catch (TwitterException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            });
+            BotonRetweet.setOnAction((ActionEvent events)->{ 
+                try {
+                    if(darRetweet(e.getId())){
+                        
+                        BotonRetweet.setStyle("-fx-background-color: #23E868;");
+                    }else{
+                        BotonRetweet.setStyle("-fx-background-color: #9e9e9e;");
+                    }
+                } catch (TwitterException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            });
+            
+            grid.add(gridAux, 0, i);
+            i++;
+        }
+        timeLine.setContent(grid);
+    }
     
     
 }
