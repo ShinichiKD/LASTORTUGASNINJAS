@@ -25,6 +25,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
@@ -70,6 +71,8 @@ public  class MenuInicioController implements Initializable {
     ObservableList<String> items =FXCollections.observableArrayList();
     
     public static User PersonaBuscada;
+    @FXML
+    private Pane mensajes;
     
     
     
@@ -162,7 +165,7 @@ public  class MenuInicioController implements Initializable {
     @FXML
     private void MenuMensajeDirecto() throws IOException {
         
-        Animacion.CambiarVentanta(Escena,"/Vistas/MensajeDirecto.fxml");
+        mensajes.setVisible(true);
         
     }
     /**
@@ -358,6 +361,11 @@ public  class MenuInicioController implements Initializable {
             Animacion.MostrarAvisos(AvisosLabel);
         }
         
+    }
+
+    @FXML
+    private void volver(ActionEvent event) {
+        mensajes.setVisible(false);
     }
    
 }
