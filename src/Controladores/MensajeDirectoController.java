@@ -49,7 +49,6 @@ public class MensajeDirectoController implements Initializable {
        Bot = new BotTwitter();
        Animacion = new Animaciones(); 
        AvisosLabel.setVisible(false);
-      
        
     }    
     /**

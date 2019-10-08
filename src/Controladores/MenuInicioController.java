@@ -50,8 +50,6 @@ public  class MenuInicioController implements Initializable {
     @FXML
     private AnchorPane AnchoPane;
     @FXML
-    private Button MensajeDirecto;
-    @FXML
     private Label Contador;
     @FXML
     private Button TwittearBoton;
@@ -59,7 +57,7 @@ public  class MenuInicioController implements Initializable {
     private Label AvisosLabel;
     @FXML
     private JFXTextField BuscarTF;
-    @FXML
+    
     private ListView<String> BuscarListView = new ListView<String>();
     
     ObservableList<String> items =FXCollections.observableArrayList();
@@ -87,6 +85,10 @@ public  class MenuInicioController implements Initializable {
     private JFXButton botonBuscar;
     @FXML
     private Pane informacion;
+    @FXML
+    private JFXButton botonMensaje;
+    @FXML
+    private Pane MenuMensaje;
     
     
     
@@ -217,7 +219,6 @@ public  class MenuInicioController implements Initializable {
 //        }
     }
 
-    @FXML
     private void SeleccionarItem() throws TwitterException {
         if (BuscarListView.getSelectionModel().getSelectedItem()!=null) {
             System.out.println("usuario seleccionado");
@@ -285,23 +286,25 @@ public  class MenuInicioController implements Initializable {
     @FXML
     private void volverInicio(ActionEvent event) {
         
-        if (MenuBuscar.isVisible()) {
+            
+            if(MenuBuscar.isVisible()){
+                botonBuscar.setStyle("-fx-background-color: #ededed;");
+                botonBuscar.textFillProperty().setValue(Paint.valueOf("#545454"));
+                botonBuscar.ripplerFillProperty().setValue(Paint.valueOf("#9d6da5"));
+                MenuBuscar.setVisible(false);
+            }
+            
+            if(MenuMensaje.isVisible()){
+                botonMensaje.setStyle("-fx-background-color: #ededed;");
+                botonMensaje.textFillProperty().setValue(Paint.valueOf("#545454"));
+                botonMensaje.ripplerFillProperty().setValue(Paint.valueOf("#9d6da5"));
+                MenuMensaje.setVisible(false);
+            }
             MenuInicio.setVisible(true);
             botonInicio.setStyle("-fx-background-color: #9d6da5;");
             botonInicio.textFillProperty().setValue(Paint.valueOf("white"));
             botonInicio.ripplerFillProperty().setValue(Paint.valueOf("white"));
-            
-            botonBuscar.setStyle("-fx-background-color: #ededed;");
-            botonBuscar.textFillProperty().setValue(Paint.valueOf("#545454"));
-            botonBuscar.ripplerFillProperty().setValue(Paint.valueOf("#9d6da5"));
-            
-            MenuBuscar.setVisible(false);
-        }
         
-    }
-
-    @FXML
-    private void MenuMensajeDirecto(ActionEvent event) {
     }
 
     @FXML
@@ -314,19 +317,53 @@ public  class MenuInicioController implements Initializable {
     @FXML
     private void menuBuscar(ActionEvent event) {
         
-        if(MenuInicio.isVisible()) {
+            
+            
+            if(MenuInicio.isVisible()){
+                botonInicio.setStyle("-fx-background-color: #ededed;");
+                botonInicio.textFillProperty().setValue(Paint.valueOf("#545454"));
+                botonInicio.ripplerFillProperty().setValue(Paint.valueOf("#9d6da5"));
+                MenuInicio.setVisible(false);
+            }
+            
+            if(MenuMensaje.isVisible()){
+                botonMensaje.setStyle("-fx-background-color: #ededed;");
+                botonMensaje.textFillProperty().setValue(Paint.valueOf("#545454"));
+                botonMensaje.ripplerFillProperty().setValue(Paint.valueOf("#9d6da5")); 
+                MenuMensaje.setVisible(false);
+            }
             MenuBuscar.setVisible(true);
             botonBuscar.setStyle("-fx-background-color: #9d6da5;");
             botonBuscar.textFillProperty().setValue(Paint.valueOf("white"));
             botonBuscar.ripplerFillProperty().setValue(Paint.valueOf("white"));
+    }
+
+    @FXML
+    private void menuMensaje(ActionEvent event) {
+        
+            if(MenuInicio.isVisible()){
+                botonInicio.setStyle("-fx-background-color: #ededed;");
+                botonInicio.textFillProperty().setValue(Paint.valueOf("#545454"));
+                botonInicio.ripplerFillProperty().setValue(Paint.valueOf("#9d6da5"));
+                MenuInicio.setVisible(false);
+            }
             
-            botonInicio.setStyle("-fx-background-color: #ededed;");
-            botonInicio.textFillProperty().setValue(Paint.valueOf("#545454"));
-            botonInicio.ripplerFillProperty().setValue(Paint.valueOf("#9d6da5"));
+            if(MenuBuscar.isVisible()){
+                botonBuscar.setStyle("-fx-background-color: #ededed;");
+                botonBuscar.textFillProperty().setValue(Paint.valueOf("#545454"));
+                botonBuscar.ripplerFillProperty().setValue(Paint.valueOf("#9d6da5"));
+                MenuBuscar.setVisible(false);
+            }
             
+            MenuMensaje.setVisible(true);
+            botonMensaje.setStyle("-fx-background-color: #9d6da5;");
+            botonMensaje.textFillProperty().setValue(Paint.valueOf("white"));
+            botonMensaje.ripplerFillProperty().setValue(Paint.valueOf("white"));
+            cargarUsuarios();
             
-            MenuInicio.setVisible(false);
-        }
+    }
+    
+    private void cargarUsuarios(){
         
     }
    

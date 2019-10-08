@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import twitter4j.IDs;
+import twitter4j.Paging;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.ResponseList;
@@ -34,9 +35,12 @@ public class BotTwitter {
     
     private Twitter Bot;
     private ArrayList<Long> medias;
+    private long LastId = -1;
+    GridPane grid;
     
     public BotTwitter() {
         //inicializar
+        grid = new GridPane();
         medias = new ArrayList<>();
         Bot = init();
     }
@@ -121,14 +125,19 @@ public class BotTwitter {
         return Tweets;
     }
     
-    public ArrayList<Status> obtenerTweets() throws TwitterException{
-       
-        ArrayList<Status> Tweets= new ArrayList<>();
-         for (Status status : Bot.getHomeTimeline()) {
-             Tweets.add(status);
-         }
-         return Tweets; 
+    public ArrayList<Status> obtenerTweets() throws TwitterException {
+        
+            Paging paging;
+            if(LastId > 0){
+                paging = new Paging(LastId);
+            }else{
+                paging = new Paging(1, 3);
+            }
+            
+            return (ArrayList<Status>) Bot.getHomeTimeline(paging);
+            
     }
+    
     public boolean darLikeTweet(Long id) throws TwitterException{
         
         Status st = Bot.showStatus(id);
@@ -205,7 +214,7 @@ public class BotTwitter {
     public  ArrayList<Status> TweetBuscado(String Nombre) throws TwitterException{
         
         ArrayList<Status> Tweets= new ArrayList<>();
-        for (Status status : Bot.getUserTimeline(Nombre)) {
+        for (Status status : Bot.getUserTimeline(Nombre, new Paging(1,20))) {
             
             Tweets.add(status);
             
@@ -219,12 +228,14 @@ public class BotTwitter {
     }
     
     public void timeLineBuscado(User usuario,ScrollPane timeLine) throws TwitterException{
-        int i=0;
+        int i=0,max;
         GridPane grid = new GridPane();
-        
-        for(Status e : TweetBuscado(usuario.getScreenName())){
-
-                
+        ArrayList<Status> status = TweetBuscado(usuario.getScreenName());
+        max = status.size();
+        for(Status e : status){
+            
+            System.out.println("Cargando tweet "+i+" de "+max);
+            
             GridPane gridAux = new GridPane();
             gridAux.setStyle("-fx-background-color: #e4e4e4;");
             gridAux.setPadding(new Insets(10, 10, 10, 10)); 
@@ -329,57 +340,45 @@ public class BotTwitter {
         
     }
     public void timeLine(ScrollPane timeLine) throws TwitterException{
-        int i=0;
-        GridPane grid = new GridPane();
+        int i=0,max;
         
-        for(Status e : obtenerTweets()){
-
+        ArrayList<Status> status =  obtenerTweets();
+        max = status.size();
+        LastId = status.get(0).getId();
+                
+        for (Status e : status) {
+            System.out.println("Cargando tweet "+(i+1)+" de "+max);
             GridPane gridAux = new GridPane();
             gridAux.setStyle("-fx-background-color: #e4e4e4;");
-            gridAux.setPadding(new Insets(10, 10, 10, 10)); 
-            
+            gridAux.setPadding(new Insets(10, 10, 10, 10));
             Label NombreUsuario = new Label(e.getUser().getName());
             NombreUsuario.setPrefHeight(27);
             NombreUsuario.setStyle("-fx-font: Microsoft YaHei Light;");
             NombreUsuario.setStyle("-fx-font-size: 19px;");
-            
-            
             ImageView FotoPerfil = new ImageView(new Image(e.getUser().get400x400ProfileImageURL()));
             FotoPerfil.setFitHeight(50);
             FotoPerfil.setFitWidth(50);
-            
             TextArea Tweet = new TextArea(e.getText());
             Tweet.setStyle("-fx-font: Microsoft YaHei Light;");
             Tweet.setStyle("-fx-font-size: 18px;");
             Tweet.editableProperty().set(false);
             Tweet.wrapTextProperty().set(true);
-            
-            
-            
             Tweet.setPrefHeight(135);
             Tweet.setPrefWidth(730);
-            
-            
             JFXButton BotonLike = new JFXButton();
             JFXButton BotonRetweet = new JFXButton();
-            
             BotonLike.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/corazon.png")));
-           
             BotonRetweet.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/retuit.png")));
-                
             if (e.isRetweeted()) {
                 BotonRetweet.setStyle("-fx-background-color: #23E868;");
             }else{
                 BotonRetweet.setStyle("-fx-background-color: #9e9e9e;");
             }
-            
             if (e.isFavorited()) {
                 BotonLike.setStyle("-fx-background-color: #ad0352;");
             }else{
                 BotonLike.setStyle("-fx-background-color: #9e9e9e;");
             }
-            
-            
             ImageView FotoPublicacion = new ImageView(new Image("/Vistas/Imagenes/MenuInicio.png"));
             FotoPublicacion.setFitHeight(150);
             FotoPublicacion.setFitWidth(150);
@@ -399,8 +398,6 @@ public class BotTwitter {
             gridAux.add(BotonRetweet, 1, 2);
             gridAux.add(FotoPublicacion, 2, 1);
             gridAux.add(Fecha,2,0);
-            
-            
             BotonLike.setOnAction((ActionEvent events)->{ 
                 try {
                     if(darLikeTweet(e.getId())){
@@ -425,7 +422,6 @@ public class BotTwitter {
                     System.out.println(ex.getMessage());
                 }
             });
-            
             grid.add(gridAux, 0, i);
             i++;
         }

@@ -18,17 +18,9 @@
    <children>
       <AnchorPane fx:id="AnchoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.91" prefHeight="760.0" prefWidth="1360.0" style="-fx-background-color: #d1d1d1;">
          <children>
-            <Pane layoutX="-5.0" layoutY="87.0" prefHeight="674.0" prefWidth="180.0" style="-fx-background-color: TRANSPARENT;">
+            <Pane layoutX="1.0" layoutY="80.0" prefHeight="680.0" prefWidth="175.0">
                <children>
-                  <ListView fx:id="BuscarListView" layoutY="-6.0" onMouseClicked="#SeleccionarItem" prefHeight="680.0" prefWidth="180.0" style="-fx-background-color: #d1d1d1;" />
-                  <JFXButton fx:id="MensajeDirecto" layoutX="14.0" layoutY="697.0" onAction="#MenuMensajeDirecto" prefHeight="50.0" prefWidth="209.0" ripplerFill="#00d29a" style="-fx-background-color: white;" text="Mensaje Directo" textFill="#545454">
-                     <font>
-                        <Font name="Microsoft YaHei Light" size="21.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXButton>
+                  <ListView fx:id="items" prefHeight="680.0" prefWidth="175.0" />
                </children>
             </Pane>
             <Pane prefHeight="80.0" prefWidth="1360.0" style="-fx-background-color: #ededed;">
@@ -48,7 +40,7 @@
                         <Font name="Microsoft JhengHei Light" size="22.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton layoutX="418.0" layoutY="18.0" prefHeight="47.0" prefWidth="198.0" ripplerFill="#9d6da5" text="Mensaje Directo">
+                  <JFXButton fx:id="botonMensaje" layoutX="418.0" layoutY="18.0" onAction="#menuMensaje" prefHeight="47.0" prefWidth="198.0" ripplerFill="#9d6da5" text="Mensaje Directo">
                      <font>
                         <Font name="Microsoft JhengHei Light" size="22.0" />
                      </font>
@@ -143,6 +135,16 @@
                         <Font name="Microsoft YaHei Light" size="21.0" />
                      </font>
                   </JFXButton>
+               </children>
+            </Pane>
+            <Pane fx:id="MenuMensaje" layoutX="173.0" layoutY="80.0" prefHeight="680.0" prefWidth="1007.0" style="-fx-background-color: #d1d1d1;" visible="false">
+               <children>
+                  <ListView fx:id="ListaUsuarios" prefHeight="680.0" prefWidth="301.0" />
+                  <ScrollPane layoutX="301.0" prefHeight="680.0" prefWidth="705.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                    </content>
+                  </ScrollPane>
                </children>
             </Pane>
             <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="335.0" layoutY="721.0" prefHeight="40.0" prefWidth="700.0" style="-fx-background-color: Orange;" text="Mensaje de estado">
