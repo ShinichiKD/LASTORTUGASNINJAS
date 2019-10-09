@@ -58,10 +58,11 @@ public  class MenuInicioController implements Initializable {
     @FXML
     private JFXTextField BuscarTF;
     
-    private ListView<String> BuscarListView = new ListView<String>();
+    @FXML 
+    private ListView<String> BuscarListView = new ListView<String>(); 
     
     ObservableList<String> items =FXCollections.observableArrayList();
-    
+    @FXML
     public User PersonaBuscada;
     
     @FXML
@@ -218,7 +219,8 @@ public  class MenuInicioController implements Initializable {
 //            BuscarListView.setVisible(false);
 //        }
     }
-
+    
+    @FXML 
     private void SeleccionarItem() throws TwitterException {
         if (BuscarListView.getSelectionModel().getSelectedItem()!=null) {
             System.out.println("usuario seleccionado");

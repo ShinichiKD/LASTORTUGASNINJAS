@@ -26,6 +26,8 @@ import twitter4j.TwitterFactory;
 import twitter4j.UploadedMedia;
 import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
+import twitter4j.UserStreamListener;
+
 
 /**
  *
@@ -37,9 +39,11 @@ public class BotTwitter {
     private ArrayList<Long> medias;
     private long LastId = -1;
     GridPane grid;
+    ArrayList<GridPane> gridsAux;
     
     public BotTwitter() {
         //inicializar
+        gridsAux = new ArrayList<>();
         grid = new GridPane();
         medias = new ArrayList<>();
         Bot = init();
@@ -131,7 +135,7 @@ public class BotTwitter {
             if(LastId > 0){
                 paging = new Paging(LastId);
             }else{
-                paging = new Paging(1, 3);
+                paging = new Paging(1, 10);
             }
             
             return (ArrayList<Status>) Bot.getHomeTimeline(paging);
@@ -232,6 +236,7 @@ public class BotTwitter {
         GridPane grid = new GridPane();
         ArrayList<Status> status = TweetBuscado(usuario.getScreenName());
         max = status.size();
+        
         for(Status e : status){
             
             System.out.println("Cargando tweet "+i+" de "+max);
@@ -344,11 +349,15 @@ public class BotTwitter {
         
         ArrayList<Status> status =  obtenerTweets();
         max = status.size();
+        
         LastId = status.get(0).getId();
                 
         for (Status e : status) {
+            
             System.out.println("Cargando tweet "+(i+1)+" de "+max);
+            
             GridPane gridAux = new GridPane();
+            
             gridAux.setStyle("-fx-background-color: #e4e4e4;");
             gridAux.setPadding(new Insets(10, 10, 10, 10));
             Label NombreUsuario = new Label(e.getUser().getName());
@@ -422,11 +431,31 @@ public class BotTwitter {
                     System.out.println(ex.getMessage());
                 }
             });
-            grid.add(gridAux, 0, i);
+            
+            
+            
+            
+            if(status.size()<10){
+                gridsAux.add(0,gridAux);
+            }else{
+                gridsAux.add(gridAux);
+            }
+            
             i++;
         }
+        anadirGrid();
         timeLine.setContent(grid);
     }
+    
+    private void anadirGrid(){
+        int i = 0;
+        grid = new GridPane();
+        for(GridPane gp : gridsAux){
+            grid.add(gp, 0, i);
+            i++;
+        }
+    }
+    
     
     
 }
