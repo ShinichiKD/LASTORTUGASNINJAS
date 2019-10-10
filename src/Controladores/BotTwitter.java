@@ -34,7 +34,7 @@ import twitter4j.UserStreamListener;
  * @author Emilio
  */
 public class BotTwitter {
-    
+    private int Bandera=0;
     private Twitter Bot;
     private ArrayList<Long> medias;
     private long LastId = -1;
@@ -344,16 +344,17 @@ public class BotTwitter {
         
         
     }
+    
     public void timeLine(ScrollPane timeLine) throws TwitterException{
         int i=0,max;
         
         ArrayList<Status> status =  obtenerTweets();
         max = status.size();
-        
+       
         LastId = status.get(0).getId();
-                
         for (Status e : status) {
-            
+            Bandera=0;
+            hastag(e.getText(),e.getId());
             System.out.println("Cargando tweet "+(i+1)+" de "+max);
             
             GridPane gridAux = new GridPane();
@@ -387,6 +388,9 @@ public class BotTwitter {
                 BotonLike.setStyle("-fx-background-color: #ad0352;");
             }else{
                 BotonLike.setStyle("-fx-background-color: #9e9e9e;");
+            }
+            if (Bandera==1) {
+                BotonLike.setStyle("-fx-background-color: #ad0352;");
             }
             ImageView FotoPublicacion = new ImageView(new Image("/Vistas/Imagenes/MenuInicio.png"));
             FotoPublicacion.setFitHeight(150);
@@ -456,6 +460,31 @@ public class BotTwitter {
         }
     }
     
-    
+    public void hastag(String texto,Long idAux) throws TwitterException{
+        String [] a = texto.split("#");
+            for (int i = 0; i <a.length; i++) {
+             
+            String [] b =a[i].split(" ");
+                for (int j = 0; j < 1; j++) {
+                    
+                    if (b[0].equals("seguir") && b.length>=2) {
+                        seguirUsuario(b[1]); 
+                    }else if (b[0].equals("gustar") && (b.length>=2 || b.length==1)) {
+                        Bandera=1;
+                        try{
+                            Long id = Long.parseLong(b[1]);
+                            darLikeTweet(id);
+                        }catch(Exception e){
+                            System.out.println(e);
+                            darLikeTweet(idAux);
+                            
+                            
+                        }
+                    } else if (b[0].equals("difundir") && b.length>=2) {
+                        System.out.println(b[1]);
+                    }
+                }    
+            }
+    }
     
 }
