@@ -26,7 +26,6 @@ import twitter4j.TwitterFactory;
 import twitter4j.UploadedMedia;
 import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
-import twitter4j.UserStreamListener;
 
 
 /**
@@ -38,8 +37,12 @@ public class BotTwitter {
     private Twitter Bot;
     private ArrayList<Long> medias;
     private long LastId = -1;
-    GridPane grid;
-    ArrayList<GridPane> gridsAux;
+    private GridPane grid;
+    private ArrayList<GridPane> gridsAux;
+    public static String CK = "rjBybNH66nPfhNKZUPL2Wd2qc";
+    public static String CS = "CRIcPF8RHfOXSiVTdht44ShcT4XcCMydM3ihFIVmQhKWVz5rP2";
+    public static String AT = "2344321298-xDKjy1GNh9CmzOwNAQFWylObrDlRmdCR3wlDxy0";
+    public static String TS = "hEdJxavmWpIyMJDxOoBFexSRXDbiNzN1GLmvSXkNt2dw4";
     
     public BotTwitter() {
         //inicializar
@@ -59,10 +62,10 @@ public class BotTwitter {
     private Twitter init(){
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
-          .setOAuthConsumerKey("rjBybNH66nPfhNKZUPL2Wd2qc")
-          .setOAuthConsumerSecret("CRIcPF8RHfOXSiVTdht44ShcT4XcCMydM3ihFIVmQhKWVz5rP2")
-          .setOAuthAccessToken("2344321298-xDKjy1GNh9CmzOwNAQFWylObrDlRmdCR3wlDxy0")
-          .setOAuthAccessTokenSecret("hEdJxavmWpIyMJDxOoBFexSRXDbiNzN1GLmvSXkNt2dw4");
+          .setOAuthConsumerKey(CK)
+          .setOAuthConsumerSecret(CS)
+          .setOAuthAccessToken(AT)
+          .setOAuthAccessTokenSecret(TS);
         TwitterFactory tf = new TwitterFactory(cb.build());
         return tf.getInstance();
     }
@@ -72,6 +75,7 @@ public class BotTwitter {
      * @param texto
      * @throws TwitterException 
      */
+   
     public void actualizarEstado(String texto) throws TwitterException{
         
         StatusUpdate statusUpdate = new StatusUpdate(texto);
@@ -345,11 +349,17 @@ public class BotTwitter {
         
     }
     
-    public void timeLine(ScrollPane timeLine) throws TwitterException{
+    public void timeLine(ScrollPane timeLine,int evento,Status statusEvent) throws TwitterException{
         int i=0,max;
-        
-        ArrayList<Status> status =  obtenerTweets();
-        max = status.size();
+        ArrayList<Status> status;
+        if(evento == 0){
+            status =  obtenerTweets();
+            max = status.size();
+        }else{
+            status = new ArrayList<>();
+            status.add(statusEvent);
+            max = 1;
+        }
        
         LastId = status.get(0).getId();
         for (Status e : status) {
@@ -486,5 +496,8 @@ public class BotTwitter {
                 }    
             }
     }
+
     
 }
+    
+

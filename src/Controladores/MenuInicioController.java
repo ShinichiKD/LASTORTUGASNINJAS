@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,9 +28,17 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import twitter4j.FilterQuery;
 import twitter4j.ResponseList;
+import twitter4j.StallWarning;
+import twitter4j.Status;
+import twitter4j.StatusDeletionNotice;
+import twitter4j.StatusListener;
 import twitter4j.TwitterException;
+import twitter4j.TwitterStream;
+import twitter4j.TwitterStreamFactory;
 import twitter4j.User;
+import twitter4j.conf.ConfigurationBuilder;
 
 /**
  * FXML Controller class
@@ -91,12 +100,52 @@ public  class MenuInicioController implements Initializable {
     @FXML
     private Pane MenuMensaje;
     
-    
+     StatusListener listener = new StatusListener() {
+            @Override
+            public void onStatus(Status status) {
+                Platform.runLater(
+                () -> {
+                    try {
+                        Bot.timeLine(TimeLineInicio,1,status);
+                    } catch (TwitterException ex) {
+                        Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+              );
+                
+            }       
+
+            @Override
+            public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
+                System.out.println("Got a status deletion notice id:" + statusDeletionNotice.getStatusId());
+            }
+
+            @Override
+            public void onTrackLimitationNotice(int numberOfLimitedStatuses) {
+                System.out.println("Got track limitation notice:" + numberOfLimitedStatuses);
+            }
+
+            @Override
+            public void onScrubGeo(long userId, long upToStatusId) {
+                System.out.println("Got scrub_geo event userId:" + userId + " upToStatusId:" + upToStatusId);
+            }
+
+            @Override
+            public void onStallWarning(StallWarning warning) {
+                System.out.println("Got stall warning:" + warning);
+            }
+
+            @Override
+            public void onException(Exception ex) {
+                ex.printStackTrace();
+            }
+        };
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
         Bot = new BotTwitter();
+        initStream();
         Animacion= new Animaciones();
         AvisosLabel.setVisible(false);
         BuscarListView.setVisible(false);
@@ -196,7 +245,7 @@ public  class MenuInicioController implements Initializable {
     }
     void ActualizarEstados() throws TwitterException, IOException{
         
-        Bot.timeLine(TimeLineInicio);
+        Bot.timeLine(TimeLineInicio,0,null);
         
     }
 
@@ -361,12 +410,22 @@ public  class MenuInicioController implements Initializable {
             botonMensaje.setStyle("-fx-background-color: #9d6da5;");
             botonMensaje.textFillProperty().setValue(Paint.valueOf("white"));
             botonMensaje.ripplerFillProperty().setValue(Paint.valueOf("white"));
-            cargarUsuarios();
             
     }
-    
-    private void cargarUsuarios(){
+    private void initStream() {
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true)
+          .setOAuthConsumerKey(BotTwitter.CK)
+          .setOAuthConsumerSecret(BotTwitter.CS)
+          .setOAuthAccessToken(BotTwitter.AT)
+          .setOAuthAccessTokenSecret(BotTwitter.TS);
+        TwitterStream twitterStream = new TwitterStreamFactory(cb.build()).getInstance();
         
+        twitterStream.addListener(listener);
+        FilterQuery filtre = new FilterQuery();
+        String[] keywordsArray = { "AlmostHumanBot" };
+        filtre.track(keywordsArray);
+        twitterStream.filter(filtre);
     }
    
 }
