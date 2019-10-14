@@ -13,6 +13,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import twitter4j.DirectMessage;
+import twitter4j.DirectMessageList;
 import twitter4j.IDs;
 import twitter4j.Paging;
 import twitter4j.Query;
@@ -84,8 +86,54 @@ public class BotTwitter {
         }
         Bot.updateStatus(statusUpdate);
         medias = new ArrayList<>();
+    }
+    
+    private ArrayList<DirectMessage> buscarIdMensaje(long id,ArrayList<ArrayList<DirectMessage>> list){
+        for(ArrayList<DirectMessage> arr : list){
+            for(DirectMessage dm : arr){
+                if(dm.getRecipientId() == id || dm.getSenderId()== id){
+                    return arr;
+                }
+            }
+        }
+        return null;
+    }
+    
+    public long getId() throws TwitterException{
+        return Bot.getId();
+    }
+    
+    public User getUser(long id) throws TwitterException{
+        return Bot.users().showUser(id);
+    }
+    
+    public ArrayList<ArrayList<DirectMessage>> obtenerMensajesDirectos() throws TwitterException{
+        ArrayList<ArrayList<DirectMessage>> amigos = new ArrayList<>();
+        DirectMessageList Lista = Bot.getDirectMessages(50);
         
-        
+        for(DirectMessage m : Lista){
+            
+            if(m.getRecipientId() == Bot.getId()){
+                ArrayList<DirectMessage> mensajes = buscarIdMensaje(m.getSenderId(), amigos);
+                if(mensajes!=null){
+                mensajes.add(m);
+                }else{
+                    mensajes = new ArrayList<>();
+                    mensajes.add(m);
+                    amigos.add(mensajes);
+                }
+            }else{
+                ArrayList<DirectMessage> mensajes = buscarIdMensaje(m.getRecipientId(), amigos);
+                if(mensajes!=null){
+                mensajes.add(m);
+                }else{
+                    mensajes = new ArrayList<>();
+                    mensajes.add(m);
+                    amigos.add(mensajes);
+                }
+            }
+        }
+        return amigos;
     }
     
     private long[] IdToLong(){
@@ -496,7 +544,6 @@ public class BotTwitter {
                 }    
             }
     }
-
     
 }
     

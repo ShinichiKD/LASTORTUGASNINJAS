@@ -22,12 +22,14 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import twitter4j.DirectMessage;
 import twitter4j.FilterQuery;
 import twitter4j.ResponseList;
 import twitter4j.StallWarning;
@@ -71,7 +73,6 @@ public  class MenuInicioController implements Initializable {
     private ListView<String> BuscarListView = new ListView<String>(); 
     
     ObservableList<String> items =FXCollections.observableArrayList();
-    @FXML
     public User PersonaBuscada;
     
     @FXML
@@ -107,7 +108,11 @@ public  class MenuInicioController implements Initializable {
                 () -> {
                     try {
                         Bot.timeLine(TimeLineInicio,1,status);
+                        AvisosLabel.setText("Nuevo tweet!, de: "+status.getUser().getName());
+                        Animacion.MostrarAvisos(AvisosLabel);
                     } catch (TwitterException ex) {
+                        Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
                         Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -140,6 +145,10 @@ public  class MenuInicioController implements Initializable {
                 ex.printStackTrace();
             }
         };
+    @FXML
+    private ListView ListaUsuarios;
+    @FXML
+    private ScrollPane paneMensajes;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -156,6 +165,11 @@ public  class MenuInicioController implements Initializable {
         
         informacion.setVisible(false);
        
+        try {
+            CargaVentanaChat(Bot.obtenerMensajesDirectos());
+        } catch (TwitterException ex) {
+            Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         try {
             ActualizarEstados();
@@ -253,21 +267,6 @@ public  class MenuInicioController implements Initializable {
     private void Salir(ActionEvent event) {
         System.exit(0);
     }
-
-    @FXML
-    private void BuscarAC() throws TwitterException {
-//        ResponseList<User> ListaUsuarios;
-//        BuscarListView.getItems().clear();
-//        BuscarListView.setVisible(true);
-//
-//        if (!BuscarTF.getText().isEmpty()) {
-//            ArrayList<String> Aux = Bot.BuscarEnTwitter(BuscarTF.getText());
-//            items.addAll(Aux);
-//            BuscarListView.setItems(items);
-//        } else {
-//            BuscarListView.setVisible(false);
-//        }
-    }
     
     @FXML 
     private void SeleccionarItem() throws TwitterException {
@@ -292,7 +291,6 @@ public  class MenuInicioController implements Initializable {
     @FXML
     private void BuscarPersona() throws IOException, TwitterException {
         try{
-        ResponseList <User> ListaUsuarios ;
         BuscarListView.getItems().clear();
         BuscarListView.setVisible(true);
 
@@ -426,6 +424,26 @@ public  class MenuInicioController implements Initializable {
         String[] keywordsArray = { "AlmostHumanBot" };
         filtre.track(keywordsArray);
         twitterStream.filter(filtre);
+    }
+
+    private void CargaVentanaChat(ArrayList<ArrayList<DirectMessage>> mensajesDirectos) throws TwitterException {
+        for(ArrayList<DirectMessage> lista : mensajesDirectos){
+            User user;
+            long senderId = lista.get(0).getSenderId();
+            if(senderId != Bot.getId()){
+                user = Bot.getUser(senderId);
+            }else{
+                user = Bot.getUser(lista.get(0).getRecipientId());
+            }
+            
+            //boton
+            ListaUsuarios.getItems().add(new Button(user.getName()));
+            
+            //mensajes
+            for(DirectMessage dm : lista){
+                //Anadir mensajes
+            }
+        }
     }
    
 }

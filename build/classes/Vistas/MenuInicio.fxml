@@ -122,7 +122,7 @@
                      </children>
                   </Pane>
                   <ScrollPane fx:id="TimeLinePersona" layoutX="9.0" layoutY="196.0" prefHeight="485.0" prefWidth="981.0" style="-fx-background: #b3b3b3;" />
-                  <JFXTextField fx:id="BuscarTF" focusColor="#545454" labelFloat="true" layoutX="7.0" layoutY="25.0" onKeyReleased="#BuscarAC" prefHeight="44.0" prefWidth="282.0" promptText="Buscar Persona" style="-fx-background-color: #e4e4e4;">
+                  <JFXTextField fx:id="BuscarTF" focusColor="#545454" labelFloat="true" layoutX="7.0" layoutY="25.0" prefHeight="44.0" prefWidth="282.0" promptText="Buscar Persona" style="-fx-background-color: #e4e4e4;">
                      <font>
                         <Font name="Microsoft YaHei Light" size="21.0" />
                      </font>
@@ -139,7 +139,7 @@
             </Pane>
             <Pane fx:id="MenuMensaje" layoutX="173.0" layoutY="80.0" prefHeight="680.0" prefWidth="1007.0" style="-fx-background-color: #d1d1d1;" visible="false">
                <children>
-                  <ListView fx:id="ListaUsuarios" prefHeight="680.0" prefWidth="301.0" />
+                  <ListView fx:id="ListaUsuarios" editable="true" prefHeight="680.0" prefWidth="301.0" />
                   <ScrollPane layoutX="301.0" prefHeight="680.0" prefWidth="705.0">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
