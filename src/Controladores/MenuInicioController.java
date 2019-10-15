@@ -449,6 +449,13 @@ public  class MenuInicioController implements Initializable {
                 user = Bot.getUser(lista.get(0).getRecipientId());
             }
             JFXButton usuario = new JFXButton(user.getName());
+            ImageView foto = new ImageView(new Image(user.get400x400ProfileImageURL()));
+            foto.setFitWidth(40);
+            foto.setFitHeight(40);
+            usuario.graphicProperty().set(foto);
+            
+            usuario.setPrefWidth(280);
+            usuario.setAlignment(Pos.TOP_LEFT);
             //boton
             ListaUsuarios.getItems().add(usuario);
             
@@ -462,6 +469,8 @@ public  class MenuInicioController implements Initializable {
                     gridAux.setPrefWidth(690);
                     gridAux.setPadding(new Insets(5, 5, 5, 5)); 
                     if (user.getId()==dm.getRecipientId()) {
+                        
+                        
                         JFXButton miMensaje = new JFXButton(dm.getText());
                         miMensaje.wrapTextProperty().set(true);
                         miMensaje.setStyle("-fx-font-size: 15px; -fx-background-color: #9D6DA5; -fx-font: Microsoft YaHei Light;");
@@ -483,7 +492,6 @@ public  class MenuInicioController implements Initializable {
                         
                         gridAux.add(suMensaje,0,0);
                         gridAux.add(new Label(),1,0);
-                        
                     }
 
                     i++;
