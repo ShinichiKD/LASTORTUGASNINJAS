@@ -140,14 +140,21 @@
             <Pane fx:id="MenuMensaje" layoutX="173.0" layoutY="80.0" prefHeight="680.0" prefWidth="1007.0" style="-fx-background-color: #d1d1d1;" visible="false">
                <children>
                   <ListView fx:id="ListaUsuarios" editable="true" prefHeight="680.0" prefWidth="301.0" />
-                  <ScrollPane fx:id="paneMensajes" layoutX="301.0" prefHeight="680.0" prefWidth="705.0">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-                    </content>
-                  </ScrollPane>
+                  <ScrollPane fx:id="Chat" layoutX="301.0" layoutY="1.0" onKeyReleased="#ReleasedTextoMensaje" prefHeight="598.0" prefWidth="705.0" />
+                  <JFXTextArea fx:id="TextoMensaje" layoutX="304.0" layoutY="602.0" onKeyReleased="#ReleasedTextoMensaje" prefHeight="47.0" prefWidth="623.0" promptText="Escribir Mensaje" wrapText="true">
+                     <font>
+                        <Font name="Microsoft JhengHei Light" size="15.0" />
+                     </font>
+                  </JFXTextArea>
+                  <JFXButton fx:id="BotonEnviar" layoutX="933.0" layoutY="613.0" onAction="#EnviarMensaje" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: white;" text="Enviar" />
+                  <Label fx:id="Contador" alignment="CENTER" contentDisplay="CENTER" layoutX="802.0" layoutY="655.0" prefHeight="17.0" prefWidth="118.0" text="0  /  10000">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
-            <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="335.0" layoutY="721.0" prefHeight="40.0" prefWidth="700.0" style="-fx-background-color: Orange;" text="Mensaje de estado">
+            <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="335.0" layoutY="721.0" prefHeight="40.0" prefWidth="700.0" style="-fx-background-color: Orange;" text="Mensaje de estado" visible="false">
                <font>
                   <Font name="Microsoft YaHei Light" size="16.0" />
                </font>

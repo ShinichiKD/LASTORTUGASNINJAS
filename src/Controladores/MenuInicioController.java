@@ -1,6 +1,7 @@
 package Controladores;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +16,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -24,6 +27,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
@@ -31,7 +35,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import twitter4j.DirectMessage;
 import twitter4j.FilterQuery;
-import twitter4j.ResponseList;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
@@ -70,7 +73,7 @@ public  class MenuInicioController implements Initializable {
     private JFXTextField BuscarTF;
     
     @FXML 
-    private ListView<String> BuscarListView = new ListView<String>(); 
+    private ListView<String> BuscarListView;
     
     ObservableList<String> items =FXCollections.observableArrayList();
     public User PersonaBuscada;
@@ -100,6 +103,8 @@ public  class MenuInicioController implements Initializable {
     private JFXButton botonMensaje;
     @FXML
     private Pane MenuMensaje;
+    
+    private User PersonaMensaje;
     
      StatusListener listener = new StatusListener() {
             @Override
@@ -148,7 +153,11 @@ public  class MenuInicioController implements Initializable {
     @FXML
     private ListView ListaUsuarios;
     @FXML
-    private ScrollPane paneMensajes;
+    private ScrollPane Chat;
+    @FXML
+    private JFXTextArea TextoMensaje;
+    @FXML
+    private JFXButton BotonEnviar;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -158,7 +167,7 @@ public  class MenuInicioController implements Initializable {
         Animacion= new Animaciones();
         AvisosLabel.setVisible(false);
         BuscarListView.setVisible(false);
-        
+        BuscarListView = new ListView<String>();
         botonInicio.setStyle("-fx-background-color: #9d6da5;");
         botonInicio.textFillProperty().setValue(Paint.valueOf("white"));
         botonInicio.ripplerFillProperty().setValue(Paint.valueOf("white"));
@@ -425,7 +434,7 @@ public  class MenuInicioController implements Initializable {
         filtre.track(keywordsArray);
         twitterStream.filter(filtre);
     }
-
+    long idMensaje;
     private void CargaVentanaChat(ArrayList<ArrayList<DirectMessage>> mensajesDirectos) throws TwitterException {
         for(ArrayList<DirectMessage> lista : mensajesDirectos){
             User user;
@@ -435,15 +444,114 @@ public  class MenuInicioController implements Initializable {
             }else{
                 user = Bot.getUser(lista.get(0).getRecipientId());
             }
-            
+            JFXButton usuario = new JFXButton(user.getName());
             //boton
-            ListaUsuarios.getItems().add(new Button(user.getName()));
+            ListaUsuarios.getItems().add(usuario);
             
-            //mensajes
-            for(DirectMessage dm : lista){
-                //Anadir mensajes
+            usuario.setOnAction((ActionEvent events)->{
+                int i=0;
+                PersonaMensaje = user;
+                GridPane mensajes = new GridPane();
+                
+                for(DirectMessage dm : lista){
+                    GridPane gridAux = new GridPane();
+                    gridAux.setPrefWidth(690);
+                    gridAux.setPadding(new Insets(5, 5, 5, 5)); 
+                    if (user.getId()==dm.getRecipientId()) {
+                        JFXButton miMensaje = new JFXButton(dm.getText());
+                        miMensaje.wrapTextProperty().set(true);
+                        miMensaje.setStyle("-fx-font-size: 15px; -fx-background-color: #9D6DA5; -fx-font: Microsoft YaHei Light;");
+                        miMensaje.textFillProperty().setValue(Paint.valueOf("white"));
+                        miMensaje.ripplerFillProperty().setValue(Paint.valueOf("white"));
+                        Label espacio = new Label();
+                        espacio.setPrefWidth(348);
+                        gridAux.add(espacio,0,0);
+                        gridAux.add(miMensaje,1,0);
+                        gridAux.alignmentProperty().set(Pos.TOP_RIGHT);
+                    }
+                    else{
+                        JFXButton suMensaje = new JFXButton(dm.getText());
+                        suMensaje.wrapTextProperty().set(true);
+                        
+                        suMensaje.setStyle("-fx-font-size: 15px; -fx-background-color: #826DB3; -fx-font: Microsoft YaHei Light;");
+                        suMensaje.textFillProperty().setValue(Paint.valueOf("white"));
+                        suMensaje.ripplerFillProperty().setValue(Paint.valueOf("white"));
+                        
+                        gridAux.add(suMensaje,0,0);
+                        gridAux.add(new Label(),1,0);
+                        
+                    }
+
+                    i++;
+                    mensajes.add(gridAux, 0, i);
+                }
+                
+                GridPane MensajesBien = new GridPane();
+                int max= i-1;
+                for (int j = 0; j < max; j++) {
+                    MensajesBien.add(mensajes.getChildren().get((max-j)),0,j);
+                    
+                }
+                MensajesBien.add(mensajes.getChildren().get(0),0,max);
+                
+                Chat.setContent(MensajesBien);
+                Chat.setHvalue(1000000);
+                
+            });
+            
+        }
+    }
+
+    @FXML
+    private void EnviarMensaje(ActionEvent event) throws IOException {
+        try{
+                
+                Bot.enviarMensajeDirecto(PersonaMensaje.getScreenName(), TextoMensaje.getText()); 
+                TextoMensaje.clear();
+                TextoMensaje.setPromptText("Escribir Mensaje");
+                // Mensaje enviado con exito(3)
+                AvisosLabel.setText("Mensaje Enviado Correctamente.");
+                Animacion.MostrarAvisos(AvisosLabel);
+            
+        }
+        catch(TwitterException e){
+            System.out.println(e.getErrorCode());
+            System.out.println(e.getErrorMessage());
+            switch (e.getErrorCode()) {
+                case 50:
+                    AvisosLabel.setText("Usuario no encontrado: No se pudo enviar mensaje.");
+                    Animacion.MostrarAvisos(AvisosLabel);
+                    break;
+                case 151:
+                    AvisosLabel.setText("Mensaje en blanco: No se puede enviar.");
+                    Animacion.MostrarAvisos(AvisosLabel);
+                    break;
+                case 349:
+                    AvisosLabel.setText("No puedes enviar mensajes a este usuario.");
+                    Animacion.MostrarAvisos(AvisosLabel);
+                    break;
+                default:
+                    break;
             }
         }
+        
+    }
+
+    @FXML
+    private void ReleasedTextoMensaje(KeyEvent event) {
+        int letras = TextoMensaje.getText().length();
+        int limite = 10000;
+        if(letras > limite){
+            //cambiar color
+            Contador.textFillProperty().setValue(Paint.valueOf("Red"));
+            BotonEnviar.setDisable(true);
+
+        }else{
+            //cambiar color
+            Contador.textFillProperty().setValue(Paint.valueOf("Black"));
+            BotonEnviar.setDisable(false);
+        }
+        Contador.setText(letras+" / "+limite);
     }
    
 }
