@@ -106,7 +106,11 @@ public  class MenuInicioController implements Initializable {
     
     private User PersonaMensaje;
     
-     StatusListener listener = new StatusListener() {
+    private GridPane MensajesBien;
+    
+    private int max;
+    
+    StatusListener listener = new StatusListener() {
             @Override
             public void onStatus(Status status) {
                 Platform.runLater(
@@ -485,9 +489,9 @@ public  class MenuInicioController implements Initializable {
                     i++;
                     mensajes.add(gridAux, 0, i);
                 }
+                MensajesBien = new GridPane();
                 
-                GridPane MensajesBien = new GridPane();
-                int max= i-1;
+                max= i-1;
                 for (int j = 0; j < max; j++) {
                     MensajesBien.add(mensajes.getChildren().get((max-j)),0,j);
                     
@@ -495,7 +499,7 @@ public  class MenuInicioController implements Initializable {
                 MensajesBien.add(mensajes.getChildren().get(0),0,max);
                 
                 Chat.setContent(MensajesBien);
-                Chat.setHvalue(1000000);
+                
                 
             });
             
@@ -507,11 +511,25 @@ public  class MenuInicioController implements Initializable {
         try{
                 
                 Bot.enviarMensajeDirecto(PersonaMensaje.getScreenName(), TextoMensaje.getText()); 
+                //Crear Mensaje
+                GridPane gridAux = new GridPane();
+                gridAux.setPrefWidth(690);
+                gridAux.setPadding(new Insets(5, 5, 5, 5)); 
+                JFXButton miMensaje = new JFXButton(TextoMensaje.getText());
+                miMensaje.wrapTextProperty().set(true);
+                miMensaje.setStyle("-fx-font-size: 15px; -fx-background-color: #9D6DA5; -fx-font: Microsoft YaHei Light;");
+                miMensaje.textFillProperty().setValue(Paint.valueOf("white"));
+                miMensaje.ripplerFillProperty().setValue(Paint.valueOf("white"));
+                Label espacio = new Label();
+                espacio.setPrefWidth(348);
+                gridAux.add(espacio,0,0);
+                gridAux.add(miMensaje,1,0);
+                gridAux.alignmentProperty().set(Pos.TOP_RIGHT);
+                max++;
+                MensajesBien.add(gridAux, 0, max);
+                
                 TextoMensaje.clear();
                 TextoMensaje.setPromptText("Escribir Mensaje");
-                // Mensaje enviado con exito(3)
-                AvisosLabel.setText("Mensaje Enviado Correctamente.");
-                Animacion.MostrarAvisos(AvisosLabel);
             
         }
         catch(TwitterException e){

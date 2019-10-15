@@ -137,7 +137,7 @@
                   </JFXButton>
                </children>
             </Pane>
-            <Pane fx:id="MenuMensaje" layoutX="173.0" layoutY="80.0" prefHeight="680.0" prefWidth="1007.0" style="-fx-background-color: #d1d1d1;">
+            <Pane fx:id="MenuMensaje" layoutX="173.0" layoutY="80.0" prefHeight="680.0" prefWidth="1007.0" style="-fx-background-color: #d1d1d1;" visible="false">
                <children>
                   <ListView fx:id="ListaUsuarios" editable="true" prefHeight="680.0" prefWidth="301.0" />
                   <ScrollPane fx:id="Chat" layoutX="301.0" layoutY="1.0" onKeyReleased="#ReleasedTextoMensaje" prefHeight="598.0" prefWidth="705.0" />
