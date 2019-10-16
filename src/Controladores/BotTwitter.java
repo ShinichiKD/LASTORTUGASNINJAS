@@ -41,10 +41,16 @@ public class BotTwitter {
     private long LastId = -1;
     private GridPane grid;
     private ArrayList<GridPane> gridsAux;
+    /*
     public static String CK = "rjBybNH66nPfhNKZUPL2Wd2qc";
     public static String CS = "CRIcPF8RHfOXSiVTdht44ShcT4XcCMydM3ihFIVmQhKWVz5rP2";
     public static String AT = "2344321298-xDKjy1GNh9CmzOwNAQFWylObrDlRmdCR3wlDxy0";
     public static String TS = "hEdJxavmWpIyMJDxOoBFexSRXDbiNzN1GLmvSXkNt2dw4";
+    */
+    public static String CK = "INL7gZn9dOpvTtgKxJHIzqMzf";
+    public static String CS = "swvm6ywtKZOM2HJkMdh50RNbXXIEDvP2SpUpS4zCkH6xz7vo0E";
+    public static String AT = "1181770971017023490-5D34ulcIe2rytlSnpxDX9poCtFZNGY";
+    public static String TS = "COyjskMffagREplGaZxjcvLSgZfJid2syWaYl9EeKKKNl";
     
     public BotTwitter() {
         //inicializar
@@ -285,6 +291,7 @@ public class BotTwitter {
     }
     
     public void timeLineBuscado(User usuario,ScrollPane timeLine) throws TwitterException{
+        System.out.println("wat");
         int i=0,max;
         GridPane grid = new GridPane();
         ArrayList<Status> status = TweetBuscado(usuario.getScreenName());
@@ -416,7 +423,7 @@ public class BotTwitter {
         for (Status e : status) {
             Bandera=0;
             
-            //hastag(e.getText(),e.getId());
+            hastag(e.getText(),e.getId());
             
             System.out.println("Cargando tweet "+(i+1)+" de "+max);
             
@@ -517,7 +524,7 @@ public class BotTwitter {
             
             
             
-            if(status.size()<10){
+            if(status.size()==1){
                 gridsAux.add(0,gridAux);
             }else{
                 gridsAux.add(gridAux);

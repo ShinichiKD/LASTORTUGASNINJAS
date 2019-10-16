@@ -51,11 +51,7 @@
                <children>
                   <Pane layoutX="8.0" layoutY="10.0" prefHeight="180.0" prefWidth="825.0" style="-fx-background-color: #e4e4e4;">
                      <children>
-                        <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="14.0" layoutY="14.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@Imagenes/logo.png" />
-                           </image>
-                        </ImageView>
+                        <ImageView fx:id="img_inicio" fitHeight="60.0" fitWidth="60.0" layoutX="14.0" layoutY="14.0" opacity="0.9" pickOnBounds="true" preserveRatio="true" />
                         <JFXTextArea fx:id="MensajeTA" focusColor="#545454" labelFloat="true" layoutX="84.0" layoutY="19.0" onKeyReleased="#ReleasedMensajeTA" prefHeight="105.0" prefWidth="705.0" promptText="¿Que esta pasando?" style="-fx-background-color: white;" unFocusColor="#ffffff00" wrapText="true">
                            <font>
                               <Font name="Microsoft YaHei Light" size="18.0" />

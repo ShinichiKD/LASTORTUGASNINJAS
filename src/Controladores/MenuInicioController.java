@@ -277,6 +277,8 @@ public  class MenuInicioController implements Initializable {
     private JFXTextArea TextoMensaje;
     @FXML
     private JFXButton BotonEnviar;
+    @FXML
+    private ImageView img_inicio;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -295,6 +297,11 @@ public  class MenuInicioController implements Initializable {
         botonInicio.textFillProperty().setValue(Paint.valueOf("white"));
         botonInicio.ripplerFillProperty().setValue(Paint.valueOf("white"));
         
+        try {
+            img_inicio.setImage( new Image(Bot.getUser(Bot.getId()).get400x400ProfileImageURL()));
+        } catch (TwitterException ex) {
+            Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         informacion.setVisible(false);
        
         try {
@@ -553,7 +560,7 @@ public  class MenuInicioController implements Initializable {
         
         twitterStream.addListener(listener);
         FilterQuery filtre = new FilterQuery();
-        String[] keywordsArray = { "AlmostHumanBot",
+        String[] keywordsArray = { "Test36467081",
                 Bot.getId()+""
         };
         
