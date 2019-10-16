@@ -109,6 +109,7 @@ public class BotTwitter {
     
     public ArrayList<ArrayList<DirectMessage>> obtenerMensajesDirectos() throws TwitterException{
         ArrayList<ArrayList<DirectMessage>> amigos = new ArrayList<>();
+        
         DirectMessageList Lista = Bot.getDirectMessages(50);
         
         for(DirectMessage m : Lista){
@@ -322,6 +323,8 @@ public class BotTwitter {
             JFXButton BotonLike = new JFXButton();
             JFXButton BotonRetweet = new JFXButton();
             
+            
+            
             BotonLike.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/corazon.png")));
            
             BotonRetweet.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/retuit.png")));
@@ -412,7 +415,9 @@ public class BotTwitter {
         LastId = status.get(0).getId();
         for (Status e : status) {
             Bandera=0;
-            hastag(e.getText(),e.getId());
+            
+            //hastag(e.getText(),e.getId());
+            
             System.out.println("Cargando tweet "+(i+1)+" de "+max);
             
             GridPane gridAux = new GridPane();
@@ -450,6 +455,21 @@ public class BotTwitter {
             if (Bandera==1) {
                 BotonLike.setStyle("-fx-background-color: #ad0352;");
             }
+            
+            if(e.getUser().getId() == Bot.getId()){
+                JFXButton eliminar = new JFXButton("Eliminar");
+                gridAux.add(eliminar, 2, 2);
+                eliminar.setOnAction((ActionEvent events)->{ 
+                try {
+                    Bot.destroyStatus(e.getId());
+                    //timeLine(MenuInicioController.,timeLine,0,null);
+                } catch (TwitterException ex) {
+                    System.out.println(ex.getMessage());
+                }
+                });
+            }
+            
+            
             ImageView FotoPublicacion = new ImageView(new Image("/Vistas/Imagenes/MenuInicio.png"));
             FotoPublicacion.setFitHeight(150);
             FotoPublicacion.setFitWidth(150);

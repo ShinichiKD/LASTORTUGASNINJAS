@@ -38,11 +38,13 @@ import twitter4j.FilterQuery;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
+import twitter4j.UserStreamListener;
 import twitter4j.StatusListener;
 import twitter4j.TwitterException;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.User;
+import twitter4j.UserList;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
@@ -94,7 +96,7 @@ public  class MenuInicioController implements Initializable {
     @FXML
     private Label Identificador;
     @FXML
-    private ScrollPane TimeLinePersona;
+    public static ScrollPane TimeLinePersona;
     @FXML
     private JFXButton botonBuscar;
     @FXML
@@ -110,12 +112,84 @@ public  class MenuInicioController implements Initializable {
     
     private int max;
     
-    StatusListener listener = new StatusListener() {
-            @Override
-            public void onStatus(Status status) {
-                Platform.runLater(
+    UserStreamListener listener = new UserStreamListener() {
+             
+        @Override
+        public void onUnfavorite(User user, User user1, Status status) {
+            System.out.println("hola");
+        }
+
+        @Override
+        public void onUnfollow(User user, User user1) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onUserListMemberAddition(User user, User user1, UserList ul) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onUserListMemberDeletion(User user, User user1, UserList ul) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onUserListSubscription(User user, User user1, UserList ul) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onUserListUnsubscription(User user, User user1, UserList ul) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onUserListCreation(User user, UserList ul) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onUserListUpdate(User user, UserList ul) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onUserListDeletion(User user, UserList ul) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onUserSuspension(long l) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onUserDeletion(long l) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onRetweetedRetweet(User user, User user1, Status status) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onFavoritedRetweet(User user, User user1, Status status) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onQuotedTweet(User user, User user1, Status status) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onStatus(Status status) {
+            Platform.runLater(
                 () -> {
                     try {
+                        
                         Bot.timeLine(TimeLineInicio,1,status);
                         AvisosLabel.setText("Nuevo tweet!, de: "+status.getUser().getName());
                         Animacion.MostrarAvisos(AvisosLabel);
@@ -126,34 +200,75 @@ public  class MenuInicioController implements Initializable {
                     }
                 }
               );
-                
-            }       
+        }
 
-            @Override
-            public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
-                System.out.println("Got a status deletion notice id:" + statusDeletionNotice.getStatusId());
-            }
+        @Override
+        public void onDeletionNotice(StatusDeletionNotice sdn) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
 
-            @Override
-            public void onTrackLimitationNotice(int numberOfLimitedStatuses) {
-                System.out.println("Got track limitation notice:" + numberOfLimitedStatuses);
-            }
+        @Override
+        public void onStallWarning(StallWarning sw) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
 
-            @Override
-            public void onScrubGeo(long userId, long upToStatusId) {
-                System.out.println("Got scrub_geo event userId:" + userId + " upToStatusId:" + upToStatusId);
-            }
+        @Override
+        public void onDeletionNotice(long l, long l1) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
 
-            @Override
-            public void onStallWarning(StallWarning warning) {
-                System.out.println("Got stall warning:" + warning);
-            }
+        @Override
+        public void onFriendList(long[] longs) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
 
-            @Override
-            public void onException(Exception ex) {
-                ex.printStackTrace();
-            }
-        };
+        @Override
+        public void onFavorite(User user, User user1, Status status) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onFollow(User user, User user1) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onDirectMessage(DirectMessage dm) {
+            System.out.println(dm.getText());
+        }
+
+        @Override
+        public void onUserProfileUpdate(User user) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onBlock(User user, User user1) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onUnblock(User user, User user1) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onTrackLimitationNotice(int i) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onScrubGeo(long l, long l1) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void onException(Exception excptn) {
+            System.out.println("gg");
+        }
+    }; 
+    
+    
     @FXML
     private ListView ListaUsuarios;
     @FXML
@@ -167,7 +282,11 @@ public  class MenuInicioController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         Bot = new BotTwitter();
-        initStream();
+        try {
+            initStream();
+        } catch (TwitterException ex) {
+            Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Animacion= new Animaciones();
         AvisosLabel.setVisible(false);
         BuscarListView.setVisible(false);
@@ -423,7 +542,7 @@ public  class MenuInicioController implements Initializable {
             botonMensaje.ripplerFillProperty().setValue(Paint.valueOf("white"));
             
     }
-    private void initStream() {
+    private void initStream() throws TwitterException {
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
           .setOAuthConsumerKey(BotTwitter.CK)
@@ -434,7 +553,10 @@ public  class MenuInicioController implements Initializable {
         
         twitterStream.addListener(listener);
         FilterQuery filtre = new FilterQuery();
-        String[] keywordsArray = { "AlmostHumanBot" };
+        String[] keywordsArray = { "AlmostHumanBot",
+                Bot.getId()+""
+        };
+        
         filtre.track(keywordsArray);
         twitterStream.filter(filtre);
     }
@@ -473,7 +595,7 @@ public  class MenuInicioController implements Initializable {
                         
                         JFXButton miMensaje = new JFXButton(dm.getText());
                         miMensaje.wrapTextProperty().set(true);
-                        miMensaje.setStyle("-fx-font-size: 15px; -fx-background-color: #9D6DA5; -fx-font: Microsoft YaHei Light;");
+                        miMensaje.setStyle("-fx-font-size: 15px; -fx-background-color: #9D6DA5; -fx-font-family: Microsoft YaHei Light;");
                         miMensaje.textFillProperty().setValue(Paint.valueOf("white"));
                         miMensaje.ripplerFillProperty().setValue(Paint.valueOf("white"));
                         Label espacio = new Label();
@@ -486,7 +608,7 @@ public  class MenuInicioController implements Initializable {
                         JFXButton suMensaje = new JFXButton(dm.getText());
                         suMensaje.wrapTextProperty().set(true);
                         
-                        suMensaje.setStyle("-fx-font-size: 15px; -fx-background-color: #826DB3; -fx-font: Microsoft YaHei Light;");
+                        suMensaje.setStyle("-fx-font-size: 15px; -fx-background-color: #826DB3; -fx-font-family: Microsoft YaHei Light;");
                         suMensaje.textFillProperty().setValue(Paint.valueOf("white"));
                         suMensaje.ripplerFillProperty().setValue(Paint.valueOf("white"));
                         
@@ -525,7 +647,7 @@ public  class MenuInicioController implements Initializable {
                 gridAux.setPadding(new Insets(5, 5, 5, 5)); 
                 JFXButton miMensaje = new JFXButton(TextoMensaje.getText());
                 miMensaje.wrapTextProperty().set(true);
-                miMensaje.setStyle("-fx-font-size: 15px; -fx-background-color: #9D6DA5; -fx-font: Microsoft YaHei Light;");
+                miMensaje.setStyle("-fx-font-size: 15px; -fx-background-color: #9D6DA5; -fx-font-family: Microsoft YaHei Light;");
                 miMensaje.textFillProperty().setValue(Paint.valueOf("white"));
                 miMensaje.ripplerFillProperty().setValue(Paint.valueOf("white"));
                 Label espacio = new Label();
