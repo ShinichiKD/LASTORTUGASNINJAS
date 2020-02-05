@@ -19,6 +19,7 @@ import twitter4j.IDs;
 import twitter4j.Paging;
 import twitter4j.Query;
 import twitter4j.QueryResult;
+import twitter4j.Relationship;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.StatusUpdate;
@@ -42,15 +43,16 @@ public class BotTwitter {
     private GridPane grid;
     private ArrayList<GridPane> gridsAux;
     /*
+    Bot de reserva
     public static String CK = "rjBybNH66nPfhNKZUPL2Wd2qc";
     public static String CS = "CRIcPF8RHfOXSiVTdht44ShcT4XcCMydM3ihFIVmQhKWVz5rP2";
     public static String AT = "2344321298-xDKjy1GNh9CmzOwNAQFWylObrDlRmdCR3wlDxy0";
     public static String TS = "hEdJxavmWpIyMJDxOoBFexSRXDbiNzN1GLmvSXkNt2dw4";
     */
-    public static String CK = "INL7gZn9dOpvTtgKxJHIzqMzf";
-    public static String CS = "swvm6ywtKZOM2HJkMdh50RNbXXIEDvP2SpUpS4zCkH6xz7vo0E";
-    public static String AT = "1181770971017023490-5D34ulcIe2rytlSnpxDX9poCtFZNGY";
-    public static String TS = "COyjskMffagREplGaZxjcvLSgZfJid2syWaYl9EeKKKNl";
+    public static String CK = "zkQze8k75ponlo27agP7GL0mX";
+    public static String CS = "TIMwroq3H4CwYP4ZQOVlIawx0PYyC89R68mYNIcnqZy5dJCDLu";
+    public static String AT = "2344321298-XPuCsygYXnT0HjbkG0p3wE84ST0tFKupikcnNNH";
+    public static String TS = "hfmNcTIU1XO1ItqOqRUyse5Ou7hXAPEQ0bYtUbM7ZhZb7";
     
     public BotTwitter() {
         //inicializar
@@ -116,10 +118,11 @@ public class BotTwitter {
     public ArrayList<ArrayList<DirectMessage>> obtenerMensajesDirectos() throws TwitterException{
         ArrayList<ArrayList<DirectMessage>> amigos = new ArrayList<>();
         
-        DirectMessageList Lista = Bot.getDirectMessages(50);
+        DirectMessageList Lista = Bot.getDirectMessages(10);
+        System.out.println(Lista);
         
         for(DirectMessage m : Lista){
-            
+            System.out.println("a");
             if(m.getRecipientId() == Bot.getId()){
                 ArrayList<DirectMessage> mensajes = buscarIdMensaje(m.getSenderId(), amigos);
                 if(mensajes!=null){
@@ -161,22 +164,25 @@ public class BotTwitter {
 //            System.out.println(mensajes.get(i).getText());
 //            i++;        
 //        }
-       
-        
-        
         Bot.sendDirectMessage(id,texto);
     }
+    
     public void seguirUsuario(String nombreDeUsuario) throws TwitterException{
-        //User usuario = Bot.users().showUser(nombreDeUsuario);
-        //Bot.destroyFriendship(nombreDeUsuario);
         try {
-            Bot.createFriendship(nombreDeUsuario);
+            if(!Bot.showFriendship(Bot.getScreenName(), nombreDeUsuario).isSourceFollowingTarget()){
+                Bot.createFriendship(nombreDeUsuario);
+                return;
+            }
+            Bot.destroyFriendship(nombreDeUsuario);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        
-        
     }
+    
+    public boolean sigueA(String nombreDeUsuario) throws TwitterException{
+        return Bot.showFriendship(Bot.getScreenName(), nombreDeUsuario).isSourceFollowingTarget();
+    }
+    
     public ArrayList<Status> buscarTweets(String nombre) throws TwitterException{
         ArrayList<Status> Tweets= new ArrayList<>();
         
@@ -189,12 +195,13 @@ public class BotTwitter {
     }
     
     public ArrayList<Status> obtenerTweets() throws TwitterException {
-        
+            // cantidad tweets
+            int cantidad = 3;
             Paging paging;
             if(LastId > 0){
                 paging = new Paging(LastId);
             }else{
-                paging = new Paging(1, 10);
+                paging = new Paging(1, cantidad);
             }
             
             return (ArrayList<Status>) Bot.getHomeTimeline(paging);
@@ -291,11 +298,11 @@ public class BotTwitter {
     }
     
     public void timeLineBuscado(User usuario,ScrollPane timeLine) throws TwitterException{
-        System.out.println("wat");
         int i=0,max;
         GridPane grid = new GridPane();
         ArrayList<Status> status = TweetBuscado(usuario.getScreenName());
         max = status.size();
+        
         
         for(Status e : status){
             
@@ -347,7 +354,6 @@ public class BotTwitter {
             }else{
                 BotonLike.setStyle("-fx-background-color: #9e9e9e;");
             }
-            
             
             ImageView FotoPublicacion = new ImageView(new Image("/Vistas/Imagenes/MenuInicio.png"));
             FotoPublicacion.setFitHeight(150);

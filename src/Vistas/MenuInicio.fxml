@@ -18,11 +18,7 @@
    <children>
       <AnchorPane fx:id="AnchoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.91" prefHeight="760.0" prefWidth="1360.0" style="-fx-background-color: #d1d1d1;">
          <children>
-            <Pane layoutX="1.0" layoutY="80.0" prefHeight="680.0" prefWidth="175.0">
-               <children>
-                  <ListView fx:id="BuscarListView" onMouseClicked="#SeleccionarItem" prefHeight="680.0" prefWidth="175.0" />
-               </children>
-            </Pane>
+            <Pane layoutX="1.0" layoutY="80.0" prefHeight="680.0" prefWidth="175.0" />
             <Pane prefHeight="80.0" prefWidth="1360.0" style="-fx-background-color: #ededed;">
                <children>
                   <JFXButton layoutX="1306.0" layoutY="16.0" onAction="#Salir" prefHeight="21.0" prefWidth="29.0" ripplerFill="BLACK" style="-fx-background-color: RED;" text="X" textFill="WHITE">
@@ -85,7 +81,7 @@
             </Pane>
             <Pane fx:id="MenuBuscar" layoutX="176.0" layoutY="80.0" prefHeight="680.0" prefWidth="1000.0" style="-fx-background-color: #b3b3b3;" visible="false">
                <children>
-                  <Pane fx:id="informacion" layoutX="9.0" layoutY="79.0" prefHeight="113.0" prefWidth="981.0" style="-fx-background-color: #e4e4e4;">
+                  <Pane fx:id="informacion" layoutX="9.0" layoutY="79.0" prefHeight="113.0" prefWidth="981.0" style="-fx-background-color: #e4e4e4;" visible="false">
                      <children>
                         <ImageView fx:id="ImagenPerfil" fitHeight="100.0" fitWidth="100.0" layoutX="12.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -102,7 +98,7 @@
                               <Font name="Microsoft YaHei Light" size="16.0" />
                            </font>
                         </Label>
-                        <JFXButton ellipsisString="Seguir" layoutX="648.0" layoutY="46.0" onAction="#SeguirUsuario" prefHeight="40.0" prefWidth="124.0" ripplerFill="#00ffbb" style="-fx-background-color: #00d29a;" text="Seguir Usuario" textFill="WHITE">
+                        <JFXButton fx:id="BTNseguir" buttonType="RAISED" ellipsisString="Seguir" layoutX="648.0" layoutY="46.0" onAction="#SeguirUsuario" prefHeight="40.0" prefWidth="124.0" ripplerFill="#00ffbb" style="-fx-background-color: #00d29a;" textFill="WHITE">
                            <font>
                               <Font name="Microsoft YaHei Light" size="17.0" />
                            </font>
@@ -150,6 +146,7 @@
                   </Label>
                </children>
             </Pane>
+            <ListView fx:id="BuscarListView" layoutY="82.0" onMouseClicked="#SeleccionarItem" prefHeight="680.0" prefWidth="175.0" visible="false" />
             <Label fx:id="AvisosLabel" alignment="CENTER" layoutX="335.0" layoutY="721.0" prefHeight="40.0" prefWidth="700.0" style="-fx-background-color: Orange;" text="Mensaje de estado" visible="false">
                <font>
                   <Font name="Microsoft YaHei Light" size="16.0" />

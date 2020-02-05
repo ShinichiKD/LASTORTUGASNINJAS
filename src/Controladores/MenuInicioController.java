@@ -50,14 +50,9 @@ import twitter4j.conf.ConfigurationBuilder;
 /**
  * FXML Controller class
  *
- * @author Rodrigo
+ * @author Emilio
  */
 public  class MenuInicioController implements Initializable {
-    
- 
-    BotTwitter Bot;  
-    
-    Animaciones Animacion;
     
     @FXML
     private TextArea MensajeTA;
@@ -73,13 +68,8 @@ public  class MenuInicioController implements Initializable {
     private Label AvisosLabel;
     @FXML
     private JFXTextField BuscarTF;
-    
     @FXML 
     private ListView<String> BuscarListView;
-    
-    ObservableList<String> items =FXCollections.observableArrayList();
-    public User PersonaBuscada;
-    
     @FXML
     private JFXButton botonInicio;
     @FXML
@@ -87,7 +77,6 @@ public  class MenuInicioController implements Initializable {
     @FXML
     private ScrollPane TimeLineInicio;
     @FXML
-    
     private Pane MenuBuscar;
     @FXML
     private ImageView ImagenPerfil;
@@ -96,7 +85,7 @@ public  class MenuInicioController implements Initializable {
     @FXML
     private Label Identificador;
     @FXML
-    public static ScrollPane TimeLinePersona;
+    public ScrollPane TimeLinePersona;
     @FXML
     private JFXButton botonBuscar;
     @FXML
@@ -105,12 +94,26 @@ public  class MenuInicioController implements Initializable {
     private JFXButton botonMensaje;
     @FXML
     private Pane MenuMensaje;
+    @FXML
+    private ListView ListaUsuarios;
+    @FXML
+    private ScrollPane Chat;
+    @FXML
+    private JFXTextArea TextoMensaje;
+    @FXML
+    private JFXButton BotonEnviar;
+    @FXML
+    private ImageView img_inicio;
+    @FXML
+    private JFXButton BTNseguir;
     
     private User PersonaMensaje;
-    
     private GridPane MensajesBien;
-    
     private int max;
+    ObservableList<String> items =FXCollections.observableArrayList();
+    public User PersonaBuscada;
+    BotTwitter Bot;  
+    Animaciones Animacion;
     
     UserStreamListener listener = new UserStreamListener() {
              
@@ -269,16 +272,9 @@ public  class MenuInicioController implements Initializable {
     }; 
     
     
-    @FXML
-    private ListView ListaUsuarios;
-    @FXML
-    private ScrollPane Chat;
-    @FXML
-    private JFXTextArea TextoMensaje;
-    @FXML
-    private JFXButton BotonEnviar;
-    @FXML
-    private ImageView img_inicio;
+    
+    
+   
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -291,21 +287,22 @@ public  class MenuInicioController implements Initializable {
         }
         Animacion= new Animaciones();
         AvisosLabel.setVisible(false);
-        BuscarListView.setVisible(false);
-        BuscarListView = new ListView<String>();
         botonInicio.setStyle("-fx-background-color: #9d6da5;");
         botonInicio.textFillProperty().setValue(Paint.valueOf("white"));
         botonInicio.ripplerFillProperty().setValue(Paint.valueOf("white"));
         
         try {
+            System.out.println("se intento");
             img_inicio.setImage( new Image(Bot.getUser(Bot.getId()).get400x400ProfileImageURL()));
+            System.out.println("no se pudo");
         } catch (TwitterException ex) {
             Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
         }
         informacion.setVisible(false);
        
         try {
-            CargaVentanaChat(Bot.obtenerMensajesDirectos());
+            CargaVentanaChat();
+            System.out.println("Cargando chats...");
         } catch (TwitterException ex) {
             Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -417,18 +414,26 @@ public  class MenuInicioController implements Initializable {
             BuscarTF.setText(BuscarListView.getSelectionModel().getSelectedItem());
             PersonaBuscada= Bot.BuscarUsuario(BuscarTF.getText());
             
+            if (Bot.sigueA(PersonaBuscada.getScreenName())){
+                BTNseguir.setText("No seguir");
+                BTNseguir.setStyle("-fx-background-color: #F6502E;");
+            }else{
+                BTNseguir.setText("Seguir");
+                BTNseguir.setStyle("-fx-background-color: #00ffbb;");
+            }
+            
             Nombre.setText(PersonaBuscada.getName());
             Identificador.setText("@"+PersonaBuscada.getScreenName());
             ImagenPerfil.setImage(new Image(PersonaBuscada.get400x400ProfileImageURL()));
             Bot.timeLineBuscado(PersonaBuscada, TimeLinePersona);
             
-            BuscarListView.setVisible(false);
         }
         
     }
 
     @FXML
     private void BuscarPersona() throws IOException, TwitterException {
+        if(BuscarTF.getText().isEmpty()) return;
         try{
         BuscarListView.getItems().clear();
         BuscarListView.setVisible(true);
@@ -492,14 +497,23 @@ public  class MenuInicioController implements Initializable {
             botonInicio.setStyle("-fx-background-color: #9d6da5;");
             botonInicio.textFillProperty().setValue(Paint.valueOf("white"));
             botonInicio.ripplerFillProperty().setValue(Paint.valueOf("white"));
+            BuscarListView.setVisible(false);
         
     }
 
     @FXML
-    private void SeguirUsuario(ActionEvent event) throws TwitterException, IOException {
+    private void SeguirUsuario() throws TwitterException, IOException {
+        System.out.println("Executando");
         Bot.seguirUsuario(PersonaBuscada.getScreenName());
-        AvisosLabel.setText("Siguiendo al Usuario Correctamente.");
-        Animacion.MostrarAvisos(AvisosLabel);
+        if(Bot.sigueA(PersonaBuscada.getScreenName())){
+            BTNseguir.setText("No seguir");
+            BTNseguir.setStyle("-fx-background-color: #F6502E;");
+        }else{
+            BTNseguir.setText("Seguir");
+            BTNseguir.setStyle("-fx-background-color: #00ffbb;");
+        }
+                
+                
     }
 
     @FXML
@@ -520,6 +534,7 @@ public  class MenuInicioController implements Initializable {
                 botonMensaje.ripplerFillProperty().setValue(Paint.valueOf("#9d6da5")); 
                 MenuMensaje.setVisible(false);
             }
+            BuscarListView.setVisible(true);
             MenuBuscar.setVisible(true);
             botonBuscar.setStyle("-fx-background-color: #9d6da5;");
             botonBuscar.textFillProperty().setValue(Paint.valueOf("white"));
@@ -547,6 +562,7 @@ public  class MenuInicioController implements Initializable {
             botonMensaje.setStyle("-fx-background-color: #9d6da5;");
             botonMensaje.textFillProperty().setValue(Paint.valueOf("white"));
             botonMensaje.ripplerFillProperty().setValue(Paint.valueOf("white"));
+            BuscarListView.setVisible(false);
             
     }
     private void initStream() throws TwitterException {
@@ -568,8 +584,8 @@ public  class MenuInicioController implements Initializable {
         twitterStream.filter(filtre);
     }
     long idMensaje;
-    private void CargaVentanaChat(ArrayList<ArrayList<DirectMessage>> mensajesDirectos) throws TwitterException {
-        for(ArrayList<DirectMessage> lista : mensajesDirectos){
+    private void CargaVentanaChat() throws TwitterException {
+        for(ArrayList<DirectMessage> lista : Bot.obtenerMensajesDirectos()){
             User user;
             long senderId = lista.get(0).getSenderId();
             if(senderId != Bot.getId()){
@@ -585,7 +601,6 @@ public  class MenuInicioController implements Initializable {
             
             usuario.setPrefWidth(280);
             usuario.setAlignment(Pos.TOP_LEFT);
-            //boton
             ListaUsuarios.getItems().add(usuario);
             
             usuario.setOnAction((ActionEvent events)->{
