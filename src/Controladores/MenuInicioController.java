@@ -270,6 +270,8 @@ public  class MenuInicioController implements Initializable {
             System.out.println("gg");
         }
     }; 
+    @FXML
+    private Button recargar;
     
     
     
@@ -722,6 +724,11 @@ public  class MenuInicioController implements Initializable {
             BotonEnviar.setDisable(false);
         }
         Contador.setText(letras+" / "+limite);
+    }
+
+    @FXML
+    private void recargarInicio(ActionEvent event) throws TwitterException, IOException, IOException {
+        ActualizarEstados();
     }
    
 }

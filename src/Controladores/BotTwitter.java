@@ -514,6 +514,7 @@ public class BotTwitter {
                     System.out.println(ex.getMessage());
                 }
             });
+           
             BotonRetweet.setOnAction((ActionEvent events)->{ 
                 try {
                     if(darRetweet(e.getId())){
@@ -538,6 +539,7 @@ public class BotTwitter {
             
             i++;
         }
+        
         anadirGrid();
         timeLine.setContent(grid);
     }
@@ -553,26 +555,41 @@ public class BotTwitter {
     
     public void hastag(String texto,Long idAux) throws TwitterException{
         String [] a = texto.split("#");
-            for (int i = 0; i <a.length; i++) {
-             
+            for (int i = 0; i <a.length; i++) {            
             String [] b =a[i].split(" ");
-                for (int j = 0; j < 1; j++) {
-                    
+                for (int j = 0; j < 1; j++) {                   
                     if (b[0].equals("seguir") && b.length>=2) {
-                        seguirUsuario(b[1]); 
+                        Bot.createFriendship(b[1]);
+//                        seguirUsuario(b[1]); 
                     }else if (b[0].equals("gustar") && (b.length>=2 || b.length==1)) {
-                        Bandera=1;
+                        
+                        
                         try{
                             Long id = Long.parseLong(b[1]);
-                            darLikeTweet(id);
+                            Bot.createFavorite(id);
+                            
+//                            darLikeTweet(id);
                         }catch(Exception e){
+                            Bandera=1;
                             System.out.println(e);
-                            darLikeTweet(idAux);
-                            
-                            
+                            Bot.createFavorite(idAux);
+//                            darLikeTweet(idAux);  
                         }
                     } else if (b[0].equals("difundir") && b.length>=2) {
-                        System.out.println(b[1]);
+                       
+                        try{
+                            Long id = Long.parseLong(b[1]);
+                            Bot.retweetStatus(id);
+                            
+//                            darLikeTweet(id);
+                        }catch(Exception e){
+                            Bandera=1;
+                            System.out.println(e);
+                            Bot.retweetStatus(idAux);
+//                            darLikeTweet(idAux);  
+                        }
+                        
+                       
                     }
                 }    
             }
