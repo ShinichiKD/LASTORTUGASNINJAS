@@ -468,6 +468,7 @@ public class BotTwitter {
         int i=0,max;
         ArrayList<Status> status;
         ArrayList<String> HastagsTweet;
+        
         if(evento == 0){
             status =  obtenerTweets();
             max = status.size();
@@ -479,6 +480,7 @@ public class BotTwitter {
         
         LastId = status.get(0).getId();
         for (Status e : status) {
+            System.out.println(e.getText());
             TextFlow t = new TextFlow();
             t.setLayoutX(700);
             t.setLayoutY(100);
@@ -585,6 +587,7 @@ public class BotTwitter {
         
         anadirGrid();
         timeLine.setContent(grid);
+        
     }
     
     private void anadirGrid(){

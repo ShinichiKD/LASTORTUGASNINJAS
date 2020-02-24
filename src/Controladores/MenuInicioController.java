@@ -405,6 +405,7 @@ public  class MenuInicioController implements Initializable {
             System.out.println("a");
             ColorHastag= "red";
             Bot.cargarHastag();
+            
             Bot.timeLine(TimeLineInicio,0,null,ColorHastag);
         
         
