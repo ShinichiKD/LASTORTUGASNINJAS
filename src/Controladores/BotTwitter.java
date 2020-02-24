@@ -1,18 +1,27 @@
 package Controladores;
 
 import com.jfoenix.controls.JFXButton;
+import java.awt.Color;
+import static java.awt.Color.white;
 import java.io.File;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import twitter4j.DirectMessage;
 import twitter4j.DirectMessageList;
 import twitter4j.IDs;
@@ -196,7 +205,7 @@ public class BotTwitter {
     
     public ArrayList<Status> obtenerTweets() throws TwitterException {
             // cantidad tweets
-            int cantidad = 3;
+            int cantidad = 10;
             Paging paging;
             if(LastId > 0){
                 paging = new Paging(LastId);
@@ -220,6 +229,18 @@ public class BotTwitter {
         }
         
     }
+    public boolean darLikeHastag(Long id) throws TwitterException{
+        
+        Status st = Bot.showStatus(id);
+        if(!st.isFavorited()){
+            Bot.createFavorite(id);
+            return true;
+        }else{
+            
+            return false;
+        }
+        
+    }
     public boolean darRetweet(Long id) throws TwitterException{
         
         Status st = Bot.showStatus(id);
@@ -228,6 +249,17 @@ public class BotTwitter {
             return true;
         }else{
             Bot.unRetweetStatus(id);
+            return false;
+        }
+    }
+     public boolean darRetweetHastag(Long id) throws TwitterException{
+        
+        Status st = Bot.showStatus(id);
+        if(!st.isRetweetedByMe()){
+            Bot.retweetStatus(id);
+            return true;
+        }else{
+            
             return false;
         }
     }
@@ -398,24 +430,44 @@ public class BotTwitter {
                 } catch (TwitterException ex) {
                     System.out.println(ex.getMessage());
                 }
-            });
-            
-           
-
-            
+            });    
             grid.add(gridAux, 0, i);
             i++;
         }
-        
-        
         timeLine.setContent(grid);
-        
-        
     }
-    
-    public void timeLine(ScrollPane timeLine,int evento,Status statusEvent) throws TwitterException{
+    public TextFlow cambiarColorHastag(String colorHastag,String Tweet,ArrayList<String> hastagsTweet){
+        TextFlow tf = new TextFlow();
+        String parseo = new String("");
+        ArrayList<String> s = new ArrayList<>();
+            if (hastagsTweet.size()!=0) {
+                 for (int i = 0; i < hastagsTweet.size(); i++) {
+                    String [] t = Tweet.split(hastagsTweet.get(i),2);
+                    if (t[0]!="") {
+                        Text text= new Text(t[0]);                  
+                        Text text2= new Text(hastagsTweet.get(i));
+                        text2.setFill(Paint.valueOf(colorHastag));
+                        tf.getChildren().add(text);
+                        tf.getChildren().add(text2);              
+                        Tweet=t[1];                     
+                    }    
+                 }
+                Text text= new Text(Tweet);
+                tf.getChildren().add(text);
+                
+
+            }else{
+                Text text= new Text(Tweet);
+                tf.getChildren().add(text);
+            }
+            
+            
+        return tf;
+    }
+    public void timeLine(ScrollPane timeLine,int evento,Status statusEvent,String Color) throws TwitterException{
         int i=0,max;
         ArrayList<Status> status;
+        ArrayList<String> HastagsTweet;
         if(evento == 0){
             status =  obtenerTweets();
             max = status.size();
@@ -424,17 +476,16 @@ public class BotTwitter {
             status.add(statusEvent);
             max = 1;
         }
-       
+        
         LastId = status.get(0).getId();
         for (Status e : status) {
+            TextFlow t = new TextFlow();
+            t.setLayoutX(700);
+            t.setLayoutY(100);
             Bandera=0;
-            
-            hastag(e.getText(),e.getId());
-            
-            System.out.println("Cargando tweet "+(i+1)+" de "+max);
-            
+            HastagsTweet=hastag(e.getText(),e.getId());
+            t=cambiarColorHastag(Color, e.getText(), HastagsTweet);
             GridPane gridAux = new GridPane();
-            
             gridAux.setStyle("-fx-background-color: #e4e4e4;");
             gridAux.setPadding(new Insets(10, 10, 10, 10));
             Label NombreUsuario = new Label(e.getUser().getName());
@@ -468,7 +519,6 @@ public class BotTwitter {
             if (Bandera==1) {
                 BotonLike.setStyle("-fx-background-color: #ad0352;");
             }
-            
             if(e.getUser().getId() == Bot.getId()){
                 JFXButton eliminar = new JFXButton("Eliminar");
                 gridAux.add(eliminar, 2, 2);
@@ -481,14 +531,11 @@ public class BotTwitter {
                 }
                 });
             }
-            
-            
             ImageView FotoPublicacion = new ImageView(new Image("/Vistas/Imagenes/MenuInicio.png"));
             FotoPublicacion.setFitHeight(150);
             FotoPublicacion.setFitWidth(150);
             try {
                 FotoPublicacion.setImage(new Image(e.getMediaEntities()[0].getMediaURL()));
-                
             }catch (Exception ex) {
                 
             }
@@ -497,7 +544,7 @@ public class BotTwitter {
             Fecha.setStyle("-fx-font-size: 15px;");
             gridAux.add(FotoPerfil,0,0);
             gridAux.add(NombreUsuario, 1, 0);
-            gridAux.add(Tweet, 1, 1);
+            gridAux.add(t, 1, 1);
             gridAux.add(BotonLike, 0, 2);
             gridAux.add(BotonRetweet, 1, 2);
             gridAux.add(FotoPublicacion, 2, 1);
@@ -527,10 +574,6 @@ public class BotTwitter {
                     System.out.println(ex.getMessage());
                 }
             });
-            
-            
-            
-            
             if(status.size()==1){
                 gridsAux.add(0,gridAux);
             }else{
@@ -553,47 +596,50 @@ public class BotTwitter {
         }
     }
     
-    public void hastag(String texto,Long idAux) throws TwitterException{
+    public ArrayList<String> hastag(String texto,Long idAux) throws TwitterException{
+        TextFlow text = new TextFlow();
+      
+        ArrayList<String> hastags = new ArrayList<String>();
         String [] a = texto.split("#");
-            for (int i = 0; i <a.length; i++) {            
-            String [] b =a[i].split(" ");
-                for (int j = 0; j < 1; j++) {                   
-                    if (b[0].equals("seguir") && b.length>=2) {
-                        Bot.createFriendship(b[1]);
-//                        seguirUsuario(b[1]); 
-                    }else if (b[0].equals("gustar") && (b.length>=2 || b.length==1)) {
-                        
-                        
-                        try{
-                            Long id = Long.parseLong(b[1]);
-                            Bot.createFavorite(id);
-                            
-//                            darLikeTweet(id);
-                        }catch(Exception e){
-                            Bandera=1;
-                            System.out.println(e);
-                            Bot.createFavorite(idAux);
-//                            darLikeTweet(idAux);  
-                        }
-                    } else if (b[0].equals("difundir") && b.length>=2) {
-                       
-                        try{
-                            Long id = Long.parseLong(b[1]);
-                            Bot.retweetStatus(id);
-                            
-//                            darLikeTweet(id);
-                        }catch(Exception e){
-                            Bandera=1;
-                            System.out.println(e);
-                            Bot.retweetStatus(idAux);
-//                            darLikeTweet(idAux);  
-                        }
-                        
-                       
+        if (a.length>1) {
+            for (int i = 1; i <a.length; i++) { 
+                String [] b =a[i].split(" ");               
+                hastags.add("#"+b[0]);
+                if (b[0].equals("seguir") && b.length>=2) {
+                    Bot.createFriendship(b[1]);
+                }else if (b[0].equals("gustar") && (b.length>=2 || b.length==1)) {
+                    try{
+                        Long id = Long.parseLong(b[1]);
+                        darLikeHastag(id);
+                    }catch(Exception e){
+                        Bandera=1;    
+                        darLikeHastag(idAux); 
                     }
-                }    
+                } else if (b[0].equals("difundir") && (b.length>=2 || b.length==1)) {
+                    try{
+                        Long id = Long.parseLong(b[1]);
+                        darRetweetHastag(id);   
+                    }catch(Exception e){
+                        darRetweetHastag(idAux);  
+                    }
+                }else{
+                     
+                }       
             }
+        }
+            return hastags;
     }
+    public void cargarHastag() throws TwitterException{
+        int i=0,max;
+        ArrayList<Status> status;
+        status =  obtenerTweets();
+        LastId = status.get(0).getId();
+        for (Status e : status) {
+            hastag(e.getText(),e.getId());
+        }
+        LastId = -1;
+    }
+    
     
 }
     

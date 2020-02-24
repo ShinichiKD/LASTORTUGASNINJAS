@@ -31,6 +31,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import twitter4j.DirectMessage;
@@ -106,10 +107,11 @@ public  class MenuInicioController implements Initializable {
     private ImageView img_inicio;
     @FXML
     private JFXButton BTNseguir;
-    
+    private int EstadoTimeLine=0;
     private User PersonaMensaje;
     private GridPane MensajesBien;
     private int max;
+    private String ColorHastag="black";
     ObservableList<String> items =FXCollections.observableArrayList();
     public User PersonaBuscada;
     BotTwitter Bot;  
@@ -193,7 +195,7 @@ public  class MenuInicioController implements Initializable {
                 () -> {
                     try {
                         
-                        Bot.timeLine(TimeLineInicio,1,status);
+                        Bot.timeLine(TimeLineInicio,1,status,ColorHastag);
                         AvisosLabel.setText("Nuevo tweet!, de: "+status.getUser().getName());
                         Animacion.MostrarAvisos(AvisosLabel);
                     } catch (TwitterException ex) {
@@ -272,6 +274,8 @@ public  class MenuInicioController implements Initializable {
     }; 
     @FXML
     private Button recargar;
+    @FXML
+    private TextFlow TF;
     
     
     
@@ -310,6 +314,7 @@ public  class MenuInicioController implements Initializable {
         }
         
         try {
+            
             ActualizarEstados();
             
         } catch (TwitterException ex) {
@@ -344,7 +349,7 @@ public  class MenuInicioController implements Initializable {
             AvisosLabel.setText("Publicación exitosa.");
             Animacion.MostrarAvisos(AvisosLabel);
             try {
-            ActualizarEstados();
+                ActualizarEstados();
             
         } catch (TwitterException | IOException ex) {
             Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
@@ -397,7 +402,11 @@ public  class MenuInicioController implements Initializable {
     }
     void ActualizarEstados() throws TwitterException, IOException{
         
-        Bot.timeLine(TimeLineInicio,0,null);
+            System.out.println("a");
+            ColorHastag= "red";
+            Bot.cargarHastag();
+            Bot.timeLine(TimeLineInicio,0,null,ColorHastag);
+        
         
     }
 
@@ -728,6 +737,7 @@ public  class MenuInicioController implements Initializable {
 
     @FXML
     private void recargarInicio(ActionEvent event) throws TwitterException, IOException, IOException {
+        
         ActualizarEstados();
     }
    
