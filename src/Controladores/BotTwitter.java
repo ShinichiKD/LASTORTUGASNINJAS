@@ -383,13 +383,13 @@ public class BotTwitter {
             if (e.isRetweeted()) {
                 BotonRetweet.setStyle("-fx-background-color: #23E868;");
             }else{
-                BotonRetweet.setStyle("-fx-background-color: #9e9e9e;");
+                BotonRetweet.setStyle("-fx-background-color: white;");
             }
             
             if (e.isFavorited()) {
-                BotonLike.setStyle("-fx-background-color: #ad0352;");
+                BotonLike.setStyle("-fx-background-color: #ff0000;");
             }else{
-                BotonLike.setStyle("-fx-background-color: #9e9e9e;");
+                BotonLike.setStyle("-fx-background-color: white;");
             }
             
             ImageView FotoPublicacion = new ImageView();
@@ -415,9 +415,9 @@ public class BotTwitter {
             BotonLike.setOnAction((ActionEvent events)->{ 
                 try {
                     if(darLikeTweet(e.getId())){
-                        BotonLike.setStyle("-fx-background-color: #ad0352;");
+                        BotonLike.setStyle("-fx-background-color: #ff0000;");
                     }else{
-                        BotonLike.setStyle("-fx-background-color: #9e9e9e;");
+                        BotonLike.setStyle("-fx-background-color: white;");
                     }
                 
                 } catch (TwitterException ex) {
@@ -430,7 +430,7 @@ public class BotTwitter {
                         
                         BotonRetweet.setStyle("-fx-background-color: #23E868;");
                     }else{
-                        BotonRetweet.setStyle("-fx-background-color: #9e9e9e;");
+                        BotonRetweet.setStyle("-fx-background-color: white;");
                     }
                 } catch (TwitterException ex) {
                     System.out.println(ex.getMessage());
@@ -520,18 +520,19 @@ public class BotTwitter {
             if (e.isRetweeted()) {
                 BotonRetweet.setStyle("-fx-background-color: #23E868;");
             }else{
-                BotonRetweet.setStyle("-fx-background-color: #9e9e9e;");
+                BotonRetweet.setStyle("-fx-background-color: white;");
             }
             if (e.isFavorited()) {
-                BotonLike.setStyle("-fx-background-color: #ad0352;");
+                BotonLike.setStyle("-fx-background-color: #ff0000;");
             }else{
-                BotonLike.setStyle("-fx-background-color: #9e9e9e;");
+                BotonLike.setStyle("-fx-background-color: white;");
             }
             if (Bandera==1) {
-                BotonLike.setStyle("-fx-background-color: #ad0352;");
+                BotonLike.setStyle("-fx-background-color: #ff0000;");
             }
             if(e.getUser().getId() == Bot.getId()){
                 JFXButton eliminar = new JFXButton("Eliminar");
+                eliminar.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/eliminar.png")));
                 gridAux.add(eliminar, 2, 2);
                 eliminar.setOnAction((ActionEvent events)->{ 
                 try {
@@ -563,9 +564,9 @@ public class BotTwitter {
             BotonLike.setOnAction((ActionEvent events)->{ 
                 try {
                     if(darLikeTweet(e.getId())){
-                        BotonLike.setStyle("-fx-background-color: #ad0352;");
+                        BotonLike.setStyle("-fx-background-color: #ff0000;");
                     }else{
-                        BotonLike.setStyle("-fx-background-color: #9e9e9e;");
+                        BotonLike.setStyle("-fx-background-color: white;");
                     }
                 
                 } catch (TwitterException ex) {
@@ -579,7 +580,7 @@ public class BotTwitter {
                         
                         BotonRetweet.setStyle("-fx-background-color: #23E868;");
                     }else{
-                        BotonRetweet.setStyle("-fx-background-color: #9e9e9e;");
+                        BotonRetweet.setStyle("-fx-background-color: white;");
                     }
                 } catch (TwitterException ex) {
                     System.out.println(ex.getMessage());
