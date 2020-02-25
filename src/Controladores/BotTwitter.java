@@ -368,7 +368,7 @@ public class BotTwitter {
             
             
             Tweet.setPrefHeight(135);
-            Tweet.setPrefWidth(730);
+            Tweet.setPrefWidth(480);
             
             
             JFXButton BotonLike = new JFXButton();
@@ -392,7 +392,7 @@ public class BotTwitter {
                 BotonLike.setStyle("-fx-background-color: #9e9e9e;");
             }
             
-            ImageView FotoPublicacion = new ImageView(new Image("/Vistas/Imagenes/MenuInicio.png"));
+            ImageView FotoPublicacion = new ImageView();
             FotoPublicacion.setFitHeight(150);
             FotoPublicacion.setFitWidth(150);
             try {
@@ -495,9 +495,9 @@ public class BotTwitter {
             t=cambiarColorHastag(Color, e.getText(), HastagsTweet);
             GridPane gridAux = new GridPane();
             t.setStyle("-fx-font: Microsoft YaHei Light; -fx-font-size: 18px;");
-            t.setPrefWidth(740);
+            t.setPrefWidth(480);
             t.setPrefHeight(100);
-            gridAux.setStyle("-fx-background-color: #e4e4e4;");
+            gridAux.setStyle("-fx-background-color: white;");
             gridAux.setPadding(new Insets(10, 10, 10, 10));
             Label NombreUsuario = new Label(e.getUser().getName());
             NombreUsuario.setPrefHeight(27);
@@ -542,7 +542,7 @@ public class BotTwitter {
                 }
                 });
             }
-            ImageView FotoPublicacion = new ImageView(new Image("/Vistas/Imagenes/MenuInicio.png"));
+            ImageView FotoPublicacion = new ImageView();
             FotoPublicacion.setFitHeight(150);
             FotoPublicacion.setFitWidth(150);
             try {

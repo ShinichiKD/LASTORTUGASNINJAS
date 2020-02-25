@@ -1,5 +1,6 @@
 package Controladores;
 
+import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -40,7 +41,7 @@ public class Animaciones {
         });
         timeline.play();
     }
-    public void MostrarAvisos(Label Aviso) throws IOException{
+    public void MostrarAvisos(JFXButton Aviso) throws IOException{
         
         Aviso.setVisible(true);
         
@@ -60,7 +61,7 @@ public class Animaciones {
         
     }
     
-    public void CerrarAviso(Label Aviso){
+    public void CerrarAviso(JFXButton Aviso){
         
         Timeline timeline = new Timeline();
         KeyFrame kf = new KeyFrame(Duration.seconds(5));
