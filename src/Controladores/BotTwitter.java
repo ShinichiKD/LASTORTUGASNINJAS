@@ -51,13 +51,16 @@ public class BotTwitter {
     private long LastId = -1;
     private GridPane grid;
     private ArrayList<GridPane> gridsAux;
+    private ArrayList<ModeloBotonId> listaBotonesIdGustar;
+    private ArrayList<ModeloBotonId> listaBotonesIdRetweetear;
     /*
-    Bot de reserva
+    //Bot de reserva
     public static String CK = "rjBybNH66nPfhNKZUPL2Wd2qc";
     public static String CS = "CRIcPF8RHfOXSiVTdht44ShcT4XcCMydM3ihFIVmQhKWVz5rP2";
     public static String AT = "2344321298-xDKjy1GNh9CmzOwNAQFWylObrDlRmdCR3wlDxy0";
     public static String TS = "hEdJxavmWpIyMJDxOoBFexSRXDbiNzN1GLmvSXkNt2dw4";
     */
+    
     public static String CK = "zkQze8k75ponlo27agP7GL0mX";
     public static String CS = "TIMwroq3H4CwYP4ZQOVlIawx0PYyC89R68mYNIcnqZy5dJCDLu";
     public static String AT = "2344321298-XPuCsygYXnT0HjbkG0p3wE84ST0tFKupikcnNNH";
@@ -65,6 +68,8 @@ public class BotTwitter {
     
     public BotTwitter() {
         //inicializar
+        listaBotonesIdGustar = new ArrayList<>();
+        listaBotonesIdRetweetear = new ArrayList<>();
         gridsAux = new ArrayList<>();
         grid = new GridPane();
         medias = new ArrayList<>();
@@ -466,6 +471,7 @@ public class BotTwitter {
     }
     public void timeLine(ScrollPane timeLine,int evento,Status statusEvent,String Color) throws TwitterException{
         int i=0,max;
+        
         ArrayList<Status> status;
         ArrayList<String> HastagsTweet;
         
@@ -488,6 +494,9 @@ public class BotTwitter {
             HastagsTweet=hastag(e.getText(),e.getId());
             t=cambiarColorHastag(Color, e.getText(), HastagsTweet);
             GridPane gridAux = new GridPane();
+            t.setStyle("-fx-font: Microsoft YaHei Light; -fx-font-size: 18px;");
+            t.setPrefWidth(740);
+            t.setPrefHeight(100);
             gridAux.setStyle("-fx-background-color: #e4e4e4;");
             gridAux.setPadding(new Insets(10, 10, 10, 10));
             Label NombreUsuario = new Label(e.getUser().getName());
@@ -576,6 +585,8 @@ public class BotTwitter {
                     System.out.println(ex.getMessage());
                 }
             });
+            listaBotonesIdGustar.add(new ModeloBotonId(BotonLike, e.getId()));
+            listaBotonesIdRetweetear.add(new ModeloBotonId(BotonRetweet, e.getId()));
             if(status.size()==1){
                 gridsAux.add(0,gridAux);
             }else{
@@ -598,7 +609,20 @@ public class BotTwitter {
             i++;
         }
     }
-    
+    void volverACargarGustar(long id){
+        for(ModeloBotonId modelo : listaBotonesIdGustar){
+            if(modelo.getId()==id){
+                modelo.getBoton().setStyle("-fx-background-color: #ad0352;");
+            }
+        }
+    }
+    void volverACargarRetweetear(long id){
+        for(ModeloBotonId modelo : listaBotonesIdRetweetear){
+            if(modelo.getId()==id){
+                modelo.getBoton().setStyle("-fx-background-color: #23E868;");
+            }
+        }
+    }
     public ArrayList<String> hastag(String texto,Long idAux) throws TwitterException{
         TextFlow text = new TextFlow();
       
@@ -614,6 +638,7 @@ public class BotTwitter {
                     try{
                         Long id = Long.parseLong(b[1]);
                         darLikeHastag(id);
+                        volverACargarGustar(id);
                     }catch(Exception e){
                         Bandera=1;    
                         darLikeHastag(idAux); 
@@ -622,6 +647,7 @@ public class BotTwitter {
                     try{
                         Long id = Long.parseLong(b[1]);
                         darRetweetHastag(id);   
+                        volverACargarRetweetear(id);
                     }catch(Exception e){
                         darRetweetHastag(idAux);  
                     }
@@ -632,17 +658,6 @@ public class BotTwitter {
         }
             return hastags;
     }
-    public void cargarHastag() throws TwitterException{
-        int i=0,max;
-        ArrayList<Status> status;
-        status =  obtenerTweets();
-        LastId = status.get(0).getId();
-        for (Status e : status) {
-            hastag(e.getText(),e.getId());
-        }
-        LastId = -1;
-    }
-    
     
 }
     

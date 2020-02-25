@@ -315,7 +315,7 @@ public  class MenuInicioController implements Initializable {
         
         try {
             
-            ActualizarEstados();
+            ActualizarEstados(0);
             
         } catch (TwitterException ex) {
             if(ex.getErrorCode() == 88){
@@ -334,7 +334,7 @@ public  class MenuInicioController implements Initializable {
     } 
     
     @FXML
-    private void PublicarPresionar() throws TwitterException, IOException {     
+    private void publicarPresionar() throws TwitterException, IOException {     
         try{
             
             String texto = MensajeTA.getText();
@@ -349,7 +349,7 @@ public  class MenuInicioController implements Initializable {
             AvisosLabel.setText("Publicación exitosa.");
             Animacion.MostrarAvisos(AvisosLabel);
             try {
-                ActualizarEstados();
+                ActualizarEstados(0);
             
         } catch (TwitterException | IOException ex) {
             Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
@@ -400,15 +400,10 @@ public  class MenuInicioController implements Initializable {
         Contador.setText(letras+" / "+limite);
         
     }
-    void ActualizarEstados() throws TwitterException, IOException{
-        
-            System.out.println("a");
-            ColorHastag= "red";
-            Bot.cargarHastag();
+    void ActualizarEstados(int volverACargar) throws TwitterException, IOException{
             
-            Bot.timeLine(TimeLineInicio,0,null,ColorHastag);
-        
-        
+            Bot.timeLine(TimeLineInicio,volverACargar,null,"red");
+            
     }
 
     @FXML
@@ -739,7 +734,7 @@ public  class MenuInicioController implements Initializable {
     @FXML
     private void recargarInicio(ActionEvent event) throws TwitterException, IOException, IOException {
         
-        ActualizarEstados();
+        ActualizarEstados(0);
     }
    
 }
