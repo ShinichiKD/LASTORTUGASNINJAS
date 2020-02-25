@@ -104,7 +104,7 @@
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
                     </content>
                   </ScrollPane>
-                  <JFXTextArea fx:id="MensajeTA" focusColor="WHITE" labelFloat="true" layoutX="760.0" layoutY="68.0" prefHeight="139.0" prefWidth="382.0" promptText="¿Qué esta pasando?" style="-fx-background-color: white;" unFocusColor="#2b2f35" wrapText="true">
+                  <JFXTextArea fx:id="MensajeTA" focusColor="WHITE" labelFloat="true" layoutX="760.0" layoutY="68.0" onKeyReleased="#releasedMensajeTA" prefHeight="139.0" prefWidth="382.0" promptText="¿Qué esta pasando?" style="-fx-background-color: white;" unFocusColor="#2b2f35" wrapText="true">
                      <font>
                         <Font name="Microsoft YaHei Light" size="18.0" />
                      </font>
@@ -154,7 +154,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXButton>
-                  <ListView fx:id="BuscarListView" layoutX="787.0" layoutY="72.0" prefHeight="395.0" prefWidth="265.0" />
+                  <ListView fx:id="BuscarListView" layoutX="787.0" layoutY="72.0" onMouseClicked="#seleccionarItem" prefHeight="395.0" prefWidth="265.0" />
                   <Pane layoutX="14.0" layoutY="17.0" prefHeight="106.0" prefWidth="728.0" style="-fx-background-color: White;">
                      <children>
                         <ImageView fx:id="ImagenPerfil" fitHeight="91.0" fitWidth="97.0" layoutX="14.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
@@ -190,7 +190,7 @@
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="645.0" />
                     </content>
                   </ScrollPane>
-                  <JFXTextArea fx:id="TextoMensaje" layoutX="279.0" layoutY="631.0" prefHeight="47.0" prefWidth="603.0" promptText="Escribir mensaje" style="-fx-background-color: white;">
+                  <JFXTextArea fx:id="TextoMensaje" layoutX="279.0" layoutY="631.0" onKeyReleased="#releasedTextoMensaje" prefHeight="47.0" prefWidth="603.0" promptText="Escribir mensaje" style="-fx-background-color: white;">
                      <font>
                         <Font name="Microsoft YaHei Light" size="16.0" />
                      </font>

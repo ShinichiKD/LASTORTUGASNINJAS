@@ -382,7 +382,8 @@ public  class MenuInicioController implements Initializable {
      * Validacion 280 caracteres
      * @param event 
      */
-    private void ReleasedMensajeTA() {
+    @FXML
+    private void releasedMensajeTA() {
         int letras = MensajeTA.getText().length();
         int limite = 280;
         if(letras > limite){
@@ -409,7 +410,8 @@ public  class MenuInicioController implements Initializable {
         System.exit(0);
     }
     
-    private void SeleccionarItem() throws TwitterException {
+    @FXML
+    private void seleccionarItem() throws TwitterException {
         if (BuscarListView.getSelectionModel().getSelectedItem()!=null) {
             System.out.println("usuario seleccionado");
             
@@ -593,7 +595,7 @@ public  class MenuInicioController implements Initializable {
             foto.setFitHeight(40);
             usuario.graphicProperty().set(foto);
             
-            usuario.setPrefWidth(280);
+            usuario.setPrefWidth(235);
             usuario.setAlignment(Pos.TOP_LEFT);
             ListaUsuarios.getItems().add(usuario);
             
@@ -604,14 +606,14 @@ public  class MenuInicioController implements Initializable {
                 
                 for(DirectMessage dm : lista){
                     GridPane gridAux = new GridPane();
-                    gridAux.setPrefWidth(690);
+                    gridAux.setPrefWidth(650);
                     gridAux.setPadding(new Insets(5, 5, 5, 5)); 
                     if (user.getId()==dm.getRecipientId()) {
                         
                         
                         JFXButton miMensaje = new JFXButton(dm.getText());
                         miMensaje.wrapTextProperty().set(true);
-                        miMensaje.setStyle("-fx-font-size: 15px; -fx-background-color: #9D6DA5; -fx-font-family: Microsoft YaHei Light;");
+                        miMensaje.setStyle("-fx-font-size: 15px; -fx-background-color:  #4fb4cb; -fx-font-family: Microsoft YaHei Light;");
                         miMensaje.textFillProperty().setValue(Paint.valueOf("white"));
                         miMensaje.ripplerFillProperty().setValue(Paint.valueOf("white"));
                         Label espacio = new Label();
@@ -624,7 +626,7 @@ public  class MenuInicioController implements Initializable {
                         JFXButton suMensaje = new JFXButton(dm.getText());
                         suMensaje.wrapTextProperty().set(true);
                         
-                        suMensaje.setStyle("-fx-font-size: 15px; -fx-background-color: #826DB3; -fx-font-family: Microsoft YaHei Light;");
+                        suMensaje.setStyle("-fx-font-size: 15px; -fx-background-color: #4191a3 ; -fx-font-family: Microsoft YaHei Light;");
                         suMensaje.textFillProperty().setValue(Paint.valueOf("white"));
                         suMensaje.ripplerFillProperty().setValue(Paint.valueOf("white"));
                         
@@ -701,7 +703,8 @@ public  class MenuInicioController implements Initializable {
         
     }
 
-    private void ReleasedTextoMensaje(KeyEvent event) {
+    @FXML
+    private void releasedTextoMensaje(KeyEvent event) {
         int letras = TextoMensaje.getText().length();
         int limite = 10000;
         if(letras > limite){
