@@ -128,6 +128,13 @@ public class BotTwitter {
     public User getUser(long id) throws TwitterException{
         return Bot.users().showUser(id);
     }
+    public long[] getIdSeguidos() throws TwitterException{
+        long[] a = Bot.getFriendsIDs(-1).getIDs();
+        for(long b : a){
+            System.out.println("---->" + b);
+        }
+        return a;
+    }
     
     public ArrayList<ArrayList<DirectMessage>> obtenerMensajesDirectos() throws TwitterException{
         ArrayList<ArrayList<DirectMessage>> amigos = new ArrayList<>();
@@ -494,7 +501,7 @@ public class BotTwitter {
             HastagsTweet=hastag(e.getText(),e.getId());
             t=cambiarColorHastag(Color, e.getText(), HastagsTweet);
             GridPane gridAux = new GridPane();
-            t.setStyle("-fx-font: Microsoft YaHei Light; -fx-font-size: 18px;");
+            t.setStyle("-fx-font-style: Microsoft YaHei Light; -fx-font-size: 18px;");
             t.setPrefWidth(480);
             t.setPrefHeight(100);
             gridAux.setStyle("-fx-background-color: white;");

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -194,10 +195,13 @@ public  class MenuInicioController implements Initializable {
             Platform.runLater(
                 () -> {
                     try {
+                            if(Bot.sigueA(status.getUser().getScreenName())){
+                                Bot.timeLine(TimeLineInicio,1,status,ColorHastag);
+                                AvisosLabel.setText("Nuevo tweet!, de: "+status.getUser().getName());
+                                Animacion.MostrarAvisos(AvisosLabel);
+                            }
+                            
                         
-                        Bot.timeLine(TimeLineInicio,1,status,ColorHastag);
-                        AvisosLabel.setText("Nuevo tweet!, de: "+status.getUser().getName());
-                        Animacion.MostrarAvisos(AvisosLabel);
                     } catch (TwitterException ex) {
                         Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (IOException ex) {
@@ -286,6 +290,8 @@ public  class MenuInicioController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         Bot = new BotTwitter();
+       
+        
         try {
             initStream();
         } catch (TwitterException ex) {
@@ -307,7 +313,7 @@ public  class MenuInicioController implements Initializable {
        
         try {
             CargaVentanaChat();
-            System.out.println("Cargando chats...");
+            
         } catch (TwitterException ex) {
             Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -571,13 +577,14 @@ public  class MenuInicioController implements Initializable {
         TwitterStream twitterStream = new TwitterStreamFactory(cb.build()).getInstance();
         
         twitterStream.addListener(listener);
-        FilterQuery filtre = new FilterQuery();
-        String[] keywordsArray = { "Test36467081",
-                Bot.getId()+""
-        };
         
-        filtre.track(keywordsArray);
+        FilterQuery filtre = new FilterQuery();
+        
+        filtre.follow(Bot.getIdSeguidos());
+        twitterStream.user();
         twitterStream.filter(filtre);
+        
+        
     }
     long idMensaje;
     private void CargaVentanaChat() throws TwitterException {
