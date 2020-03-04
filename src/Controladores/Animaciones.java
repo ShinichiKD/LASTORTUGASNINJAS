@@ -41,7 +41,7 @@ public class Animaciones {
         });
         timeline.play();
     }
-    public void MostrarAvisos(JFXButton Aviso) throws IOException{
+    public static void MostrarAvisos(JFXButton Aviso) throws IOException{
         
         Aviso.setVisible(true);
         
@@ -61,7 +61,7 @@ public class Animaciones {
         
     }
     
-    public void CerrarAviso(JFXButton Aviso){
+    private static void CerrarAviso(JFXButton Aviso){
         
         Timeline timeline = new Timeline();
         KeyFrame kf = new KeyFrame(Duration.seconds(5));
@@ -75,19 +75,5 @@ public class Animaciones {
     }
 
     
-    public void CerrarVentana(StackPane Escena,String ruta) throws IOException{
-       
-        Parent root = FXMLLoader.load(getClass().getResource(ruta));
-        
-        Timeline timeline = new Timeline();
-        KeyValue kv = new KeyValue(Escena.translateXProperty(), 1);
-        KeyFrame kf = new KeyFrame(Duration.seconds(0.5), kv);
-        timeline.getKeyFrames().add(kf);
-        timeline.setOnFinished(t -> {
-            Escena.getChildren().add(root);
-        });
-        timeline.play();
-        
-    }
 
 }

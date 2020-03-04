@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -32,7 +31,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
-import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import twitter4j.DirectMessage;
@@ -41,7 +39,6 @@ import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
 import twitter4j.UserStreamListener;
-import twitter4j.StatusListener;
 import twitter4j.TwitterException;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
@@ -62,8 +59,6 @@ public  class MenuInicioController implements Initializable {
     private StackPane Escena;
     @FXML
     private AnchorPane AnchoPane;
-    @FXML
-    private Label Contador;
     @FXML
     private Button TwittearBoton;
     @FXML
@@ -116,7 +111,7 @@ public  class MenuInicioController implements Initializable {
     ObservableList<String> items =FXCollections.observableArrayList();
     public User PersonaBuscada;
     BotTwitter Bot;  
-    Animaciones Animacion;
+    //Animaciones Animacion;
     
     UserStreamListener listener = new UserStreamListener() {
              
@@ -196,9 +191,9 @@ public  class MenuInicioController implements Initializable {
                 () -> {
                     try {
                             if(Bot.sigueA(status.getUser().getScreenName())){
-                                Bot.timeLine(TimeLineInicio,1,status,ColorHastag);
+                                Bot.timeLine(TimeLineInicio,1,status,"red");
                                 AvisosLabel.setText("Nuevo tweet!, de: "+status.getUser().getName());
-                                Animacion.MostrarAvisos(AvisosLabel);
+                                Animaciones.MostrarAvisos(AvisosLabel);
                             }
                             
                         
@@ -273,13 +268,14 @@ public  class MenuInicioController implements Initializable {
 
         @Override
         public void onException(Exception excptn) {
-            System.out.println("gg");
         }
     }; 
     @FXML
-    private Label contador;
-    @FXML
     private ScrollPane Chat;
+    @FXML
+    private Label contadorPublicacion;
+    @FXML
+    private Label contadorChat;
     
     
     
@@ -297,15 +293,13 @@ public  class MenuInicioController implements Initializable {
         } catch (TwitterException ex) {
             Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Animacion= new Animaciones();
+        //Animacion= new Animaciones();
         AvisosLabel.setVisible(false);
         botonInicio.setStyle("-fx-background-color: #4fb4cb;");
         botonInicio.ripplerFillProperty().setValue(Paint.valueOf("white"));
         
         try {
-            System.out.println("se intento");
             img_inicio.setImage( new Image(Bot.getUser(Bot.getId()).get400x400ProfileImageURL()));
-            System.out.println("no se pudo");
         } catch (TwitterException ex) {
             Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -326,7 +320,7 @@ public  class MenuInicioController implements Initializable {
             if(ex.getErrorCode() == 88){
                 AvisosLabel.setText("Error con limites de la API : Cierre el programa y espere");
                 try {
-                    Animacion.MostrarAvisos(AvisosLabel);
+                    Animaciones.MostrarAvisos(AvisosLabel);
                 } catch (IOException ex1) {
                     System.out.println(ex1.getCause());
                 }
@@ -343,7 +337,7 @@ public  class MenuInicioController implements Initializable {
         try{
             
             String texto = MensajeTA.getText();
-            Contador.setText(0+" / "+280);
+            contadorPublicacion.setText(0+" / "+280);
             MensajeTA.clear();
             MensajeTA.setPromptText("¿Qué está pasando?");
             
@@ -352,7 +346,7 @@ public  class MenuInicioController implements Initializable {
             
             
             AvisosLabel.setText("Publicación exitosa.");
-            Animacion.MostrarAvisos(AvisosLabel);
+            Animaciones.MostrarAvisos(AvisosLabel);
             try {
                 ActualizarEstados(0);
             
@@ -367,15 +361,15 @@ public  class MenuInicioController implements Initializable {
             switch (e.getErrorCode()) {
                 case 170:
                     AvisosLabel.setText("No se ha podido publicar: Mensaje en blanco.");
-                    Animacion.MostrarAvisos(AvisosLabel);
+                    Animaciones.MostrarAvisos(AvisosLabel);
                     break;
                 case 187:
                     AvisosLabel.setText("No se ha podido publicar: Publicación duplicada.");
-                    Animacion.MostrarAvisos(AvisosLabel);
+                    Animaciones.MostrarAvisos(AvisosLabel);
                     break;
                 case 186:
                     AvisosLabel.setText("No se ha podido publicar: Publicación muy larga ");
-                    Animacion.MostrarAvisos(AvisosLabel);
+                    Animaciones.MostrarAvisos(AvisosLabel);
                     break;
                 default:
                     break;
@@ -394,15 +388,15 @@ public  class MenuInicioController implements Initializable {
         int limite = 280;
         if(letras > limite){
              //cambiar color
-             Contador.textFillProperty().setValue(Paint.valueOf("Red"));
+             contadorPublicacion.textFillProperty().setValue(Paint.valueOf("Red"));
              TwittearBoton.setDisable(true);
 
         }else{
             //cambiar color
-            Contador.textFillProperty().setValue(Paint.valueOf("White"));
+            contadorPublicacion.textFillProperty().setValue(Paint.valueOf("White"));
             TwittearBoton.setDisable(false);
         }
-        Contador.setText(letras+" / "+limite);
+        contadorPublicacion.setText(letras+" / "+limite);
         
     }
     void ActualizarEstados(int volverACargar) throws TwitterException, IOException{
@@ -461,7 +455,7 @@ public  class MenuInicioController implements Initializable {
             
         }catch(Exception e){
             AvisosLabel.setText("Usuario no encontrado");
-            Animacion.MostrarAvisos(AvisosLabel);
+            Animaciones.MostrarAvisos(AvisosLabel);
         }
         
         
@@ -478,10 +472,10 @@ public  class MenuInicioController implements Initializable {
             File selectedFile = fileChooser.showOpenDialog(new Stage());
             Bot.agregarArchivo(selectedFile);
             AvisosLabel.setText("Archivo subido correctamente");
-            Animacion.MostrarAvisos(AvisosLabel);
+            Animaciones.MostrarAvisos(AvisosLabel);
         }catch(Exception e){
             AvisosLabel.setText("Archivo subido no subido, formato incorrecto");
-            Animacion.MostrarAvisos(AvisosLabel);
+            Animaciones.MostrarAvisos(AvisosLabel);
         }
         
     }
@@ -512,7 +506,6 @@ public  class MenuInicioController implements Initializable {
 
     @FXML
     private void seguirUsuario() throws TwitterException, IOException {
-        System.out.println("Executando");
         Bot.seguirUsuario(PersonaBuscada.getScreenName());
         if(Bot.sigueA(PersonaBuscada.getScreenName())){
             BTNseguir.setText("No seguir");
@@ -693,15 +686,15 @@ public  class MenuInicioController implements Initializable {
             switch (e.getErrorCode()) {
                 case 50:
                     AvisosLabel.setText("Usuario no encontrado: No se pudo enviar mensaje.");
-                    Animacion.MostrarAvisos(AvisosLabel);
+                    Animaciones.MostrarAvisos(AvisosLabel);
                     break;
                 case 151:
                     AvisosLabel.setText("Mensaje en blanco: No se puede enviar.");
-                    Animacion.MostrarAvisos(AvisosLabel);
+                    Animaciones.MostrarAvisos(AvisosLabel);
                     break;
                 case 349:
                     AvisosLabel.setText("No puedes enviar mensajes a este usuario.");
-                    Animacion.MostrarAvisos(AvisosLabel);
+                    Animaciones.MostrarAvisos(AvisosLabel);
                     break;
                 default:
                     break;
@@ -716,15 +709,15 @@ public  class MenuInicioController implements Initializable {
         int limite = 10000;
         if(letras > limite){
             //cambiar color
-            Contador.textFillProperty().setValue(Paint.valueOf("Red"));
+            contadorChat.textFillProperty().setValue(Paint.valueOf("Red"));
             BotonEnviar.setDisable(true);
 
         }else{
             //cambiar color
-            Contador.textFillProperty().setValue(Paint.valueOf("Black"));
+            contadorChat.textFillProperty().setValue(Paint.valueOf("white"));
             BotonEnviar.setDisable(false);
         }
-        Contador.setText(letras+" / "+limite);
+        contadorChat.setText(letras+" / "+limite);
     }
 
     private void recargarInicio(ActionEvent event) throws TwitterException, IOException, IOException {

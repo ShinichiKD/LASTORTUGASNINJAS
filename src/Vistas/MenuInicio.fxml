@@ -114,7 +114,7 @@
                         <Font name="Microsoft YaHei Light" size="14.0" />
                      </font>
                   </JFXButton>
-                  <Label fx:id="contador" layoutX="999.0" layoutY="212.0" text="0  /  280" textFill="WHITE" />
+                  <Label fx:id="contadorPublicacion" layoutX="999.0" layoutY="212.0" text="0  /  280" textFill="WHITE" />
                   <JFXButton alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="760.0" layoutY="207.0" onAction="#subirArchivo" prefHeight="36.0" prefWidth="29.0" style="-fx-background-color: #4fb4cb;" text=" " textFill="WHITE">
                      <font>
                         <Font name="Microsoft YaHei Light" size="14.0" />
@@ -207,7 +207,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Label fx:id="Contador" alignment="CENTER" layoutX="765.0" layoutY="677.0" prefHeight="24.0" prefWidth="117.0" text="0  /  10000" textFill="WHITE">
+                  <Label fx:id="contadorChat" alignment="CENTER" layoutX="765.0" layoutY="677.0" prefHeight="24.0" prefWidth="117.0" text="0  /  10000" textFill="WHITE">
                      <font>
                         <Font name="Microsoft YaHei Light" size="16.0" />
                      </font>

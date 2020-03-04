@@ -1,40 +1,30 @@
 package Controladores;
 
 import com.jfoenix.controls.JFXButton;
-import java.awt.Color;
-import static java.awt.Color.black;
-import static java.awt.Color.white;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javax.swing.BorderFactory;
 import twitter4j.DirectMessage;
 import twitter4j.DirectMessageList;
 import twitter4j.IDs;
 import twitter4j.Paging;
 import twitter4j.Query;
 import twitter4j.QueryResult;
-import twitter4j.Relationship;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.StatusUpdate;
@@ -135,21 +125,15 @@ public class BotTwitter {
         return Bot.users().showUser(id);
     }
     public long[] getIdSeguidos() throws TwitterException{
-        long[] a = Bot.getFriendsIDs(-1).getIDs();
-        for(long b : a){
-            System.out.println("---->" + b);
-        }
-        return a;
+        return Bot.getFriendsIDs(-1).getIDs();
     }
     
     public ArrayList<ArrayList<DirectMessage>> obtenerMensajesDirectos() throws TwitterException{
         ArrayList<ArrayList<DirectMessage>> amigos = new ArrayList<>();
         
         DirectMessageList Lista = Bot.getDirectMessages(10);
-        System.out.println(Lista);
         
         for(DirectMessage m : Lista){
-            System.out.println("a");
             if(m.getRecipientId() == Bot.getId()){
                 ArrayList<DirectMessage> mensajes = buscarIdMensaje(m.getSenderId(), amigos);
                 if(mensajes!=null){
@@ -352,14 +336,14 @@ public class BotTwitter {
         GridPane grid = new GridPane();
         ArrayList<Status> status = TweetBuscado(usuario.getScreenName());
         max = status.size();
-        
+        timeLine.setStyle("-fx-background: white");
         
         for(Status e : status){
             
             System.out.println("Cargando tweet "+i+" de "+max);
             
             GridPane gridAux = new GridPane();
-            gridAux.setStyle("-fx-background-color: #e4e4e4;");
+            gridAux.setStyle("-fx-background-color: white;");
             gridAux.setPadding(new Insets(10, 10, 10, 10)); 
             
             Label NombreUsuario = new Label(e.getUser().getName());
@@ -464,6 +448,8 @@ public class BotTwitter {
                     if (t[0]!="") {
                         Text text= new Text(t[0]);                  
                         Text text2= new Text(hastagsTweet.get(i));
+                        text.setStyle("-fx-font-family: Microsoft YaHei Light");
+                        text2.setStyle("-fx-font-family: Microsoft YaHei Light");
                         text2.setFill(Paint.valueOf(colorHastag));
                         tf.getChildren().add(text);
                         tf.getChildren().add(text2);              
@@ -471,11 +457,12 @@ public class BotTwitter {
                     }    
                  }
                 Text text= new Text(Tweet);
+                text.setStyle("-fx-font-family: Microsoft YaHei Light");
                 tf.getChildren().add(text);
-                
 
             }else{
                 Text text= new Text(Tweet);
+                text.setStyle("-fx-font-family: Microsoft YaHei Light");
                 tf.getChildren().add(text);
             }
             
@@ -483,6 +470,12 @@ public class BotTwitter {
         return tf;
     }
     
+    public void eliminarTweet(GridPane gp) throws TwitterException, IOException{
+        gridsAux.remove(gp);
+        grid.getChildren().remove(gp);
+        Animaciones.MostrarAvisos(new JFXButton("aa") );
+        
+    }
     public void timeLine(ScrollPane timeLine,int evento,Status statusEvent,String Colors) throws TwitterException{
         int i=0,max;
         
@@ -498,12 +491,9 @@ public class BotTwitter {
             
             max = 1;
         }
-        for (int j = 0; j < status.size(); j++) {
-            System.out.println(status.get(j).getText());
-        }
         LastId = status.get(0).getId();
         for (Status e : status) {
-            
+            System.out.println(e.getText());
             TextFlow t = new TextFlow();
             t.setLayoutX(700);
             t.setLayoutY(100);
@@ -514,7 +504,7 @@ public class BotTwitter {
            
             GridPane gridAux = new GridPane();
             
-            t.setStyle("-fx-border-color: black;-fx-font-style: Microsoft YaHei Light; -fx-font-size: 18px; -fx-padding: 10px;");
+            t.setStyle("-fx-border-color: #cfcfcf;-fx-font-family: Arial;  -fx-font-size: 18px; -fx-padding: 10px;");
             t.setPrefWidth(480);
             t.setPrefHeight(100);
             gridAux.setStyle("-fx-background-color: white;");
@@ -562,7 +552,7 @@ public class BotTwitter {
             Label Fecha = new Label(e.getCreatedAt().getDate()+"/"+(e.getCreatedAt().getMonth()+1)+"/"+(e.getCreatedAt().getYear()-100));
             Fecha.setStyle("-fx-font: Microsoft YaHei Light;");
             Fecha.setStyle("-fx-font-size: 15px;");
-            gridAux.setStyle("-fx-border-color: black;");
+            gridAux.setStyle("-fx-border-color: #cfcfcf;");
             gridAux.add(FotoPerfil,0,0);
             gridAux.add(NombreUsuario, 1, 0);
             gridAux.add(t, 1, 1);
@@ -579,9 +569,11 @@ public class BotTwitter {
                     
                     try {
                         Bot.destroyStatus(e.getId());
-                        grid.getChildren().remove(gridAux);
+                        eliminarTweet( gridAux);
                     } catch (TwitterException ex) {
                         System.out.println(ex.getMessage());
+                    } catch (IOException ex) {
+                        Logger.getLogger(BotTwitter.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 });
             }
