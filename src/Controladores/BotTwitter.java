@@ -2,6 +2,7 @@ package Controladores;
 
 import com.jfoenix.controls.JFXButton;
 import java.awt.Color;
+import static java.awt.Color.black;
 import static java.awt.Color.white;
 import java.io.File;
 import java.util.ArrayList;
@@ -17,11 +18,16 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javax.swing.BorderFactory;
 import twitter4j.DirectMessage;
 import twitter4j.DirectMessageList;
 import twitter4j.IDs;
@@ -476,7 +482,8 @@ public class BotTwitter {
             
         return tf;
     }
-    public void timeLine(ScrollPane timeLine,int evento,Status statusEvent,String Color) throws TwitterException{
+    
+    public void timeLine(ScrollPane timeLine,int evento,Status statusEvent,String Colors) throws TwitterException{
         int i=0,max;
         
         ArrayList<Status> status;
@@ -488,20 +495,26 @@ public class BotTwitter {
         }else{
             status = new ArrayList<>();
             status.add(statusEvent);
+            
             max = 1;
         }
-        
+        for (int j = 0; j < status.size(); j++) {
+            System.out.println(status.get(j).getText());
+        }
         LastId = status.get(0).getId();
         for (Status e : status) {
-            System.out.println(e.getText());
+            
             TextFlow t = new TextFlow();
             t.setLayoutX(700);
             t.setLayoutY(100);
             Bandera=0;
+            
             HastagsTweet=hastag(e.getText(),e.getId());
-            t=cambiarColorHastag(Color, e.getText(), HastagsTweet);
+            t=cambiarColorHastag(Colors, e.getText(), HastagsTweet);
+           
             GridPane gridAux = new GridPane();
-            t.setStyle("-fx-font-style: Microsoft YaHei Light; -fx-font-size: 18px;");
+            
+            t.setStyle("-fx-border-color: black;-fx-font-style: Microsoft YaHei Light; -fx-font-size: 18px; -fx-padding: 10px;");
             t.setPrefWidth(480);
             t.setPrefHeight(100);
             gridAux.setStyle("-fx-background-color: white;");
@@ -537,19 +550,7 @@ public class BotTwitter {
             if (Bandera==1) {
                 BotonLike.setStyle("-fx-background-color: #ff0000;");
             }
-            if(e.getUser().getId() == Bot.getId()){
-                JFXButton eliminar = new JFXButton("Eliminar");
-                eliminar.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/eliminar.png")));
-                gridAux.add(eliminar, 2, 2);
-                eliminar.setOnAction((ActionEvent events)->{ 
-                try {
-                    Bot.destroyStatus(e.getId());
-                    //timeLine(MenuInicioController.,timeLine,0,null);
-                } catch (TwitterException ex) {
-                    System.out.println(ex.getMessage());
-                }
-                });
-            }
+            
             ImageView FotoPublicacion = new ImageView();
             FotoPublicacion.setFitHeight(150);
             FotoPublicacion.setFitWidth(150);
@@ -561,6 +562,7 @@ public class BotTwitter {
             Label Fecha = new Label(e.getCreatedAt().getDate()+"/"+(e.getCreatedAt().getMonth()+1)+"/"+(e.getCreatedAt().getYear()-100));
             Fecha.setStyle("-fx-font: Microsoft YaHei Light;");
             Fecha.setStyle("-fx-font-size: 15px;");
+            gridAux.setStyle("-fx-border-color: black;");
             gridAux.add(FotoPerfil,0,0);
             gridAux.add(NombreUsuario, 1, 0);
             gridAux.add(t, 1, 1);
@@ -568,6 +570,21 @@ public class BotTwitter {
             gridAux.add(BotonRetweet, 1, 2);
             gridAux.add(FotoPublicacion, 2, 1);
             gridAux.add(Fecha,2,0);
+            
+            if(e.getUser().getId() == Bot.getId()){
+                JFXButton eliminar = new JFXButton("Eliminar");
+                eliminar.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/eliminar.png")));
+                gridAux.add(eliminar, 2, 2);
+                eliminar.setOnAction((ActionEvent events)->{ 
+                    
+                    try {
+                        Bot.destroyStatus(e.getId());
+                        grid.getChildren().remove(gridAux);
+                    } catch (TwitterException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                });
+            }
             BotonLike.setOnAction((ActionEvent events)->{ 
                 try {
                     if(darLikeTweet(e.getId())){
