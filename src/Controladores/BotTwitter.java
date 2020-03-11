@@ -231,6 +231,24 @@ public class BotTwitter {
         }
         
     }
+    public boolean saberLike(Long id) throws TwitterException{
+        Status st = Bot.showStatus(id);
+        if(!st.isFavorited()){
+            return true;
+        }else{
+            
+            return false;
+        }
+    }
+    public boolean saberRetweet(Long id) throws TwitterException{
+        Status st = Bot.showStatus(id);
+        if(!st.isRetweetedByMe()){
+            return true;
+        }else{
+            
+            return false;
+        }
+    }
     public boolean darLikeHastag(Long id) throws TwitterException{
         
         Status st = Bot.showStatus(id);
@@ -443,9 +461,12 @@ public class BotTwitter {
         TextFlow tf = new TextFlow();
         String parseo = new String("");
         ArrayList<String> s = new ArrayList<>();
-            if (hastagsTweet.size()!=0) {
+            try{
+                if (hastagsTweet.size()!=0) {
                  for (int i = 0; i < hastagsTweet.size(); i++) {
+//                     System.out.println(hastagsTweet.get(i));
                     String [] t = Tweet.split(hastagsTweet.get(i),2);
+                    
                     if (t[0]!="") {
                         Text text= new Text(t[0]);                  
                         Text text2= new Text(hastagsTweet.get(i));
@@ -455,7 +476,7 @@ public class BotTwitter {
                         tf.getChildren().add(text);
                         tf.getChildren().add(text2); 
                         
-                        Tweet=t[1];                     
+                        Tweet=t[1];  
                     }    
                  }
                 Text text= new Text(Tweet);
@@ -468,6 +489,9 @@ public class BotTwitter {
                 tf.getChildren().add(text);
             }
             
+            }catch(Exception e){
+                System.out.println(e);
+            }
             
         return tf;
     }
@@ -508,16 +532,17 @@ public class BotTwitter {
             }
             hastagsTweets.add(Hastags);
         }
-        status.clear();
-        if(evento == 0){
-            status =  obtenerTweets();
-            max = status.size();
-        }else{
-            status = new ArrayList<>();
-            status.add(statusEvent);
-            
-            max = 1;
-        }
+//        status.clear();
+//        if(evento == 0){
+//            status =  obtenerTweets();
+//            max = status.size();
+//        }else{
+//            status = new ArrayList<>();
+//            status.add(statusEvent);
+//            
+//            max = 1;
+//        }
+       
         LastId = status.get(0).getId();
         for (Status e : status) {
            
@@ -645,7 +670,6 @@ public class BotTwitter {
             
             i++;
         }
-        
         anadirGrid();
         timeLine.setContent(grid);
         
@@ -680,75 +704,110 @@ public class BotTwitter {
         String [] a = texto.split("#");
         int ds=0;
         if (a.length>1) {
-            
             for (int i = 1; i <a.length; i++) { 
                 String [] b =a[i].split(" ");               
                 hastags.add("#"+b[0]);
                 if (b[0].equals("seguir") && b.length>=2) {
-                    User seguido = Bot.showUser(b[i]);
-                    if (!Bot.showFriendship(Bot.getScreenName(), seguido.getScreenName()).isSourceFollowingTarget()) {
-                        
-                        Bot.createFriendship(b[1]);
-                         
-                        try{
-                            actualizarEstado("@"+nombreUser+" estamos siguiendo a @"+seguido.getScreenName());
-                        }catch(Exception e){
-                            System.out.println(e.getMessage());
-                        }
+                    User seguido = Bot.showUser(b[1]);
+                    if (!Bot.showFriendship(Bot.getScreenName(), b[1]).isSourceFollowingTarget()) {
+                        StatusUpdate st = new StatusUpdate("@"+nombreUser+" hemos comenzado a seguir a @"+seguido.getScreenName());
+                        st.setInReplyToStatusId(idAux);
+                        Bot.updateStatus(st);
+                        Bot.createFriendship(b[1]); 
                     }else{
-                         try{
-                            actualizarEstado("@"+nombreUser+" estamos siguiendo a "+seguido.getScreenName());
-                        }catch(Exception e){
-                            System.out.println(e.getMessage());
-                        }
+                        
                     }
-                      
-                    
-                    
-                  
-                    
-                   
                 }else if (b[0].equals("gustar") && (b.length>=2 || b.length==1)) {
                     try{
                         Long id = Long.parseLong(b[1]);
-                        Status status = Bot.showStatus(id);
-                        darLikeHastag(id);
-
-                        
-                            
-
-                        if (nombreUser!="AlmostHumanBot") {
-                            actualizarEstado("@"+nombreUser+" le hemos dado follow a la publicacion de @"+status.getUser().getScreenName()+"(ID:"+id+")");
+                        if (saberLike(id)==true) {
+                            Bot.createFavorite(id);
+                            try{
+                                Status tweet = Bot.showStatus(id);
+                                if (!nombreUser.equals("AlmostHumanBot")) {
+                                    
+                                    if (!tweet.getUser().getScreenName().equals("AlmostHumanBot")) {
+                                        StatusUpdate st = new StatusUpdate("@"+nombreUser+" Hemos dado like a la publicacion de "+tweet.getUser().getScreenName()+"(ID:"+id+")");
+                                        st.setInReplyToStatusId(idAux);
+                                        Bot.updateStatus(st);
+                                    }else{
+                                         StatusUpdate st = new StatusUpdate("@"+nombreUser+" Gracias por darle follow a nuestra publicación(ID:"+id+")");
+                                        st.setInReplyToStatusId(idAux);
+                                        Bot.updateStatus(st);
+                                    }
+                                }else{
+                                    
+                                }
+                            }catch(Exception e){
+                                System.out.println(e);
+                            }   
                         }else{
-                             actualizarEstado("@"+nombreUser+" gracias por dar follow a nuestra publicacion"+"(ID:"+id+")");
-
-                       }
-                     
-                    }catch(Exception e){
-                        Bandera=1;    
-                        
-                        darLikeHastag(idAux);
-                        try{
-                          
-                            if (nombreUser!="AlmostHumanBot") {
-                                actualizarEstado("@"+nombreUser+" le hemos dado follow a tu publicacion (ID:"+idAux+")");
-                            }
                             
-                            
-                        }catch(Exception s){
-                            System.out.println(s.getMessage());
                         }
-                        
-                        
-                        
+                    }catch(Exception e){
+                        Bandera=1;
+                        if (saberLike(idAux)==true) {
+                            Bot.createFavorite(idAux);
+                             try{
+                                if (!nombreUser.equals("AlmostHumanBot")) {
+                                    StatusUpdate st = new StatusUpdate("@"+nombreUser+" Hemos dado like a tu publicación");
+                                    st.setInReplyToStatusId(idAux);
+                                    Bot.updateStatus(st);
+                                }
+                            }catch(TwitterException d){
+                                System.out.println(d);
+                            }
+                        }else{
+                           
+                        }
                     }
                 } else if (b[0].equals("difundir") && (b.length>=2 || b.length==1)) {
                     try{
                         Long id = Long.parseLong(b[1]);
-                        darRetweetHastag(id);   
-                        
+                        if (saberRetweet(id)==true) {                          
+                            Bot.retweetStatus(id);
+                            try{
+                                Status tweet = Bot.showStatus(id);
+                                
+                                if (!nombreUser.equals("AlmostHumanBot")) {
+                                    
+                                    if (!tweet.getUser().getScreenName().equals("AlmostHumanBot")) {
+                                        StatusUpdate st = new StatusUpdate("@"+nombreUser+" Hemos Difundido la publicacion de "+tweet.getUser().getScreenName()+"(ID:"+id+")");
+                                        st.setInReplyToStatusId(idAux);
+                                        Bot.updateStatus(st);
+                                    }else{
+                                         StatusUpdate st = new StatusUpdate("@"+nombreUser+" Gracias por difundir nuestra publicación(ID:"+id+")");
+                                        st.setInReplyToStatusId(idAux);
+                                        Bot.updateStatus(st);
+                                    }
+                                }else{
+                                    
+                                }
+                            }catch(Exception e){
+                                System.out.println(e);
+                            } 
+//                          
+                        }else{
+                            
+                        }
+   
+                     
                     }catch(Exception e){
-                        darRetweetHastag(idAux);  
+                        if (saberRetweet(idAux)==true) {
+                            Bot.retweetStatus(idAux);
+                            try{
+                                if (!nombreUser.equals("AlmostHumanBot")) {
+                                    StatusUpdate st = new StatusUpdate("@"+nombreUser+" Hemos difundido tu publicación");
+                                    st.setInReplyToStatusId(idAux);
+                                    Bot.updateStatus(st);
+                                }
+                            }catch(TwitterException d){
+                                System.out.println(d);
+                            }
+                        }else{
+                            
+                        }
+
                     }
                 }else{
                      
