@@ -1,7 +1,9 @@
 package Controladores;
 
 import com.jfoenix.controls.JFXButton;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -49,6 +51,7 @@ public class BotTwitter {
     private ArrayList<GridPane> gridsAux;
     private ArrayList<ModeloBotonId> listaBotonesIdGustar;
     private ArrayList<ModeloBotonId> listaBotonesIdRetweetear;
+    private ArrayList<String> mensajesSpam = new ArrayList<>();
     /*
     //Bot de reserva
     public static String CK = "rjBybNH66nPfhNKZUPL2Wd2qc";
@@ -105,7 +108,19 @@ public class BotTwitter {
         Bot.updateStatus(statusUpdate);
         medias = new ArrayList<>();
     }
-    
+    public void leerArchivo(){
+        try{
+            BufferedReader bf = new BufferedReader(new FileReader("spam.txt"));
+            String texto;
+            String Aux= bf.readLine();
+            int i=0;
+            while((texto =bf.readLine())!=null){
+                mensajesSpam.add(texto);
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
     private ArrayList<DirectMessage> buscarIdMensaje(long id,ArrayList<ArrayList<DirectMessage>> list){
         for(ArrayList<DirectMessage> arr : list){
             for(DirectMessage dm : arr){
@@ -130,10 +145,12 @@ public class BotTwitter {
     
     public ArrayList<ArrayList<DirectMessage>> obtenerMensajesDirectos() throws TwitterException{
         ArrayList<ArrayList<DirectMessage>> amigos = new ArrayList<>();
-        
+        leerArchivo();
         DirectMessageList Lista = Bot.getDirectMessages(10);
         
         for(DirectMessage m : Lista){
+            
+            revisarSpam(mensajesSpam, m.getText());
             if(m.getRecipientId() == Bot.getId()){
                 ArrayList<DirectMessage> mensajes = buscarIdMensaje(m.getSenderId(), amigos);
                 if(mensajes!=null){
@@ -504,7 +521,6 @@ public class BotTwitter {
     }
     public void timeLine(ScrollPane timeLine,int evento,Status statusEvent,String Colors) throws TwitterException{
         int i=0,max;
-        
         ArrayList<Status> status;
         ArrayList<String> Hastags;
         ArrayList<Long> likes= new  ArrayList<>() ;
@@ -540,6 +556,7 @@ public class BotTwitter {
             }
             hastagsTweets.add(Hastags);
         }
+        revisarSpam(new ArrayList<>(), new String());
 //        status.clear();
 //        if(evento == 0){
 //            status =  obtenerTweets();
@@ -825,6 +842,35 @@ public class BotTwitter {
        
         
             return hastags;
+    }
+    public void revisarSpam(ArrayList<String> palabras,String mensaje){
+        
+        mensaje=mensaje.toLowerCase();
+        
+        int spam=0;
+        for (int i = 0; i < palabras.size(); i++) {
+            String minuscula = palabras.get(i);
+            
+            
+            if (mensaje.contains(minuscula)) {
+                spam++;
+                
+            }else{
+                
+            }
+            
+            
+        }      
+        
+            if (spam>0) {
+                System.out.println("Hay spam");
+                
+            }else{
+                System.out.println("Mensaje limpio");
+            }
+         
+    
+    
     }
     
 }

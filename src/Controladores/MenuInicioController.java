@@ -3,7 +3,9 @@ package Controladores;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -313,7 +315,7 @@ public  class MenuInicioController implements Initializable {
         }
         
         try {
-            
+            Bot.leerArchivo();
             ActualizarEstados(0);
             
         } catch (TwitterException ex) {
