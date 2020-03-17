@@ -661,11 +661,11 @@ public  class MenuInicioController implements Initializable {
                 Bot.enviarMensajeDirecto(PersonaMensaje.getScreenName(), TextoMensaje.getText()); 
                 //Crear Mensaje
                 GridPane gridAux = new GridPane();
-                gridAux.setPrefWidth(690);
+                gridAux.setPrefWidth(650);
                 gridAux.setPadding(new Insets(5, 5, 5, 5)); 
                 JFXButton miMensaje = new JFXButton(TextoMensaje.getText());
                 miMensaje.wrapTextProperty().set(true);
-                miMensaje.setStyle("-fx-font-size: 15px; -fx-background-color: #9D6DA5; -fx-font-family: Microsoft YaHei Light;");
+                miMensaje.setStyle("-fx-font-size: 15px; -fx-background-color: #4fb4cb; -fx-font-family: Microsoft YaHei Light;");
                 miMensaje.textFillProperty().setValue(Paint.valueOf("white"));
                 miMensaje.ripplerFillProperty().setValue(Paint.valueOf("white"));
                 Label espacio = new Label();

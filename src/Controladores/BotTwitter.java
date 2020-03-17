@@ -521,7 +521,15 @@ public class BotTwitter {
         }
         for (Status e : status) {
             String nombre = e.getUser().getScreenName();
-            Hastags=hastag(e.getText(),e.getId(),likes,reets,nombre);
+            
+            try{
+                Hastags=hastag(e.getText(),e.getId(),likes,reets,nombre);
+            }catch(Exception e1){
+                Hastags = null;
+                System.out.println(e1);
+            }
+            
+            
             Status st = Bot.showStatus(e.getId());
             Status st2 = Bot.showStatus(e.getId());
             if (st.isFavorited()) {
@@ -704,7 +712,7 @@ public class BotTwitter {
         String [] a = texto.split("#");
         int ds=0;
         if (a.length>1) {
-            for (int i = 1; i <a.length; i++) { 
+            for (int i = 1; i < a.length; i++) { 
                 String [] b =a[i].split(" ");               
                 hastags.add("#"+b[0]);
                 if (b[0].equals("seguir") && b.length>=2) {
