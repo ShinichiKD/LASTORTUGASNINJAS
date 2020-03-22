@@ -6,6 +6,7 @@
 package proyectopuntosflotantes;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader; 
 import javafx.scene.Parent;
@@ -49,7 +50,6 @@ public class ProyectoPuntosFlotantes extends Application {
             }
         });
     }
-
     /**
      * @param args the command line arguments
      */

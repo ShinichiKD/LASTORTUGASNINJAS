@@ -1,11 +1,15 @@
 package Controladores;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPopup;
+import com.jfoenix.controls.JFXPopup.PopupHPosition;
+import com.jfoenix.controls.JFXPopup.PopupVPosition;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -21,6 +25,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 import twitter4j.DirectMessage;
 import twitter4j.DirectMessageList;
 import twitter4j.IDs;
@@ -52,6 +57,7 @@ public class BotTwitter {
     private ArrayList<ModeloBotonId> listaBotonesIdGustar;
     private ArrayList<ModeloBotonId> listaBotonesIdRetweetear;
     private ArrayList<String> mensajesSpam = new ArrayList<>();
+    public long lastStatusId;
     /*
     //Bot de reserva
     public static String CK = "rjBybNH66nPfhNKZUPL2Wd2qc";
@@ -99,25 +105,28 @@ public class BotTwitter {
      * @throws TwitterException 
      */
    
-    public void actualizarEstado(String texto) throws TwitterException{
+    public boolean actualizarEstado(String texto) throws TwitterException{
         
+        // si es spam no se publica
+        if(revisarSpam(mensajesSpam, texto)) return false;
+            
         StatusUpdate statusUpdate = new StatusUpdate(texto);
         if(medias.size()>0){
             statusUpdate.setMediaIds(IdToLong());
         }
         Bot.updateStatus(statusUpdate);
         medias = new ArrayList<>();
+        return true;
     }
+    
     public void leerArchivo(){
         try{
             BufferedReader bf = new BufferedReader(new FileReader("spam.txt"));
             String texto;
-            String Aux= bf.readLine();
-            int i=0;
-            while((texto =bf.readLine())!=null){
+            while((texto = bf.readLine())!=null){
                 mensajesSpam.add(texto);
             }
-        }catch(Exception e){
+        }catch(IOException e){
             System.out.println(e.getMessage());
         }
     }
@@ -140,7 +149,12 @@ public class BotTwitter {
         return Bot.users().showUser(id);
     }
     public long[] getIdSeguidos() throws TwitterException{
-        return Bot.getFriendsIDs(-1).getIDs();
+        // anadir nuestra id a las que el bot escucha
+        long[] botSeguidos =  Bot.getFriendsIDs(-1).getIDs();
+        botSeguidos = Arrays.copyOf(botSeguidos, botSeguidos.length+1);
+        botSeguidos[botSeguidos.length-1] = Bot.getId();
+        
+        return botSeguidos;
     }
     
     public ArrayList<ArrayList<DirectMessage>> obtenerMensajesDirectos() throws TwitterException{
@@ -150,7 +164,6 @@ public class BotTwitter {
         
         for(DirectMessage m : Lista){
             
-            revisarSpam(mensajesSpam, m.getText());
             if(m.getRecipientId() == Bot.getId()){
                 ArrayList<DirectMessage> mensajes = buscarIdMensaje(m.getSenderId(), amigos);
                 if(mensajes!=null){
@@ -202,7 +215,7 @@ public class BotTwitter {
                 return;
             }
             Bot.destroyFriendship(nombreDeUsuario);
-        } catch (Exception e) {
+        } catch (IllegalStateException | TwitterException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -330,7 +343,6 @@ public class BotTwitter {
             for (User aux:users) {
                 if (aux.getScreenName()!=null) {
                     AUX.add(aux.getScreenName()) ;
-                    //System.out.println(aux.getScreenName());
                 }
             }
         }
@@ -369,7 +381,7 @@ public class BotTwitter {
     
     public void timeLineBuscado(User usuario,ScrollPane timeLine) throws TwitterException{
         int i=0,max;
-        GridPane grid = new GridPane();
+        GridPane newGrid = new GridPane();
         ArrayList<Status> status = TweetBuscado(usuario.getScreenName());
         max = status.size();
         timeLine.setStyle("-fx-background: white");
@@ -469,17 +481,15 @@ public class BotTwitter {
                     System.out.println(ex.getMessage());
                 }
             });    
-            grid.add(gridAux, 0, i);
+            newGrid.add(gridAux, 0, i);
             i++;
         }
         timeLine.setContent(grid);
     }
     public TextFlow cambiarColorHastag(String colorHastag,String Tweet,ArrayList<String> hastagsTweet){
         TextFlow tf = new TextFlow();
-        String parseo = new String("");
-        ArrayList<String> s = new ArrayList<>();
             try{
-                if (hastagsTweet.size()!=0) {
+                if (!hastagsTweet.isEmpty()) {
                  for (int i = 0; i < hastagsTweet.size(); i++) {
 //                     System.out.println(hastagsTweet.get(i));
                     String [] t = Tweet.split(hastagsTweet.get(i),2);
@@ -516,47 +526,23 @@ public class BotTwitter {
     public void eliminarTweet(GridPane gp) throws TwitterException, IOException{
         gridsAux.remove(gp);
         grid.getChildren().remove(gp);
-        Animaciones.MostrarAvisos(new JFXButton("aa") );
         
     }
-    public void timeLine(ScrollPane timeLine,int evento,Status statusEvent,String Colors) throws TwitterException{
-        int i=0,max;
+    public void timeLine(ScrollPane timeLine,int evento,Status statusEvent,String Colors, JFXButton AvisosLabel) throws TwitterException, IOException{
+            
+        int spam=0;
         ArrayList<Status> status;
         ArrayList<String> Hastags;
         ArrayList<Long> likes= new  ArrayList<>() ;
-        ArrayList<Long> reets= new  ArrayList<>() ;;
+        ArrayList<Long> reets= new  ArrayList<>() ;
         ArrayList<ArrayList> hastagsTweets= new  ArrayList<>() ;
         if(evento == 0){
             status =  obtenerTweets();
-            max = status.size();
         }else{
             status = new ArrayList<>();
             status.add(statusEvent);
-            
-            max = 1;
         }
-        for (Status e : status) {
-            String nombre = e.getUser().getScreenName();
-            
-            try{
-                Hastags=hastag(e.getText(),e.getId(),likes,reets,nombre);
-            }catch(Exception e1){
-                Hastags = null;
-                System.out.println(e1);
-            }
-            
-            
-            Status st = Bot.showStatus(e.getId());
-            Status st2 = Bot.showStatus(e.getId());
-            if (st.isFavorited()) {
-                likes.add(e.getId());
-            }
-            if (st.isRetweetedByMe()) {
-                reets.add(e.getId());
-            }
-            hastagsTweets.add(Hastags);
-        }
-        revisarSpam(new ArrayList<>(), new String());
+        
 //        status.clear();
 //        if(evento == 0){
 //            status =  obtenerTweets();
@@ -570,21 +556,46 @@ public class BotTwitter {
        
         LastId = status.get(0).getId();
         for (Status e : status) {
+             //revisar spam y cancelar la subida
+            if(revisarSpam(mensajesSpam, e.getText())){
+                spam++;
+                continue;
+            }
+            
+            String nombre = e.getUser().getScreenName();
+            
+            try{
+                Hastags=hastag(e.getText(),e.getId(),likes,reets,nombre);
+            }catch(TwitterException e1){
+                Hastags = null;
+                System.out.println(e1);
+            }
+            
+            
+            Status st = Bot.showStatus(e.getId());
+            if (st.isFavorited()) {
+                likes.add(e.getId());
+            }
+            if (st.isRetweetedByMe()) {
+                reets.add(e.getId());
+            }
+            hastagsTweets.add(Hastags);
            
+            
             TextFlow t = new TextFlow();
             t.setLayoutX(700);
             t.setLayoutY(100);
-            Bandera=0;
+            //Bandera=0;
             
             
-            if (hastagsTweets.size()!=0) {
+            if (!hastagsTweets.isEmpty()) {
                 t=cambiarColorHastag(Colors, e.getText(), hastagsTweets.get(0));
                 hastagsTweets.remove(0);
             }
-           
+            
             GridPane gridAux = new GridPane();
             
-            t.setStyle("-fx-border-color: #cfcfcf;-fx-font-family: Arial;  -fx-font-size: 18px; -fx-padding: 10px;");
+            t.setStyle("-fx-border-color: #cfcfcf;-fx-font-family: Arial;  -fx-font-size: 18px; -fx-padding: 10px;-fx-wrap-text: true;");
             t.setPrefWidth(480);
             t.setPrefHeight(100);
             gridAux.setStyle("-fx-background-color: white;");
@@ -596,18 +607,14 @@ public class BotTwitter {
             ImageView FotoPerfil = new ImageView(new Image(e.getUser().get400x400ProfileImageURL()));
             FotoPerfil.setFitHeight(50);
             FotoPerfil.setFitWidth(50);
-            TextArea Tweet = new TextArea(e.getText());
-            Tweet.setStyle("-fx-font: Microsoft YaHei Light;");
-            Tweet.setStyle("-fx-font-size: 18px;");
-            Tweet.editableProperty().set(false);
-            Tweet.wrapTextProperty().set(true);
-            Tweet.setPrefHeight(135);
-            Tweet.setPrefWidth(730);
             JFXButton BotonLike = new JFXButton();
             JFXButton BotonRetweet = new JFXButton();
+            listaBotonesIdGustar.add(new ModeloBotonId(BotonLike, e.getId()));
+            listaBotonesIdRetweetear.add(new ModeloBotonId(BotonRetweet, e.getId()));
             BotonLike.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/corazon.png")));
             BotonRetweet.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/retuit.png")));
-            if (likes.size()!=0) {
+            
+            if (!likes.isEmpty()) {
                 if (likes.get(0)==e.getId()) {
                     BotonLike.setStyle("-fx-background-color: #ff0000;");
                     likes.remove(0);
@@ -615,7 +622,7 @@ public class BotTwitter {
                     BotonLike.setStyle("-fx-background-color: white;");
                 }
             }
-            if (reets.size()!=0) {
+            if (!reets.isEmpty()) {
                 if (reets.get(0)==e.getId()) {
                     BotonRetweet.setStyle("-fx-background-color: #23E868;");
                     reets.remove(0);
@@ -630,9 +637,8 @@ public class BotTwitter {
             FotoPublicacion.setFitWidth(150);
             try {
                 FotoPublicacion.setImage(new Image(e.getMediaEntities()[0].getMediaURL()));
-            }catch (Exception ex) {
-                
-            }
+            }catch (Exception ex) {}
+            
             Label Fecha = new Label(e.getCreatedAt().getDate()+"/"+(e.getCreatedAt().getMonth()+1)+"/"+(e.getCreatedAt().getYear()-100));
             Fecha.setStyle("-fx-font: Microsoft YaHei Light;");
             Fecha.setStyle("-fx-font-size: 15px;");
@@ -654,6 +660,8 @@ public class BotTwitter {
                     try {
                         Bot.destroyStatus(e.getId());
                         eliminarTweet( gridAux);
+                        AvisosLabel.setText("Tweer eliminado!");
+                        Animaciones.MostrarAvisos(AvisosLabel);
                     } catch (TwitterException ex) {
                         System.out.println(ex.getMessage());
                     } catch (IOException ex) {
@@ -665,25 +673,36 @@ public class BotTwitter {
                 try {
                     if(darLikeTweet(e.getId())){
                         BotonLike.setStyle("-fx-background-color: #ff0000;");
+                        AvisosLabel.setText("Te gusta esto");
+                        Animaciones.MostrarAvisos(AvisosLabel);
                     }else{
                         BotonLike.setStyle("-fx-background-color: white;");
+                        AvisosLabel.setText("Ya no te gusta esto");
+                        Animaciones.MostrarAvisos(AvisosLabel);
                     }
                 
                 } catch (TwitterException ex) {
                     System.out.println(ex.getMessage());
+                } catch (IOException ex) {
+                    Logger.getLogger(BotTwitter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
            
             BotonRetweet.setOnAction((ActionEvent events)->{ 
                 try {
                     if(darRetweet(e.getId())){
-                        
                         BotonRetweet.setStyle("-fx-background-color: #23E868;");
+                        AvisosLabel.setText("Hiciste retweet a esto");
+                        Animaciones.MostrarAvisos(AvisosLabel);
                     }else{
                         BotonRetweet.setStyle("-fx-background-color: white;");
+                            AvisosLabel.setText("Quitaste tu retweet de esto");
+                        Animaciones.MostrarAvisos(AvisosLabel);
                     }
                 } catch (TwitterException ex) {
                     System.out.println(ex.getMessage());
+                } catch (IOException ex) {
+                    Logger.getLogger(BotTwitter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
             
@@ -692,8 +711,12 @@ public class BotTwitter {
             }else{
                 gridsAux.add(gridAux);
             }
-            
-            i++;
+        lastStatusId = e.getId();
+        }
+        
+        if (spam>0){
+            AvisosLabel.setText("No se esta/n mostrando "+spam+" tweet/s");
+            Animaciones.MostrarAvisos(AvisosLabel);
         }
         anadirGrid();
         timeLine.setContent(grid);
@@ -711,42 +734,42 @@ public class BotTwitter {
     void volverACargarGustar(long id){
         for(ModeloBotonId modelo : listaBotonesIdGustar){
             if(modelo.getId()==id){
-                modelo.getBoton().setStyle("-fx-background-color: #ad0352;");
+                modelo.getBoton().setStyle("-fx-background-color: #ff0000;");
+                return;
             }
         }
     }
     void volverACargarRetweetear(long id){
+        
         for(ModeloBotonId modelo : listaBotonesIdRetweetear){
             if(modelo.getId()==id){
                 modelo.getBoton().setStyle("-fx-background-color: #23E868;");
+                return;
             }
         }
     }
     public ArrayList<String> hastag(String texto,Long idAux,ArrayList likes,ArrayList reet,String nombreUser) throws TwitterException{
-        TextFlow text = new TextFlow();
-        
-        ArrayList<String> hastags = new ArrayList<String>();
-        String [] a = texto.split("#");
-        int ds=0;
-        if (a.length>1) {
-            for (int i = 1; i < a.length; i++) { 
-                String [] b =a[i].split(" ");               
-                hastags.add("#"+b[0]);
-                if (b[0].equals("seguir") && b.length>=2) {
-                    User seguido = Bot.showUser(b[1]);
-                    if (!Bot.showFriendship(Bot.getScreenName(), b[1]).isSourceFollowingTarget()) {
+        ArrayList<String> hastags = new ArrayList<>();
+        String [] string = texto.split("#");
+        if (string.length>1) {
+            for (int i = 1; i < string.length; i++) { 
+                String [] substring =string[i].split(" ");               
+                hastags.add("#"+substring[0]);
+                if (substring[0].equals("seguir") && substring.length>=2) {
+                    User seguido = Bot.showUser(substring[1]);
+                    if (!Bot.showFriendship(Bot.getScreenName(), substring[1]).isSourceFollowingTarget()) {
                         StatusUpdate st = new StatusUpdate("@"+nombreUser+" hemos comenzado a seguir a @"+seguido.getScreenName());
                         st.setInReplyToStatusId(idAux);
                         Bot.updateStatus(st);
-                        Bot.createFriendship(b[1]); 
-                    }else{
-                        
+                        Bot.createFriendship(substring[1]); 
                     }
-                }else if (b[0].equals("gustar") && (b.length>=2 || b.length==1)) {
+                }else if (substring[0].equals("gustar") && (substring.length>=2 || substring.length==1)) {
                     try{
-                        Long id = Long.parseLong(b[1]);
+                        Long id = Long.parseLong(substring[1]);
                         if (saberLike(id)==true) {
                             Bot.createFavorite(id);
+                            volverACargarGustar(id);
+                            System.out.println("Se dio like a : "+ id);
                             try{
                                 Status tweet = Bot.showStatus(id);
                                 if (!nombreUser.equals("AlmostHumanBot")) {
@@ -756,14 +779,14 @@ public class BotTwitter {
                                         st.setInReplyToStatusId(idAux);
                                         Bot.updateStatus(st);
                                     }else{
-                                         StatusUpdate st = new StatusUpdate("@"+nombreUser+" Gracias por darle follow a nuestra publicación(ID:"+id+")");
+                                        StatusUpdate st = new StatusUpdate("@"+nombreUser+" Gracias por darle follow a nuestra publicación(ID:"+id+")");
                                         st.setInReplyToStatusId(idAux);
                                         Bot.updateStatus(st);
                                     }
                                 }else{
                                     
                                 }
-                            }catch(Exception e){
+                            }catch(TwitterException e){
                                 System.out.println(e);
                             }   
                         }else{
@@ -773,6 +796,7 @@ public class BotTwitter {
                         Bandera=1;
                         if (saberLike(idAux)==true) {
                             Bot.createFavorite(idAux);
+                            //volverACargarGustar(idAux);
                              try{
                                 if (!nombreUser.equals("AlmostHumanBot")) {
                                     StatusUpdate st = new StatusUpdate("@"+nombreUser+" Hemos dado like a tu publicación");
@@ -782,15 +806,15 @@ public class BotTwitter {
                             }catch(TwitterException d){
                                 System.out.println(d);
                             }
-                        }else{
-                           
                         }
                     }
-                } else if (b[0].equals("difundir") && (b.length>=2 || b.length==1)) {
+                    
+                } else if (substring[0].equals("difundir") && (substring.length>=2 || substring.length==1)) {
                     try{
-                        Long id = Long.parseLong(b[1]);
+                        Long id = Long.parseLong(substring[1]);
                         if (saberRetweet(id)==true) {                          
                             Bot.retweetStatus(id);
+                            System.out.println("Se dio retweet a : "+ id);
                             try{
                                 Status tweet = Bot.showStatus(id);
                                 
@@ -801,25 +825,22 @@ public class BotTwitter {
                                         st.setInReplyToStatusId(idAux);
                                         Bot.updateStatus(st);
                                     }else{
-                                         StatusUpdate st = new StatusUpdate("@"+nombreUser+" Gracias por difundir nuestra publicación(ID:"+id+")");
+                                         StatusUpdate st = new StatusUpdate("@"+nombreUser+" Gracias por difundir nuestra publicación(ID: "+id+")");
                                         st.setInReplyToStatusId(idAux);
                                         Bot.updateStatus(st);
                                     }
-                                }else{
                                     
                                 }
                             }catch(Exception e){
                                 System.out.println(e);
                             } 
-//                          
-                        }else{
-                            
+                            volverACargarRetweetear(id);
                         }
-   
-                     
                     }catch(Exception e){
                         if (saberRetweet(idAux)==true) {
                             Bot.retweetStatus(idAux);
+                            System.out.println("entro aqui");
+                            //volverACargarRetweetear(idAux);
                             try{
                                 if (!nombreUser.equals("AlmostHumanBot")) {
                                     StatusUpdate st = new StatusUpdate("@"+nombreUser+" Hemos difundido tu publicación");
@@ -843,33 +864,18 @@ public class BotTwitter {
         
             return hastags;
     }
-    public void revisarSpam(ArrayList<String> palabras,String mensaje){
-        
+    public boolean revisarSpam(ArrayList<String> palabras,String mensaje){
         mensaje=mensaje.toLowerCase();
         
-        int spam=0;
         for (int i = 0; i < palabras.size(); i++) {
             String minuscula = palabras.get(i);
-            
-            
             if (mensaje.contains(minuscula)) {
-                spam++;
-                
-            }else{
-                
+                // Encontro spam
+                return true;
             }
-            
-            
         }      
-        
-            if (spam>0) {
-                System.out.println("Hay spam");
-                
-            }else{
-                System.out.println("Mensaje limpio");
-            }
-         
-    
+        // No encontro spam
+        return false;
     
     }
     

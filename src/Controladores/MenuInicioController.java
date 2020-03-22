@@ -3,9 +3,7 @@ package Controladores;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -105,11 +103,11 @@ public  class MenuInicioController implements Initializable {
     @FXML
     private JFXButton BTNseguir;
     
-    private int EstadoTimeLine=0;
+    private final int EstadoTimeLine=0;
     private User PersonaMensaje;
     private GridPane MensajesBien;
     private int max;
-    private String ColorHastag="black";
+    private final String ColorHastag="black";
     ObservableList<String> items =FXCollections.observableArrayList();
     public User PersonaBuscada;
     BotTwitter Bot;  
@@ -119,7 +117,6 @@ public  class MenuInicioController implements Initializable {
              
         @Override
         public void onUnfavorite(User user, User user1, Status status) {
-            System.out.println("hola");
         }
 
         @Override
@@ -192,16 +189,12 @@ public  class MenuInicioController implements Initializable {
             Platform.runLater(
                 () -> {
                     try {
-                            if(Bot.sigueA(status.getUser().getScreenName())){
-                                Bot.timeLine(TimeLineInicio,1,status,"red");
-                                AvisosLabel.setText("Nuevo tweet!, de: "+status.getUser().getName());
-                                Animaciones.MostrarAvisos(AvisosLabel);
+                            if((Bot.sigueA(status.getUser().getScreenName()) || status.getUser().getId()==Bot.getId()) && status.getId()!= Bot.lastStatusId){
+                                Bot.timeLine(TimeLineInicio,1,status,"red",AvisosLabel);
                             }
                             
                         
-                    } catch (TwitterException ex) {
-                        Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
+                    } catch (TwitterException | IOException ex) {
                         Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -324,7 +317,7 @@ public  class MenuInicioController implements Initializable {
                 try {
                     Animaciones.MostrarAvisos(AvisosLabel);
                 } catch (IOException ex1) {
-                    System.out.println(ex1.getCause());
+                    System.out.println(ex1.getCause()); 
                 }
             }
             System.out.println();
@@ -343,12 +336,16 @@ public  class MenuInicioController implements Initializable {
             MensajeTA.clear();
             MensajeTA.setPromptText("¿Qué está pasando?");
             
-            Bot.actualizarEstado(texto); 
             
+            if (Bot.actualizarEstado(texto)){
+                AvisosLabel.setText("Publicación exitosa.");
+                Animaciones.MostrarAvisos(AvisosLabel);
+            }else{
+                AvisosLabel.setText("Tu publicacion tenia *spam/malas palabras* y no se publico");
+                Animaciones.MostrarAvisos(AvisosLabel);
+                return;
+            }
             
-            
-            AvisosLabel.setText("Publicación exitosa.");
-            Animaciones.MostrarAvisos(AvisosLabel);
             try {
                 ActualizarEstados(0);
             
@@ -403,7 +400,7 @@ public  class MenuInicioController implements Initializable {
     }
     void ActualizarEstados(int volverACargar) throws TwitterException, IOException{
             
-            Bot.timeLine(TimeLineInicio,volverACargar,null,"red");
+            Bot.timeLine(TimeLineInicio,volverACargar,null,"red",AvisosLabel);
             
     }
 
@@ -455,7 +452,7 @@ public  class MenuInicioController implements Initializable {
             BuscarListView.setVisible(false);
         }
             
-        }catch(Exception e){
+        }catch(TwitterException e){
             AvisosLabel.setText("Usuario no encontrado");
             Animaciones.MostrarAvisos(AvisosLabel);
         }
@@ -475,7 +472,7 @@ public  class MenuInicioController implements Initializable {
             Bot.agregarArchivo(selectedFile);
             AvisosLabel.setText("Archivo subido correctamente");
             Animaciones.MostrarAvisos(AvisosLabel);
-        }catch(Exception e){
+        }catch(IOException | TwitterException e){
             AvisosLabel.setText("Archivo subido no subido, formato incorrecto");
             Animaciones.MostrarAvisos(AvisosLabel);
         }
@@ -576,7 +573,6 @@ public  class MenuInicioController implements Initializable {
         FilterQuery filtre = new FilterQuery();
         
         filtre.follow(Bot.getIdSeguidos());
-        twitterStream.user();
         twitterStream.filter(filtre);
         
         
