@@ -572,14 +572,15 @@ public class BotTwitter {
             }
             
             
-            Status st = Bot.showStatus(e.getId());
+            //Status st = Bot.showStatus(e.getId());
+            /*
             if (st.isFavorited()) {
                 likes.add(e.getId());
             }
             if (st.isRetweetedByMe()) {
                 reets.add(e.getId());
-            }
-            hastagsTweets.add(Hastags);
+            }*/
+            //hastagsTweets.add(Hastags);
            
             
             TextFlow t = new TextFlow();
@@ -588,9 +589,8 @@ public class BotTwitter {
             //Bandera=0;
             
             
-            if (!hastagsTweets.isEmpty()) {
-                t=cambiarColorHastag(Colors, e.getText(), hastagsTweets.get(0));
-                hastagsTweets.remove(0);
+            if (Hastags!=null) {
+                t=cambiarColorHastag(Colors, e.getText(), Hastags);
             }
             
             GridPane gridAux = new GridPane();
@@ -613,24 +613,24 @@ public class BotTwitter {
             listaBotonesIdRetweetear.add(new ModeloBotonId(BotonRetweet, e.getId()));
             BotonLike.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/corazon.png")));
             BotonRetweet.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/retuit.png")));
-            
-            if (!likes.isEmpty()) {
-                if (likes.get(0)==e.getId()) {
-                    BotonLike.setStyle("-fx-background-color: #ff0000;");
-                    likes.remove(0);
-                }else{
-                    BotonLike.setStyle("-fx-background-color: white;");
-                }
+            System.out.println("----");
+            System.out.println("es un retweet: "+e.isRetweet()+" id: "+e.getId());
+            if (e.isRetweeted()) {
+                System.out.println("se le dio like a: "+e.isRetweet()+" id: "+e.getId());
+                BotonRetweet.setStyle("-fx-background-color: #23E868;");
+            }else{
+                System.out.println("no se le dio like a: "+e.isRetweet()+" id: "+e.getId());
+                BotonRetweet.setStyle("-fx-background-color: white;");
             }
-            if (!reets.isEmpty()) {
-                if (reets.get(0)==e.getId()) {
-                    BotonRetweet.setStyle("-fx-background-color: #23E868;");
-                    reets.remove(0);
-                }else{
-                    BotonRetweet.setStyle("-fx-background-color: white;");
-                }
+
+            if (e.isFavorited()) {
+                System.out.println("se le dio rt a: "+e.isRetweet()+" id: "+e.getId());
+                BotonLike.setStyle("-fx-background-color: #ff0000;");
+            }else{
+                System.out.println("no se le dio rt a: "+e.isRetweet()+" id: "+e.getId());
+                BotonLike.setStyle("-fx-background-color: white;");
             }
-           
+            System.out.println("----");
             
             ImageView FotoPublicacion = new ImageView();
             FotoPublicacion.setFitHeight(150);
