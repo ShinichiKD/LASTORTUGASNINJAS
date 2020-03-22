@@ -58,6 +58,7 @@ public class BotTwitter {
     private ArrayList<ModeloBotonId> listaBotonesIdRetweetear;
     private ArrayList<String> mensajesSpam = new ArrayList<>();
     public long lastStatusId;
+    
     /*
     //Bot de reserva
     public static String CK = "rjBybNH66nPfhNKZUPL2Wd2qc";
