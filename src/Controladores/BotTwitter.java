@@ -58,6 +58,7 @@ public class BotTwitter {
     private ArrayList<ModeloBotonId> listaBotonesIdRetweetear;
     private ArrayList<String> mensajesSpam = new ArrayList<>();
     public long lastStatusId;
+    private Status rt = null;
     
     /*
     //Bot de reserva
@@ -297,7 +298,7 @@ public class BotTwitter {
         
         Status st = Bot.showStatus(id);
         if(!st.isRetweetedByMe()){
-            Bot.retweetStatus(id);
+            rt = Bot.retweetStatus(id);
             return true;
         }else{
             Bot.unRetweetStatus(id);
@@ -566,7 +567,7 @@ public class BotTwitter {
             String nombre = e.getUser().getScreenName();
             
             try{
-                Hastags=hastag(e.getText(),e.getId(),likes,reets,nombre);
+                Hastags=hastag(e.getText(),e.getId(),nombre);
             }catch(TwitterException e1){
                 Hastags = null;
                 System.out.println(e1);
@@ -614,24 +615,18 @@ public class BotTwitter {
             listaBotonesIdRetweetear.add(new ModeloBotonId(BotonRetweet, e.getId()));
             BotonLike.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/corazon.png")));
             BotonRetweet.graphicProperty().set(new ImageView(new Image("/Vistas/Imagenes/retuit.png")));
-            System.out.println("----");
-            System.out.println("es un retweet: "+e.isRetweet()+" id: "+e.getId());
+            
             if (e.isRetweeted()) {
-                System.out.println("se le dio like a: "+e.isRetweet()+" id: "+e.getId());
                 BotonRetweet.setStyle("-fx-background-color: #23E868;");
             }else{
-                System.out.println("no se le dio like a: "+e.isRetweet()+" id: "+e.getId());
                 BotonRetweet.setStyle("-fx-background-color: white;");
             }
 
             if (e.isFavorited()) {
-                System.out.println("se le dio rt a: "+e.isRetweet()+" id: "+e.getId());
                 BotonLike.setStyle("-fx-background-color: #ff0000;");
             }else{
-                System.out.println("no se le dio rt a: "+e.isRetweet()+" id: "+e.getId());
                 BotonLike.setStyle("-fx-background-color: white;");
             }
-            System.out.println("----");
             
             ImageView FotoPublicacion = new ImageView();
             FotoPublicacion.setFitHeight(150);
@@ -715,6 +710,16 @@ public class BotTwitter {
         lastStatusId = e.getId();
         }
         
+        if(rt!=null){
+            if (rt.isRetweeted()) {
+                volverACargarRetweetear(rt.getId());
+            }
+            if (rt.isFavorited()) {
+                volverACargarGustar(rt.getId());
+            }
+        }
+        
+        
         if (spam>0){
             AvisosLabel.setText("No se esta/n mostrando "+spam+" tweet/s");
             Animaciones.MostrarAvisos(AvisosLabel);
@@ -749,7 +754,7 @@ public class BotTwitter {
             }
         }
     }
-    public ArrayList<String> hastag(String texto,Long idAux,ArrayList likes,ArrayList reet,String nombreUser) throws TwitterException{
+    public ArrayList<String> hastag(String texto,Long idAux,String nombreUser) throws TwitterException{
         ArrayList<String> hastags = new ArrayList<>();
         String [] string = texto.split("#");
         if (string.length>1) {
@@ -814,7 +819,7 @@ public class BotTwitter {
                     try{
                         Long id = Long.parseLong(substring[1]);
                         if (saberRetweet(id)==true) {                          
-                            Bot.retweetStatus(id);
+                            rt = Bot.retweetStatus(id);
                             System.out.println("Se dio retweet a : "+ id);
                             try{
                                 Status tweet = Bot.showStatus(id);
@@ -839,7 +844,7 @@ public class BotTwitter {
                         }
                     }catch(Exception e){
                         if (saberRetweet(idAux)==true) {
-                            Bot.retweetStatus(idAux);
+                            rt = Bot.retweetStatus(idAux);
                             System.out.println("entro aqui");
                             //volverACargarRetweetear(idAux);
                             try{
