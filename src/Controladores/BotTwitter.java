@@ -5,8 +5,10 @@ import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXPopup.PopupHPosition;
 import com.jfoenix.controls.JFXPopup.PopupVPosition;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -124,6 +126,8 @@ public class BotTwitter {
     public void leerArchivo(){
         try{
             BufferedReader bf = new BufferedReader(new FileReader("spam.txt"));
+            
+            
             String texto;
             while((texto = bf.readLine())!=null){
                 mensajesSpam.add(texto);
@@ -159,23 +163,31 @@ public class BotTwitter {
         return botSeguidos;
     }
     
-    public ArrayList<ArrayList<DirectMessage>> obtenerMensajesDirectos() throws TwitterException{
+    public ArrayList<ArrayList<DirectMessage>> obtenerMensajesDirectos() throws TwitterException, IOException{
         ArrayList<ArrayList<DirectMessage>> amigos = new ArrayList<>();
         leerArchivo();
-        DirectMessageList Lista = Bot.getDirectMessages(10);
-        
+        DirectMessageList Lista = Bot.getDirectMessages(30);
+        String Ultimomensaje = null;
         for(DirectMessage m : Lista){
             
+//             System.out.println(m.getText()+" "+m.getId());
             if(m.getRecipientId() == Bot.getId()){
+                
+                
+                
                 ArrayList<DirectMessage> mensajes = buscarIdMensaje(m.getSenderId(), amigos);
                 if(mensajes!=null){
-                mensajes.add(m);
+                    mensajes.add(m);
+                    Ultimomensaje=m.getText();
                 }else{
                     mensajes = new ArrayList<>();
                     mensajes.add(m);
                     amigos.add(mensajes);
+                    Ultimomensaje=m.getText();
                 }
             }else{
+              
+               
                 ArrayList<DirectMessage> mensajes = buscarIdMensaje(m.getRecipientId(), amigos);
                 if(mensajes!=null){
                 mensajes.add(m);
@@ -183,6 +195,33 @@ public class BotTwitter {
                     mensajes = new ArrayList<>();
                     mensajes.add(m);
                     amigos.add(mensajes);
+                }
+            }
+        }
+        
+
+        for (int i = amigos.size() - 1; i >= 0; i--) {
+            for (int j = amigos.get(i).size()-1; j >= 0; j--) {
+                
+                Long idenviado= amigos.get(i).get(j).getSenderId();
+                if (revisarSpam(mensajesSpam, amigos.get(i).get(j).getText()) && idenviado!= Bot.getId() ) {
+                    try {
+                        BufferedReader bf = new BufferedReader(new FileReader("UltimoSpamID.txt"));
+                        Long idAux = Long.parseLong(bf.readLine());
+
+                        if (amigos.get(i).get(j).getId() > idAux) {
+                            Bot.sendDirectMessage(amigos.get(i).get(j).getSenderId(), "Este mensaje es considerado como spam: " + amigos.get(i).get(j).getText());
+                            BufferedWriter br = new BufferedWriter(new FileWriter("UltimoSpamID.txt"));
+//                            System.out.println(m.getId()+"");
+                            br.flush();
+                            br.append(amigos.get(i).get(j).getId() + "");
+                            br.close();
+                        }
+
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+
                 }
             }
         }
@@ -200,13 +239,7 @@ public class BotTwitter {
     }
     
     public void enviarMensajeDirecto(String id,String texto) throws TwitterException{
-//        List<DirectMessage> mensajes = Bot.getDirectMessages(0);
-//        int i=0;
-//        while(i< mensajes.size()){
-//            
-//            System.out.println(mensajes.get(i).getText());
-//            i++;        
-//        }
+
         Bot.sendDirectMessage(id,texto);
     }
     
@@ -384,6 +417,7 @@ public class BotTwitter {
     public void timeLineBuscado(User usuario,ScrollPane timeLine) throws TwitterException{
         int i=0,max;
         GridPane newGrid = new GridPane();
+       
         ArrayList<Status> status = TweetBuscado(usuario.getScreenName());
         max = status.size();
         timeLine.setStyle("-fx-background: white");
@@ -486,7 +520,7 @@ public class BotTwitter {
             newGrid.add(gridAux, 0, i);
             i++;
         }
-        timeLine.setContent(grid);
+        timeLine.setContent(newGrid);
     }
     public TextFlow cambiarColorHastag(String colorHastag,String Tweet,ArrayList<String> hastagsTweet){
         TextFlow tf = new TextFlow();

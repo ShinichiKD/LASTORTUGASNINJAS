@@ -305,6 +305,8 @@ public  class MenuInicioController implements Initializable {
             
         } catch (TwitterException ex) {
             Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         try {
@@ -429,6 +431,7 @@ public  class MenuInicioController implements Initializable {
             Nombre.setText(PersonaBuscada.getName());
             Identificador.setText("@"+PersonaBuscada.getScreenName());
             ImagenPerfil.setImage(new Image(PersonaBuscada.get400x400ProfileImageURL()));
+            System.out.println(PersonaBuscada);
             Bot.timeLineBuscado(PersonaBuscada, TimeLinePersona);
             
         }
@@ -578,7 +581,7 @@ public  class MenuInicioController implements Initializable {
         
     }
     long idMensaje;
-    private void CargaVentanaChat() throws TwitterException {
+    private void CargaVentanaChat() throws TwitterException, IOException {
         for(ArrayList<DirectMessage> lista : Bot.obtenerMensajesDirectos()){
             User user;
             long senderId = lista.get(0).getSenderId();
