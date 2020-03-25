@@ -8,6 +8,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -141,6 +142,9 @@
                      <font>
                         <Font name="Microsoft YaHei Light" size="19.0" />
                      </font>
+                     <effect>
+                        <ColorAdjust brightness="1.0" />
+                     </effect>
                   </JFXTextField>
                   <JFXButton contentDisplay="CENTER" layoutX="1052.0" layoutY="24.0" onAction="#buscarPersona" prefHeight="40.0" prefWidth="56.0" text=" " textFill="WHITE">
                      <graphic>

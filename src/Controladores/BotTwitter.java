@@ -691,7 +691,7 @@ public class BotTwitter {
                         Bot.destroyStatus(e.getId());
                         eliminarTweet( gridAux);
                         AvisosLabel.setText("Tweer eliminado!");
-                        Animaciones.MostrarAvisos(AvisosLabel);
+                        Animaciones.MostrarAvisos(AvisosLabel,"red");
                     } catch (TwitterException ex) {
                         System.out.println(ex.getMessage());
                     } catch (IOException ex) {
@@ -704,11 +704,11 @@ public class BotTwitter {
                     if(darLikeTweet(e.getId())){
                         BotonLike.setStyle("-fx-background-color: #ff0000;");
                         AvisosLabel.setText("Te gusta esto");
-                        Animaciones.MostrarAvisos(AvisosLabel);
+                        Animaciones.MostrarAvisos(AvisosLabel,"orange");
                     }else{
                         BotonLike.setStyle("-fx-background-color: white;");
                         AvisosLabel.setText("Ya no te gusta esto");
-                        Animaciones.MostrarAvisos(AvisosLabel);
+                        Animaciones.MostrarAvisos(AvisosLabel,"red");
                     }
                 
                 } catch (TwitterException ex) {
@@ -723,11 +723,11 @@ public class BotTwitter {
                     if(darRetweet(e.getId())){
                         BotonRetweet.setStyle("-fx-background-color: #23E868;");
                         AvisosLabel.setText("Hiciste retweet a esto");
-                        Animaciones.MostrarAvisos(AvisosLabel);
+                        Animaciones.MostrarAvisos(AvisosLabel,"orange");
                     }else{
                         BotonRetweet.setStyle("-fx-background-color: white;");
                             AvisosLabel.setText("Quitaste tu retweet de esto");
-                        Animaciones.MostrarAvisos(AvisosLabel);
+                        Animaciones.MostrarAvisos(AvisosLabel,"red");
                     }
                 } catch (TwitterException ex) {
                     System.out.println(ex.getMessage());
@@ -756,7 +756,7 @@ public class BotTwitter {
         
         if (spam>0){
             AvisosLabel.setText("No se esta/n mostrando "+spam+" tweet/s");
-            Animaciones.MostrarAvisos(AvisosLabel);
+            Animaciones.MostrarAvisos(AvisosLabel,"red");
         }
         anadirGrid();
         timeLine.setContent(grid);

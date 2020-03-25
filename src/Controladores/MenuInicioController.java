@@ -317,7 +317,7 @@ public  class MenuInicioController implements Initializable {
             if(ex.getErrorCode() == 88){
                 AvisosLabel.setText("Error con limites de la API : Cierre el programa y espere");
                 try {
-                    Animaciones.MostrarAvisos(AvisosLabel);
+                    Animaciones.MostrarAvisos(AvisosLabel,"orange");
                 } catch (IOException ex1) {
                     System.out.println(ex1.getCause()); 
                 }
@@ -341,10 +341,10 @@ public  class MenuInicioController implements Initializable {
             
             if (Bot.actualizarEstado(texto)){
                 AvisosLabel.setText("Publicación exitosa.");
-                Animaciones.MostrarAvisos(AvisosLabel);
+                Animaciones.MostrarAvisos(AvisosLabel,"orange");
             }else{
                 AvisosLabel.setText("Tu publicacion tenia *spam/malas palabras* y no se publico");
-                Animaciones.MostrarAvisos(AvisosLabel);
+                Animaciones.MostrarAvisos(AvisosLabel,"red");
                 return;
             }
             
@@ -362,15 +362,15 @@ public  class MenuInicioController implements Initializable {
             switch (e.getErrorCode()) {
                 case 170:
                     AvisosLabel.setText("No se ha podido publicar: Mensaje en blanco.");
-                    Animaciones.MostrarAvisos(AvisosLabel);
+                    Animaciones.MostrarAvisos(AvisosLabel,"orange");
                     break;
                 case 187:
                     AvisosLabel.setText("No se ha podido publicar: Publicación duplicada.");
-                    Animaciones.MostrarAvisos(AvisosLabel);
+                    Animaciones.MostrarAvisos(AvisosLabel,"orange");
                     break;
                 case 186:
                     AvisosLabel.setText("No se ha podido publicar: Publicación muy larga ");
-                    Animaciones.MostrarAvisos(AvisosLabel);
+                    Animaciones.MostrarAvisos(AvisosLabel,"orange");
                     break;
                 default:
                     break;
@@ -457,7 +457,7 @@ public  class MenuInicioController implements Initializable {
             
         }catch(TwitterException e){
             AvisosLabel.setText("Usuario no encontrado");
-            Animaciones.MostrarAvisos(AvisosLabel);
+            Animaciones.MostrarAvisos(AvisosLabel,"orange");
         }
         
         
@@ -474,10 +474,10 @@ public  class MenuInicioController implements Initializable {
             File selectedFile = fileChooser.showOpenDialog(new Stage());
             Bot.agregarArchivo(selectedFile);
             AvisosLabel.setText("Archivo subido correctamente");
-            Animaciones.MostrarAvisos(AvisosLabel);
+            Animaciones.MostrarAvisos(AvisosLabel,"orange");
         }catch(IOException | TwitterException e){
             AvisosLabel.setText("Archivo subido no subido, formato incorrecto");
-            Animaciones.MostrarAvisos(AvisosLabel);
+            Animaciones.MostrarAvisos(AvisosLabel,"orange");
         }
         
     }
@@ -581,7 +581,13 @@ public  class MenuInicioController implements Initializable {
         
     }
     long idMensaje;
+    ArrayList<GridPane> mensajesUsuario;
+    ArrayList<User> nombreUsuario;
+    int ultimoMensaje;
     private void CargaVentanaChat() throws TwitterException, IOException {
+        mensajesUsuario = new ArrayList();
+        nombreUsuario = new ArrayList();
+        
         for(ArrayList<DirectMessage> lista : Bot.obtenerMensajesDirectos()){
             User user;
             long senderId = lista.get(0).getSenderId();
@@ -600,12 +606,9 @@ public  class MenuInicioController implements Initializable {
             usuario.setAlignment(Pos.TOP_LEFT);
             ListaUsuarios.getItems().add(usuario);
             
-            usuario.setOnAction((ActionEvent events)->{
-                int i=0;
-                PersonaMensaje = user;
-                GridPane mensajes = new GridPane();
-                
-                for(DirectMessage dm : lista){
+            int i=0;
+            GridPane mensajes = new GridPane();
+            for(DirectMessage dm : lista){
                     GridPane gridAux = new GridPane();
                     gridAux.setPrefWidth(650);
                     gridAux.setPadding(new Insets(5, 5, 5, 5)); 
@@ -647,10 +650,23 @@ public  class MenuInicioController implements Initializable {
                 }
                 MensajesBien.add(mensajes.getChildren().get(0),0,max);
                 
-                Chat.setContent(MensajesBien);
+                mensajesUsuario.add(MensajesBien);
+                nombreUsuario.add(user);
                 
-                
-            });
+                usuario.setOnAction((ActionEvent events)->{
+                    PersonaMensaje = user;
+                    
+                    GridPane misMensajes= new GridPane();
+                    for (int j = 0; j < nombreUsuario.size(); j++) {
+                        User usuarioAux = (User) nombreUsuario.get(j);
+                        if (usuario.getText().equals(usuarioAux.getName())) {
+                            misMensajes = (GridPane) mensajesUsuario.get(j);
+                            ultimoMensaje = j;
+                        }
+                    }
+                   Chat.setContent(misMensajes);
+                    
+                });
             
         }
     }
@@ -675,7 +691,7 @@ public  class MenuInicioController implements Initializable {
                 gridAux.add(miMensaje,1,0);
                 gridAux.alignmentProperty().set(Pos.TOP_RIGHT);
                 max++;
-                MensajesBien.add(gridAux, 0, max);
+                mensajesUsuario.get(ultimoMensaje).add(gridAux, 0, max);
                 
                 TextoMensaje.clear();
                 TextoMensaje.setPromptText("Escribir Mensaje");
@@ -687,15 +703,15 @@ public  class MenuInicioController implements Initializable {
             switch (e.getErrorCode()) {
                 case 50:
                     AvisosLabel.setText("Usuario no encontrado: No se pudo enviar mensaje.");
-                    Animaciones.MostrarAvisos(AvisosLabel);
+                    Animaciones.MostrarAvisos(AvisosLabel,"orange");
                     break;
                 case 151:
                     AvisosLabel.setText("Mensaje en blanco: No se puede enviar.");
-                    Animaciones.MostrarAvisos(AvisosLabel);
+                    Animaciones.MostrarAvisos(AvisosLabel,"orange");
                     break;
                 case 349:
                     AvisosLabel.setText("No puedes enviar mensajes a este usuario.");
-                    Animaciones.MostrarAvisos(AvisosLabel);
+                    Animaciones.MostrarAvisos(AvisosLabel,"orange");
                     break;
                 default:
                     break;

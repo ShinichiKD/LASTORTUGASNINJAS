@@ -6,17 +6,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 /**
@@ -41,10 +32,10 @@ public class Animaciones {
         });
         timeline.play();
     }
-    public static void MostrarAvisos(JFXButton Aviso) throws IOException{
+    public static void MostrarAvisos(JFXButton Aviso, String color) throws IOException{
         
         Aviso.setVisible(true);
-        
+        Aviso.setStyle("-fx-background-color: "+color+";");
         Aviso.translateYProperty().set(600);
         
         Timeline timeline = new Timeline();
