@@ -167,7 +167,10 @@ public class BotTwitter {
     public ArrayList<ArrayList<DirectMessage>> obtenerMensajesDirectos() throws TwitterException, IOException{
         ArrayList<ArrayList<DirectMessage>> amigos = new ArrayList<>();
         leerArchivo();
-        DirectMessageList Lista = Bot.getDirectMessages(30);
+        try {
+            DirectMessageList Lista = Bot.getDirectMessages(30);
+        
+        
         String Ultimomensaje = null;
         for(DirectMessage m : Lista){
             
@@ -247,14 +250,17 @@ public class BotTwitter {
                         }   
 
                         } catch (IOException e) {
-                            System.out.println(e.getMessage());
+                            //System.out.println(e.getMessage());
                         }
                     }
                     
                 }
             }
         }
+        } catch (Exception e) {
+        }
         return amigos;
+        
     }
     
     private long[] IdToLong(){
@@ -612,9 +618,10 @@ public class BotTwitter {
         LastId = status.get(0).getId();
         ArrayList auxSpam = new ArrayList<>();
         for (Status e : status) {
-             //revisar spam y cancelar la subida
+            //revisar spam y cancelar la subida
             auxSpam = revisarSpam(mensajesSpam,e.getText());
-            if(auxSpam.get(1).equals("Los insultos no son buenos." ) || auxSpam.get(1).equals("-" ) ){              
+            if(auxSpam.get(1).equals("Los insultos no son buenos." ) || auxSpam.get(1).equals("-" ) ){  
+                System.out.println(auxSpam.get(1));
                 spam++;
                 continue;
             }
@@ -627,9 +634,6 @@ public class BotTwitter {
                 Hastags = null;
                 
             }
-            
-            
-
             
             TextFlow t = new TextFlow();
             t.setLayoutX(700);

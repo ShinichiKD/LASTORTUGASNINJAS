@@ -274,6 +274,14 @@ public  class MenuInicioController implements Initializable {
     private Label contadorPublicacion;
     @FXML
     private Label contadorChat;
+    @FXML
+    private JFXButton MDBusqueda;
+    @FXML
+    private JFXTextArea TAmensaje2;
+    @FXML
+    private JFXButton BotonEnviarMD;
+    @FXML
+    private Label contadorChat1;
     
     
     
@@ -431,7 +439,11 @@ public  class MenuInicioController implements Initializable {
     private void seleccionarItem() throws TwitterException {
         if (BuscarListView.getSelectionModel().getSelectedItem()!=null) {
             System.out.println("usuario seleccionado");
-            
+            MDBusqueda.setVisible(true);
+            BTNseguir.setVisible(true);
+            Nombre.setVisible(true);
+            Identificador.setVisible(true);
+            ImagenPerfil.setVisible(true);
             
             BuscarTF.setText(BuscarListView.getSelectionModel().getSelectedItem());
             PersonaBuscada= Bot.BuscarUsuario(BuscarTF.getText());
@@ -448,6 +460,54 @@ public  class MenuInicioController implements Initializable {
             Identificador.setText("@"+PersonaBuscada.getScreenName());
             ImagenPerfil.setImage(new Image(PersonaBuscada.get400x400ProfileImageURL()));
             System.out.println(PersonaBuscada);
+             BotonEnviarMD.setOnAction((event) -> {
+               try{
+
+                Bot.enviarMensajeDirecto(PersonaBuscada.getScreenName(), TAmensaje2.getText()); 
+                TAmensaje2.clear();
+                TAmensaje2.setPromptText("Escribir Mensaje");
+               }
+               catch(TwitterException e){
+                   System.out.println(e.getErrorCode());
+                   System.out.println(e.getErrorMessage());
+                   switch (e.getErrorCode()) {
+                       case 50:
+                           AvisosLabel.setText("Usuario no encontrado: No se pudo enviar mensaje.");
+                   {
+                       try {
+                           Animaciones.MostrarAvisos(AvisosLabel,"orange");
+                       } catch (IOException ex) {
+                           Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+                       }
+                   }
+                           break;
+                       case 151:
+                           AvisosLabel.setText("Mensaje en blanco: No se puede enviar.");
+                   {
+                       try {
+                           Animaciones.MostrarAvisos(AvisosLabel,"orange");
+                       } catch (IOException ex) {
+                           Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+                       }
+                   }
+                           break;
+                       case 349:
+                           AvisosLabel.setText("No puedes enviar mensajes a este usuario.");
+                   {
+                       try {
+                           Animaciones.MostrarAvisos(AvisosLabel,"orange");
+                       } catch (IOException ex) {
+                           Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+                       }
+                   }
+                           break;
+                       default:
+                           break;
+                   }
+               }
+                 
+             });
+            
             Bot.timeLineBuscado(PersonaBuscada, TimeLinePersona);
             
         }
@@ -744,6 +804,7 @@ public  class MenuInicioController implements Initializable {
         if(letras > limite){
             //cambiar color
             contadorChat.textFillProperty().setValue(Paint.valueOf("Red"));
+            
             BotonEnviar.setDisable(true);
 
         }else{
@@ -753,10 +814,46 @@ public  class MenuInicioController implements Initializable {
         }
         contadorChat.setText(letras+" / "+limite);
     }
+    @FXML
+    private void releasedTextoMensaje2(KeyEvent event) {
+        int letras = TAmensaje2.getText().length();
+        int limite = 10000;
+        if(letras > limite){
+            //cambiar color
+            contadorChat1.textFillProperty().setValue(Paint.valueOf("Red"));
+            
+            BotonEnviarMD.setDisable(true);
 
+        }else{
+            //cambiar color
+            contadorChat1.textFillProperty().setValue(Paint.valueOf("white"));
+            BotonEnviarMD.setDisable(false);
+        }
+        contadorChat1.setText(letras+" / "+limite);
+    }
+    
     private void recargarInicio(ActionEvent event) throws TwitterException, IOException, IOException {
         
         ActualizarEstados(0);
+    }
+
+    @FXML
+    private void mostrarMinichat(ActionEvent event) {
+        
+        if (TAmensaje2.isVisible()) {
+            TAmensaje2.setVisible(false);
+            BotonEnviarMD.setVisible(false);
+            contadorChat1.setVisible(false);
+        }
+        else{
+            TAmensaje2.setVisible(true);
+            BotonEnviarMD.setVisible(true);
+            contadorChat1.setVisible(true);
+        }
+        
+        
+        
+        
     }
 
    
