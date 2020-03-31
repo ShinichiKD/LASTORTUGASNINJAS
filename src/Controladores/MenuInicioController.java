@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -33,6 +35,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javax.swing.SwingUtilities;
 import twitter4j.DirectMessage;
 import twitter4j.FilterQuery;
 import twitter4j.StallWarning;
@@ -288,7 +291,7 @@ public  class MenuInicioController implements Initializable {
         } catch (TwitterException ex) {
             Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //Animacion= new Animaciones();
+        
         AvisosLabel.setVisible(false);
         botonInicio.setStyle("-fx-background-color: #4fb4cb;");
         botonInicio.ripplerFillProperty().setValue(Paint.valueOf("white"));
@@ -298,17 +301,6 @@ public  class MenuInicioController implements Initializable {
         } catch (TwitterException ex) {
             Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-       
-        try {
-            CargaVentanaChat();
-            
-        } catch (TwitterException ex) {
-            Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
         try {
             Bot.leerArchivo();
             ActualizarEstados(0);
@@ -326,7 +318,31 @@ public  class MenuInicioController implements Initializable {
         } catch (IOException ex) {
             System.out.println(ex.getCause());
         }
-        
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                new Thread( ()->{
+                    Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                      try {
+                        CargaVentanaChat();
+                        botonInicio.fire();
+                          System.out.println("proceso....");
+
+                        } catch (TwitterException ex) {
+                            Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (IOException ex) {
+                            Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        }
+                    });
+                }).start();
+
+            }
+        }, 0, 80*1000);
     } 
     
     @FXML
@@ -587,6 +603,7 @@ public  class MenuInicioController implements Initializable {
     private void CargaVentanaChat() throws TwitterException, IOException {
         mensajesUsuario = new ArrayList();
         nombreUsuario = new ArrayList();
+        ListaUsuarios.getItems().clear();
         
         for(ArrayList<DirectMessage> lista : Bot.obtenerMensajesDirectos()){
             User user;
@@ -665,9 +682,9 @@ public  class MenuInicioController implements Initializable {
                         }
                     }
                    Chat.setContent(misMensajes);
-                    
+                
                 });
-            
+        
         }
     }
 

@@ -112,7 +112,8 @@ public class BotTwitter {
     public boolean actualizarEstado(String texto) throws TwitterException{
         
         // si es spam no se publica
-        if(revisarSpam(mensajesSpam, texto)) return false;
+        ArrayList auxSpam  = revisarSpam(mensajesSpam, texto);
+        if((int)auxSpam.get(0)!=0) return false;
             
         StatusUpdate statusUpdate = new StatusUpdate(texto);
         if(medias.size()>0){
@@ -199,18 +200,25 @@ public class BotTwitter {
             }
         }
         
-
+        ArrayList auxSpam = new ArrayList<>();
         for (int i = amigos.size() - 1; i >= 0; i--) {
             for (int j = amigos.get(i).size()-1; j >= 0; j--) {
                 
                 Long idenviado= amigos.get(i).get(j).getSenderId();
-                if (revisarSpam(mensajesSpam, amigos.get(i).get(j).getText()) && idenviado!= Bot.getId() ) {
+                auxSpam=revisarSpam(mensajesSpam, amigos.get(i).get(j).getText());
+                int numAux = (int)auxSpam.get(0);
+                if (numAux!=0 && idenviado!= Bot.getId() ) {
                     try {
                         BufferedReader bf = new BufferedReader(new FileReader("UltimoSpamID.txt"));
                         Long idAux = Long.parseLong(bf.readLine());
 
                         if (amigos.get(i).get(j).getId() > idAux) {
-                            Bot.sendDirectMessage(amigos.get(i).get(j).getSenderId(), "Este mensaje es considerado como spam: " + amigos.get(i).get(j).getText());
+                            if ((int)auxSpam.get(0)==1) {
+                                Bot.sendDirectMessage(amigos.get(i).get(j).getSenderId(), "Este mensaje es considerado como spam: " + amigos.get(i).get(j).getText());
+                                
+                            }else if ((int)auxSpam.get(0)==2 ) {
+                                Bot.sendDirectMessage(amigos.get(i).get(j).getSenderId(),auxSpam.get(1)+"");
+                            }
                             BufferedWriter br = new BufferedWriter(new FileWriter("UltimoSpamID.txt"));
 //                            System.out.println(m.getId()+"");
                             br.flush();
@@ -221,7 +229,28 @@ public class BotTwitter {
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
                     }
+                }else{
+                    if (idenviado!= Bot.getId()) {
+                        try {
+                        BufferedReader bf = new BufferedReader(new FileReader("UltimoSpamID.txt"));
+                        Long idAux = Long.parseLong(bf.readLine());
 
+                        if (amigos.get(i).get(j).getId() > idAux) {
+                            if ((int)auxSpam.get(0)==0) {
+                                Bot.sendDirectMessage(amigos.get(i).get(j).getSenderId(),"Mensaje recibido");
+                            }
+                            BufferedWriter br = new BufferedWriter(new FileWriter("UltimoSpamID.txt"));
+//                            System.out.println(m.getId()+"");
+                            br.flush();
+                            br.append(amigos.get(i).get(j).getId() + "");
+                            br.close();
+                        }   
+
+                        } catch (IOException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                    
                 }
             }
         }
@@ -579,21 +608,13 @@ public class BotTwitter {
             status.add(statusEvent);
         }
         
-//        status.clear();
-//        if(evento == 0){
-//            status =  obtenerTweets();
-//            max = status.size();
-//        }else{
-//            status = new ArrayList<>();
-//            status.add(statusEvent);
-//            
-//            max = 1;
-//        }
        
         LastId = status.get(0).getId();
+        ArrayList auxSpam = new ArrayList<>();
         for (Status e : status) {
              //revisar spam y cancelar la subida
-            if(revisarSpam(mensajesSpam, e.getText())){
+            auxSpam = revisarSpam(mensajesSpam,e.getText());
+            if(auxSpam.get(1).equals("Los insultos no son buenos." ) || auxSpam.get(1).equals("-" ) ){              
                 spam++;
                 continue;
             }
@@ -604,20 +625,11 @@ public class BotTwitter {
                 Hastags=hastag(e.getText(),e.getId(),nombre);
             }catch(TwitterException e1){
                 Hastags = null;
-                System.out.println(e1);
+                
             }
             
             
-            //Status st = Bot.showStatus(e.getId());
-            /*
-            if (st.isFavorited()) {
-                likes.add(e.getId());
-            }
-            if (st.isRetweetedByMe()) {
-                reets.add(e.getId());
-            }*/
-            //hastagsTweets.add(Hastags);
-           
+
             
             TextFlow t = new TextFlow();
             t.setLayoutX(700);
@@ -904,18 +916,36 @@ public class BotTwitter {
         
             return hastags;
     }
-    public boolean revisarSpam(ArrayList<String> palabras,String mensaje){
-        mensaje=mensaje.toLowerCase();
+    public ArrayList revisarSpam(ArrayList<String> palabras,String mensaje){
         
+        mensaje=mensaje.toLowerCase();
+        ArrayList aux = new ArrayList<>();
         for (int i = 0; i < palabras.size(); i++) {
-            String minuscula = palabras.get(i);
-            if (mensaje.contains(minuscula)) {
-                // Encontro spam
-                return true;
+            
+            String minuscula = palabras.get(i).toLowerCase();
+            String [] substring =minuscula.split("-");  
+            
+           
+            if (mensaje.contains(substring[0])) {
+                 
+                if (substring.length==1) {
+                    aux.add(1);
+                    aux.add("-");
+                    return aux;
+                }else{
+                    
+                    aux.add(2);
+                    aux.add(substring[1]);
+                    return aux;
+                }
+                
             }
         }      
         // No encontro spam
-        return false;
+        //return 0
+        aux.add(0);
+        aux.add("Recibido");
+        return aux;
     
     }
     
