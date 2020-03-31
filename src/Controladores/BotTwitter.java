@@ -51,6 +51,7 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 public class BotTwitter {
     private int Bandera=0;
+    private int Bandera2=0;
     private Twitter Bot;
     private ArrayList<Long> medias;
     private long LastId = -1;
@@ -113,7 +114,9 @@ public class BotTwitter {
         
         // si es spam no se publica
         ArrayList auxSpam  = revisarSpam(mensajesSpam, texto);
-        if((int)auxSpam.get(0)!=0) return false;
+        if (auxSpam.get(1).equals("Los insultos no son buenos." ) || auxSpam.get(1).equals("-" ) ) {
+            return false;
+        }
             
         StatusUpdate statusUpdate = new StatusUpdate(texto);
         if(medias.size()>0){
@@ -604,8 +607,7 @@ public class BotTwitter {
         int spam=0;
         ArrayList<Status> status;
         ArrayList<String> Hastags;
-        ArrayList<Long> likes= new  ArrayList<>() ;
-        ArrayList<Long> reets= new  ArrayList<>() ;
+        
         ArrayList<ArrayList> hastagsTweets= new  ArrayList<>() ;
         if(evento == 0){
             status =  obtenerTweets();
@@ -619,15 +621,17 @@ public class BotTwitter {
         ArrayList auxSpam = new ArrayList<>();
         for (Status e : status) {
             //revisar spam y cancelar la subida
+            auxSpam.clear();
             auxSpam = revisarSpam(mensajesSpam,e.getText());
-            if(auxSpam.get(1).equals("Los insultos no son buenos." ) || auxSpam.get(1).equals("-" ) ){  
-                System.out.println(auxSpam.get(1));
+            
+            if(auxSpam.get(1).equals("Los insultos no son buenos." ) || auxSpam.get(1).equals("-" ) ){
                 spam++;
                 continue;
             }
             
             String nombre = e.getUser().getScreenName();
-            
+            Bandera=0;
+            Bandera2=0;
             try{
                 Hastags=hastag(e.getText(),e.getId(),nombre);
             }catch(TwitterException e1){
@@ -638,7 +642,6 @@ public class BotTwitter {
             TextFlow t = new TextFlow();
             t.setLayoutX(700);
             t.setLayoutY(100);
-            //Bandera=0;
             
             
             if (Hastags!=null) {
@@ -677,7 +680,12 @@ public class BotTwitter {
             }else{
                 BotonLike.setStyle("-fx-background-color: white;");
             }
-            
+            if ( Bandera==1) {
+                BotonLike.setStyle("-fx-background-color: #ff0000;");
+            }
+            if ( Bandera2==1) {
+                BotonRetweet.setStyle("-fx-background-color: #23E868;");
+            }
             ImageView FotoPublicacion = new ImageView();
             FotoPublicacion.setFitHeight(150);
             FotoPublicacion.setFitWidth(150);
@@ -805,6 +813,7 @@ public class BotTwitter {
         }
     }
     public ArrayList<String> hastag(String texto,Long idAux,String nombreUser) throws TwitterException{
+        rt=null;
         ArrayList<String> hastags = new ArrayList<>();
         String [] string = texto.split("#");
         if (string.length>1) {
@@ -852,7 +861,7 @@ public class BotTwitter {
                         Bandera=1;
                         if (saberLike(idAux)==true) {
                             Bot.createFavorite(idAux);
-                            //volverACargarGustar(idAux);
+                            volverACargarGustar(idAux);
                              try{
                                 if (!nombreUser.equals("AlmostHumanBot")) {
                                     StatusUpdate st = new StatusUpdate("@"+nombreUser+" Hemos dado like a tu publicación");
@@ -895,7 +904,7 @@ public class BotTwitter {
                     }catch(Exception e){
                         if (saberRetweet(idAux)==true) {
                             rt = Bot.retweetStatus(idAux);
-                            System.out.println("entro aqui");
+                            Bandera2=1;
                             //volverACargarRetweetear(idAux);
                             try{
                                 if (!nombreUser.equals("AlmostHumanBot")) {
@@ -931,13 +940,15 @@ public class BotTwitter {
             
            
             if (mensaje.contains(substring[0])) {
-                 
+                System.out.println(substring[0]); 
                 if (substring.length==1) {
+                   System.out.println(substring[0]+" "+substring[1]);
                     aux.add(1);
                     aux.add("-");
+                     
                     return aux;
                 }else{
-                    
+                    System.out.println(substring[0]+" "+substring[1]);
                     aux.add(2);
                     aux.add(substring[1]);
                     return aux;
