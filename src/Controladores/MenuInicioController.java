@@ -35,7 +35,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javax.swing.SwingUtilities;
 import twitter4j.DirectMessage;
 import twitter4j.FilterQuery;
 import twitter4j.StallWarning;
@@ -52,7 +51,7 @@ import twitter4j.conf.ConfigurationBuilder;
 /**
  * FXML Controller class
  *
- * @author Emilio
+ * @author Emilio - Rodrigo - Pablo
  */
 public  class MenuInicioController implements Initializable {
     
@@ -106,15 +105,18 @@ public  class MenuInicioController implements Initializable {
     @FXML
     private JFXButton BTNseguir;
     
-    private final int EstadoTimeLine=0;
     private User PersonaMensaje;
     private GridPane MensajesBien;
     private int max;
-    private final String ColorHastag="black";
-    ObservableList<String> items =FXCollections.observableArrayList();
+    ObservableList<String> items = FXCollections.observableArrayList();
     public User PersonaBuscada;
-    BotTwitter Bot;  
-    //Animaciones Animacion;
+    BotTwitter Bot;
+    
+    long idMensaje;
+    ArrayList<GridPane> mensajesUsuario;
+    ArrayList<User> nombreUsuario;
+    int ultimoMensaje;
+    int ventanaPresionada=-1;
     
     UserStreamListener listener = new UserStreamListener() {
              
@@ -124,67 +126,67 @@ public  class MenuInicioController implements Initializable {
 
         @Override
         public void onUnfollow(User user, User user1) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet."); 
         }
 
         @Override
         public void onUserListMemberAddition(User user, User user1, UserList ul) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
         public void onUserListMemberDeletion(User user, User user1, UserList ul) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet."); 
         }
 
         @Override
         public void onUserListSubscription(User user, User user1, UserList ul) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet."); 
         }
 
         @Override
         public void onUserListUnsubscription(User user, User user1, UserList ul) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
         public void onUserListCreation(User user, UserList ul) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet."); 
         }
 
         @Override
         public void onUserListUpdate(User user, UserList ul) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet."); 
         }
 
         @Override
         public void onUserListDeletion(User user, UserList ul) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet."); 
         }
 
         @Override
         public void onUserSuspension(long l) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
         public void onUserDeletion(long l) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet."); 
         }
 
         @Override
         public void onRetweetedRetweet(User user, User user1, Status status) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet."); 
         }
 
         @Override
         public void onFavoritedRetweet(User user, User user1, Status status) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
         public void onQuotedTweet(User user, User user1, Status status) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -206,32 +208,32 @@ public  class MenuInicioController implements Initializable {
 
         @Override
         public void onDeletionNotice(StatusDeletionNotice sdn) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
         public void onStallWarning(StallWarning sw) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet."); 
         }
 
         @Override
         public void onDeletionNotice(long l, long l1) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet."); 
         }
 
         @Override
         public void onFriendList(long[] longs) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet."); 
         }
 
         @Override
         public void onFavorite(User user, User user1, Status status) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet."); 
         }
 
         @Override
         public void onFollow(User user, User user1) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
@@ -241,33 +243,34 @@ public  class MenuInicioController implements Initializable {
 
         @Override
         public void onUserProfileUpdate(User user) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet."); 
         }
 
         @Override
         public void onBlock(User user, User user1) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet."); 
         }
 
         @Override
         public void onUnblock(User user, User user1) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet."); 
         }
 
         @Override
         public void onTrackLimitationNotice(int i) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
         public void onScrubGeo(long l, long l1) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            throw new UnsupportedOperationException("Not supported yet."); 
         }
 
         @Override
         public void onException(Exception excptn) {
         }
     }; 
+    
     @FXML
     private ScrollPane Chat;
     @FXML
@@ -283,17 +286,11 @@ public  class MenuInicioController implements Initializable {
     @FXML
     private Label contadorChat1;
     
-    
-    
-    
-   
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
         Bot = new BotTwitter();
        
-        
         try {
             initStream();
         } catch (TwitterException ex) {
@@ -335,10 +332,10 @@ public  class MenuInicioController implements Initializable {
                     @Override
                     public void run() {
                       try {
-                        CargaVentanaChat();
+                        cargaVentanaChat();
                         AvisosLabel.setText("Mensajes Actualizados");
                         Animaciones.MostrarAvisos(AvisosLabel,"orange");
-                        System.out.println("proceso....");
+                        
                         
                         } catch (TwitterException ex) {
                             Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
@@ -436,7 +433,7 @@ public  class MenuInicioController implements Initializable {
     }
     
     @FXML
-    private void seleccionarItem() throws TwitterException {
+    private void seleccionarItem() throws TwitterException, IOException {
         if (BuscarListView.getSelectionModel().getSelectedItem()!=null) {
             System.out.println("usuario seleccionado");
             MDBusqueda.setVisible(true);
@@ -446,7 +443,7 @@ public  class MenuInicioController implements Initializable {
             ImagenPerfil.setVisible(true);
             
             BuscarTF.setText(BuscarListView.getSelectionModel().getSelectedItem());
-            PersonaBuscada= Bot.BuscarUsuario(BuscarTF.getText());
+            PersonaBuscada= Bot.buscarUsuario(BuscarTF.getText());
             
             if (Bot.sigueA(PersonaBuscada.getScreenName())){
                 BTNseguir.setText("No seguir");
@@ -508,7 +505,7 @@ public  class MenuInicioController implements Initializable {
                  
              });
             
-            Bot.timeLineBuscado(PersonaBuscada, TimeLinePersona);
+            Bot.timeLineBuscado(AvisosLabel,PersonaBuscada, TimeLinePersona);
             
         }
         
@@ -522,7 +519,7 @@ public  class MenuInicioController implements Initializable {
         BuscarListView.setVisible(true);
 
         if (!BuscarTF.getText().isEmpty()) {
-            ArrayList<String> Aux=Bot.BuscarEnTwitter(BuscarTF.getText());
+            ArrayList<String> Aux=Bot.buscarEnTwitter(BuscarTF.getText());
             items.addAll(Aux);
             BuscarListView.setItems(items);
         } 
@@ -656,12 +653,8 @@ public  class MenuInicioController implements Initializable {
         
         
     }
-    long idMensaje;
-    ArrayList<GridPane> mensajesUsuario;
-    ArrayList<User> nombreUsuario;
-    int ultimoMensaje;
-    int ventanaPresionada=-1;
-    private void CargaVentanaChat() throws TwitterException, IOException {
+    
+    private void cargaVentanaChat() throws TwitterException, IOException {
         mensajesUsuario = new ArrayList();
         nombreUsuario = new ArrayList();
         ListaUsuarios.getItems().clear();

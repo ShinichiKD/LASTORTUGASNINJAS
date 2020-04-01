@@ -1,9 +1,6 @@
 package Controladores;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXPopup;
-import com.jfoenix.controls.JFXPopup.PopupHPosition;
-import com.jfoenix.controls.JFXPopup.PopupVPosition;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -27,10 +22,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.stage.Stage;
 import twitter4j.DirectMessage;
 import twitter4j.DirectMessageList;
-import twitter4j.IDs;
 import twitter4j.Paging;
 import twitter4j.Query;
 import twitter4j.QueryResult;
@@ -44,14 +37,13 @@ import twitter4j.UploadedMedia;
 import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
 
-
 /**
  *
- * @author Emilio
+ * @author Emilio - Rodrigo - Pablo
  */
 public class BotTwitter {
-    private int Bandera=0;
-    private int Bandera2=0;
+    private int Bandera = 0;
+    private int Bandera2 = 0;
     private Twitter Bot;
     private ArrayList<Long> medias;
     private long LastId = -1;
@@ -62,6 +54,7 @@ public class BotTwitter {
     private ArrayList<String> mensajesSpam = new ArrayList<>();
     public long lastStatusId;
     private Status rt = null;
+    private String nt =null;
     
     /*
     //Bot de reserva
@@ -120,7 +113,7 @@ public class BotTwitter {
             
         StatusUpdate statusUpdate = new StatusUpdate(texto);
         if(medias.size()>0){
-            statusUpdate.setMediaIds(IdToLong());
+            statusUpdate.setMediaIds(idToLong());
         }
         Bot.updateStatus(statusUpdate);
         medias = new ArrayList<>();
@@ -130,7 +123,6 @@ public class BotTwitter {
     public void leerArchivo(){
         try{
             BufferedReader bf = new BufferedReader(new FileReader("spam.txt"));
-            
             
             String texto;
             while((texto = bf.readLine())!=null){
@@ -166,24 +158,16 @@ public class BotTwitter {
         
         return botSeguidos;
     }
-    public String nt =null;
+    
     public ArrayList<ArrayList<DirectMessage>> obtenerMensajesDirectos() throws TwitterException, IOException{
         ArrayList<ArrayList<DirectMessage>> amigos = new ArrayList<>();
         leerArchivo();
         
         try {
-           
             DirectMessageList Lista=Bot.getDirectMessages(30);
-            
-       
             String Ultimomensaje = null;
             for(DirectMessage m : Lista){
-
-    //             System.out.println(m.getText()+" "+m.getId());
                 if(m.getRecipientId() == Bot.getId()){
-
-
-
                     ArrayList<DirectMessage> mensajes = buscarIdMensaje(m.getSenderId(), amigos);
                     if(mensajes!=null){
                         mensajes.add(m);
@@ -195,8 +179,6 @@ public class BotTwitter {
                         Ultimomensaje=m.getText();
                     }
                 }else{
-
-
                     ArrayList<DirectMessage> mensajes = buscarIdMensaje(m.getRecipientId(), amigos);
                     if(mensajes!=null){
                     mensajes.add(m);
@@ -207,7 +189,6 @@ public class BotTwitter {
                     }
                 }
             }
-
             ArrayList auxSpam = new ArrayList<>();
             for (int i = amigos.size() - 1; i >= 0; i--) {
                 for (int j = amigos.get(i).size()-1; j >= 0; j--) {
@@ -228,7 +209,6 @@ public class BotTwitter {
                                     Bot.sendDirectMessage(amigos.get(i).get(j).getSenderId(),auxSpam.get(1)+"");
                                 }
                                 BufferedWriter br = new BufferedWriter(new FileWriter("UltimoSpamID.txt"));
-    //                            System.out.println(m.getId()+"");
                                 br.flush();
                                 br.append(amigos.get(i).get(j).getId() + "");
                                 br.close();
@@ -248,14 +228,11 @@ public class BotTwitter {
                                     Bot.sendDirectMessage(amigos.get(i).get(j).getSenderId(),"Mensaje recibido");
                                 }
                                 BufferedWriter br = new BufferedWriter(new FileWriter("UltimoSpamID.txt"));
-    //                            System.out.println(m.getId()+"");
                                 br.flush();
                                 br.append(amigos.get(i).get(j).getId() + "");
                                 br.close();
                             }   
-
                             } catch (IOException e) {
-                                //System.out.println(e.getMessage());
                             }
                         }
 
@@ -263,13 +240,12 @@ public class BotTwitter {
                 }
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
         return amigos;
         
     }
     
-    private long[] IdToLong(){
+    private long[] idToLong(){
         long[] mediaIds = new long[medias.size()];
         int i = 0;
         for(long id : medias){
@@ -280,7 +256,6 @@ public class BotTwitter {
     }
     
     public void enviarMensajeDirecto(String id,String texto) throws TwitterException{
-
         Bot.sendDirectMessage(id,texto);
     }
     
@@ -312,7 +287,7 @@ public class BotTwitter {
     }
     
     public ArrayList<Status> obtenerTweets() throws TwitterException {
-            // cantidad tweets
+            //cantidad tweets
             int cantidad = 10;
             Paging paging;
             if(LastId > 0){
@@ -320,9 +295,7 @@ public class BotTwitter {
             }else{
                 paging = new Paging(1, cantidad);
             }
-            
             return (ArrayList<Status>) Bot.getHomeTimeline(paging);
-            
     }
     
     public boolean darLikeTweet(Long id) throws TwitterException{
@@ -391,24 +364,8 @@ public class BotTwitter {
         }
     }
     
-    public ObservableList ListFriends(String nombreUsuario) throws TwitterException{
-        
-        ObservableList<String> List = FXCollections.observableArrayList();
-        
-        long lCursor = -1;
-        IDs friendsIDs = Bot.getFriendsIDs(nombreUsuario, lCursor);
-        do
-        {
-          for (long i : friendsIDs.getIDs())
-           {
-               List.add(Bot.showUser(i).getScreenName());
-           }
-        }while(friendsIDs.hasNext());
-     
-        return List;
-    }
-    
-    public ArrayList<String> BuscarEnTwitter(String NombreUsuario) throws TwitterException{
+
+    public ArrayList<String> buscarEnTwitter(String NombreUsuario) throws TwitterException{
         ResponseList<User> users = null;
 
         ArrayList<String> AUX = new ArrayList();
@@ -427,7 +384,7 @@ public class BotTwitter {
         
      }
     
-    public User BuscarUsuario(String Nombre) throws TwitterException{
+    public User buscarUsuario(String Nombre) throws TwitterException{
         try{
             User usuario = Bot.users().showUser(Nombre);
             System.out.println(usuario.getScreenName());
@@ -439,15 +396,22 @@ public class BotTwitter {
         return null;
     }
     
-    public  ArrayList<Status> TweetBuscado(String Nombre) throws TwitterException{
-        
-        ArrayList<Status> Tweets= new ArrayList<>();
-        for (Status status : Bot.getUserTimeline(Nombre, new Paging(1,20))) {
-            
-            Tweets.add(status);
-            
+    public  ArrayList<Status> tweetBuscado(JFXButton AvisosLabel, String Nombre) throws TwitterException, IOException{
+        try {
+            ArrayList<Status> Tweets= new ArrayList<>();
+            for (Status status : Bot.getUserTimeline(Nombre, new Paging(1,20))) {
+
+                Tweets.add(status);
+                
+            }
+            return Tweets;
+        } catch (Exception e) {
+            AvisosLabel.setText("Este perfil es privado.");
+            Animaciones.MostrarAvisos(AvisosLabel, "orange");
         }
-        return Tweets;
+        return new ArrayList();
+        
+        
     }
     
     public void agregarArchivo(File media) throws TwitterException{
@@ -455,11 +419,11 @@ public class BotTwitter {
         this.medias.add(mediaAux.getMediaId());
     }
     
-    public void timeLineBuscado(User usuario,ScrollPane timeLine) throws TwitterException{
+    public void timeLineBuscado(JFXButton AvisosLabel,User usuario,ScrollPane timeLine) throws TwitterException, IOException{
         int i=0,max;
         GridPane newGrid = new GridPane();
        
-        ArrayList<Status> status = TweetBuscado(usuario.getScreenName());
+        ArrayList<Status> status = tweetBuscado(AvisosLabel,usuario.getScreenName());
         max = status.size();
         timeLine.setStyle("-fx-background: white");
         
@@ -619,7 +583,6 @@ public class BotTwitter {
             status.add(statusEvent);
         }
         
-       
         LastId = status.get(0).getId();
         ArrayList auxSpam = new ArrayList<>();
         for (Status e : status) {
@@ -902,11 +865,7 @@ public class BotTwitter {
                         }
                     }catch(Exception e){
                         if (saberRetweet(idAux)==true) {
-                            System.out.println("----------------------------------> "+idAux);
-                           
-                            
                             Bandera2=1;
-                            //volverACargarRetweetear(idAux);
                             try{
                                 if (!nombreUser.equals("AlmostHumanBot")) {
                                     rt=Bot.retweetStatus(idAux);

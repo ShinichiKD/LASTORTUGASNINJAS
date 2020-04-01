@@ -411,7 +411,8 @@ mayor tráfico en Internet
 marketing directo
 marketing por email
 nuevas extensiones de dominio
-hola-Hola, que necesitas?
+buenos dias-Hola que tal?
+hola-Hola que necesitas?
 Hello-Hello, what do you need?
 Hi-Hello, what do you need?
 Salut-Hello, what do you need?
