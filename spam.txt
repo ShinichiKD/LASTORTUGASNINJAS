@@ -436,7 +436,6 @@ Hej-Hello, what do you need?
 God dag-Hello, what do you need?
 Marhabah-Hello, what do you need?
 Salaam-Hello, what do you need?
-Do-rood-Hello, what do you need?
 Namaste-Hello, what do you need?
 Ahn nyeong ha se yo-Hello, what do you need?
 Ahn nyeong-Hello, what do you need?

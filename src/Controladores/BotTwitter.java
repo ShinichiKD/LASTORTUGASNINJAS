@@ -166,101 +166,104 @@ public class BotTwitter {
         
         return botSeguidos;
     }
-    
+    public String nt =null;
     public ArrayList<ArrayList<DirectMessage>> obtenerMensajesDirectos() throws TwitterException, IOException{
         ArrayList<ArrayList<DirectMessage>> amigos = new ArrayList<>();
         leerArchivo();
+        
         try {
-            DirectMessageList Lista = Bot.getDirectMessages(30);
-        
-        
-        String Ultimomensaje = null;
-        for(DirectMessage m : Lista){
+           
+            DirectMessageList Lista=Bot.getDirectMessages(30);
             
-//             System.out.println(m.getText()+" "+m.getId());
-            if(m.getRecipientId() == Bot.getId()){
-                
-                
-                
-                ArrayList<DirectMessage> mensajes = buscarIdMensaje(m.getSenderId(), amigos);
-                if(mensajes!=null){
-                    mensajes.add(m);
-                    Ultimomensaje=m.getText();
-                }else{
-                    mensajes = new ArrayList<>();
-                    mensajes.add(m);
-                    amigos.add(mensajes);
-                    Ultimomensaje=m.getText();
-                }
-            }else{
-              
-               
-                ArrayList<DirectMessage> mensajes = buscarIdMensaje(m.getRecipientId(), amigos);
-                if(mensajes!=null){
-                mensajes.add(m);
-                }else{
-                    mensajes = new ArrayList<>();
-                    mensajes.add(m);
-                    amigos.add(mensajes);
-                }
-            }
-        }
-        
-        ArrayList auxSpam = new ArrayList<>();
-        for (int i = amigos.size() - 1; i >= 0; i--) {
-            for (int j = amigos.get(i).size()-1; j >= 0; j--) {
-                
-                Long idenviado= amigos.get(i).get(j).getSenderId();
-                auxSpam=revisarSpam(mensajesSpam, amigos.get(i).get(j).getText());
-                int numAux = (int)auxSpam.get(0);
-                if (numAux!=0 && idenviado!= Bot.getId() ) {
-                    try {
-                        BufferedReader bf = new BufferedReader(new FileReader("UltimoSpamID.txt"));
-                        Long idAux = Long.parseLong(bf.readLine());
+       
+            String Ultimomensaje = null;
+            for(DirectMessage m : Lista){
 
-                        if (amigos.get(i).get(j).getId() > idAux) {
-                            if ((int)auxSpam.get(0)==1) {
-                                Bot.sendDirectMessage(amigos.get(i).get(j).getSenderId(), "Este mensaje es considerado como spam: " + amigos.get(i).get(j).getText());
-                                
-                            }else if ((int)auxSpam.get(0)==2 ) {
-                                Bot.sendDirectMessage(amigos.get(i).get(j).getSenderId(),auxSpam.get(1)+"");
-                            }
-                            BufferedWriter br = new BufferedWriter(new FileWriter("UltimoSpamID.txt"));
-//                            System.out.println(m.getId()+"");
-                            br.flush();
-                            br.append(amigos.get(i).get(j).getId() + "");
-                            br.close();
-                        }
+    //             System.out.println(m.getText()+" "+m.getId());
+                if(m.getRecipientId() == Bot.getId()){
 
-                    } catch (IOException e) {
-                        System.out.println(e.getMessage());
+
+
+                    ArrayList<DirectMessage> mensajes = buscarIdMensaje(m.getSenderId(), amigos);
+                    if(mensajes!=null){
+                        mensajes.add(m);
+                        Ultimomensaje=m.getText();
+                    }else{
+                        mensajes = new ArrayList<>();
+                        mensajes.add(m);
+                        amigos.add(mensajes);
+                        Ultimomensaje=m.getText();
                     }
                 }else{
-                    if (idenviado!= Bot.getId()) {
-                        try {
-                        BufferedReader bf = new BufferedReader(new FileReader("UltimoSpamID.txt"));
-                        Long idAux = Long.parseLong(bf.readLine());
 
-                        if (amigos.get(i).get(j).getId() > idAux) {
-                            if ((int)auxSpam.get(0)==0) {
-                                Bot.sendDirectMessage(amigos.get(i).get(j).getSenderId(),"Mensaje recibido");
+
+                    ArrayList<DirectMessage> mensajes = buscarIdMensaje(m.getRecipientId(), amigos);
+                    if(mensajes!=null){
+                    mensajes.add(m);
+                    }else{
+                        mensajes = new ArrayList<>();
+                        mensajes.add(m);
+                        amigos.add(mensajes);
+                    }
+                }
+            }
+
+            ArrayList auxSpam = new ArrayList<>();
+            for (int i = amigos.size() - 1; i >= 0; i--) {
+                for (int j = amigos.get(i).size()-1; j >= 0; j--) {
+
+                    Long idenviado= amigos.get(i).get(j).getSenderId();
+                    auxSpam=revisarSpam(mensajesSpam, amigos.get(i).get(j).getText());
+                    int numAux = (int)auxSpam.get(0);
+                    if (numAux!=0 && idenviado!= Bot.getId() ) {
+                        try {
+                            BufferedReader bf = new BufferedReader(new FileReader("UltimoSpamID.txt"));
+                            Long idAux = Long.parseLong(bf.readLine());
+
+                            if (amigos.get(i).get(j).getId() > idAux) {
+                                if ((int)auxSpam.get(0)==1) {
+                                    Bot.sendDirectMessage(amigos.get(i).get(j).getSenderId(), "Este mensaje es considerado como spam: " + amigos.get(i).get(j).getText());
+
+                                }else if ((int)auxSpam.get(0)==2 ) {
+                                    Bot.sendDirectMessage(amigos.get(i).get(j).getSenderId(),auxSpam.get(1)+"");
+                                }
+                                BufferedWriter br = new BufferedWriter(new FileWriter("UltimoSpamID.txt"));
+    //                            System.out.println(m.getId()+"");
+                                br.flush();
+                                br.append(amigos.get(i).get(j).getId() + "");
+                                br.close();
                             }
-                            BufferedWriter br = new BufferedWriter(new FileWriter("UltimoSpamID.txt"));
-//                            System.out.println(m.getId()+"");
-                            br.flush();
-                            br.append(amigos.get(i).get(j).getId() + "");
-                            br.close();
-                        }   
 
                         } catch (IOException e) {
-                            //System.out.println(e.getMessage());
+                            System.out.println(e.getMessage());
                         }
+                    }else{
+                        if (idenviado!= Bot.getId()) {
+                            try {
+                            BufferedReader bf = new BufferedReader(new FileReader("UltimoSpamID.txt"));
+                            Long idAux = Long.parseLong(bf.readLine());
+
+                            if (amigos.get(i).get(j).getId() > idAux) {
+                                if ((int)auxSpam.get(0)==0) {
+                                    Bot.sendDirectMessage(amigos.get(i).get(j).getSenderId(),"Mensaje recibido");
+                                }
+                                BufferedWriter br = new BufferedWriter(new FileWriter("UltimoSpamID.txt"));
+    //                            System.out.println(m.getId()+"");
+                                br.flush();
+                                br.append(amigos.get(i).get(j).getId() + "");
+                                br.close();
+                            }   
+
+                            } catch (IOException e) {
+                                //System.out.println(e.getMessage());
+                            }
+                        }
+
                     }
-                    
                 }
             }
-        }
         } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
         return amigos;
         
@@ -848,14 +851,10 @@ public class BotTwitter {
                                         st.setInReplyToStatusId(idAux);
                                         Bot.updateStatus(st);
                                     }
-                                }else{
-                                    
                                 }
                             }catch(TwitterException e){
                                 System.out.println(e);
                             }   
-                        }else{
-                            
                         }
                     }catch(Exception e){
                         Bandera=1;
@@ -903,25 +902,27 @@ public class BotTwitter {
                         }
                     }catch(Exception e){
                         if (saberRetweet(idAux)==true) {
-                            rt = Bot.retweetStatus(idAux);
+                            System.out.println("----------------------------------> "+idAux);
+                           
+                            
                             Bandera2=1;
                             //volverACargarRetweetear(idAux);
                             try{
                                 if (!nombreUser.equals("AlmostHumanBot")) {
+                                    rt=Bot.retweetStatus(idAux);
                                     StatusUpdate st = new StatusUpdate("@"+nombreUser+" Hemos difundido tu publicación");
                                     st.setInReplyToStatusId(idAux);
                                     Bot.updateStatus(st);
+                                }else{
+                                    Bot.retweetStatus(idAux);
                                 }
                             }catch(TwitterException d){
                                 System.out.println(d);
                             }
-                        }else{
                             
                         }
 
                     }
-                }else{
-                     
                 }       
             }
         }
@@ -934,21 +935,14 @@ public class BotTwitter {
         mensaje=mensaje.toLowerCase();
         ArrayList aux = new ArrayList<>();
         for (int i = 0; i < palabras.size(); i++) {
-            
             String minuscula = palabras.get(i).toLowerCase();
-            String [] substring =minuscula.split("-");  
-            
-           
+            String [] substring =minuscula.split("-");
             if (mensaje.contains(substring[0])) {
-                System.out.println(substring[0]); 
-                if (substring.length==1) {
-                   System.out.println(substring[0]+" "+substring[1]);
+                if (substring.length==1) {  
                     aux.add(1);
-                    aux.add("-");
-                     
+                    aux.add("-");  
                     return aux;
                 }else{
-                    System.out.println(substring[0]+" "+substring[1]);
                     aux.add(2);
                     aux.add(substring[1]);
                     return aux;

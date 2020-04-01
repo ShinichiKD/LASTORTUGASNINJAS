@@ -336,9 +336,10 @@ public  class MenuInicioController implements Initializable {
                     public void run() {
                       try {
                         CargaVentanaChat();
-                        botonInicio.fire();
-                          System.out.println("proceso....");
-
+                        AvisosLabel.setText("Mensajes Actualizados");
+                        Animaciones.MostrarAvisos(AvisosLabel,"orange");
+                        System.out.println("proceso....");
+                        
                         } catch (TwitterException ex) {
                             Logger.getLogger(MenuInicioController.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (IOException ex) {
@@ -350,7 +351,7 @@ public  class MenuInicioController implements Initializable {
                 }).start();
 
             }
-        }, 0, 80*1000);
+        }, 0, 65*1000);
     } 
     
     @FXML
@@ -371,7 +372,6 @@ public  class MenuInicioController implements Initializable {
                 Animaciones.MostrarAvisos(AvisosLabel,"red");
                 return;
             }
-            
             try {
                 ActualizarEstados(0);
             
@@ -660,6 +660,7 @@ public  class MenuInicioController implements Initializable {
     ArrayList<GridPane> mensajesUsuario;
     ArrayList<User> nombreUsuario;
     int ultimoMensaje;
+    int ventanaPresionada=-1;
     private void CargaVentanaChat() throws TwitterException, IOException {
         mensajesUsuario = new ArrayList();
         nombreUsuario = new ArrayList();
@@ -681,7 +682,9 @@ public  class MenuInicioController implements Initializable {
             
             usuario.setPrefWidth(235);
             usuario.setAlignment(Pos.TOP_LEFT);
+            
             ListaUsuarios.getItems().add(usuario);
+            
             
             int i=0;
             GridPane mensajes = new GridPane();
@@ -732,7 +735,7 @@ public  class MenuInicioController implements Initializable {
                 
                 usuario.setOnAction((ActionEvent events)->{
                     PersonaMensaje = user;
-                    
+                   
                     GridPane misMensajes= new GridPane();
                     for (int j = 0; j < nombreUsuario.size(); j++) {
                         User usuarioAux = (User) nombreUsuario.get(j);
@@ -741,11 +744,14 @@ public  class MenuInicioController implements Initializable {
                             ultimoMensaje = j;
                         }
                     }
+                   
                    Chat.setContent(misMensajes);
                 
                 });
-        
+                
+                
         }
+        Chat.setContent(new GridPane());
     }
 
     @FXML
